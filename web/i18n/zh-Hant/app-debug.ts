@@ -201,7 +201,7 @@ const translation = {
   },
   automatic: {
     title: '自動編排',
-    description: '描述您的場景，Dify 將為您編排一個應用。',
+    description: '描述您的場景，DocAI 將為您編排一個應用。',
     intendedAudience: '目標使用者是誰？',
     intendedAudiencePlaceHolder: '例如：學生',
     solveProblem: '希望 AI 為他們解決什麼問題？',
@@ -232,13 +232,13 @@ const translation = {
   chatSubTitle: '提示詞',
   completionSubTitle: '字首提示詞',
   promptTip:
-    '提示詞用於對 AI 的回覆做出一系列指令和約束。可插入表單變數，例如 {{input}}。這段提示詞不會被終端使用者所看到。',
+        '提示詞用於對 AI 的回覆做出一系列指令和約束。可插入表單變數，例如 {{input}}。這段提示詞不會被終端使用者所看到。',
   formattingChangedTitle: '編排已改變',
   formattingChangedText: '修改編排將重置除錯區域，確定嗎？',
   variableTitle: '變數',
   notSetVar: '變數能使使用者輸入表單引入提示詞或開場白，你可以試試在提示詞中輸入 {{input}}',
   variableTip:
-    '變數將以表單形式讓使用者在對話前填寫，使用者填寫的表單內容將自動替換提示詞中的變數。',
+        '變數將以表單形式讓使用者在對話前填寫，使用者填寫的表單內容將自動替換提示詞中的變數。',
   autoAddVar: '提示詞中引用了未定義的變數，是否自動新增到使用者輸入表單中？',
   variableTable: {
     key: '變數 Key',
@@ -327,7 +327,7 @@ const translation = {
     placeholder: '在這裡寫下你的開場白，你可以使用變數，嘗試輸入 {{variable}}。',
     openingQuestion: '開場問題',
     noDataPlaceHolder:
-      '在對話型應用中，讓 AI 主動說第一段話可以拉近與使用者間的距離。',
+            '在對話型應用中，讓 AI 主動說第一段話可以拉近與使用者間的距離。',
     varTip: '你可以使用變數， 試試輸入 {{variable}}',
     tooShort: '對話前提示詞至少 20 字才能生成開場白',
     notIncludeKey: '字首提示詞中不包含變數 {{key}}。請在字首提示詞中新增該變數',

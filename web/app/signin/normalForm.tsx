@@ -1,18 +1,18 @@
 'use client'
-import React, { useEffect, useReducer, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useRouter } from 'next/navigation'
 import classNames from 'classnames'
-import useSWR from 'swr'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useEffect, useReducer, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import useSWR from 'swr'
 import { useContext } from 'use-context-selector'
 import Toast from '../components/base/toast'
 import style from './page.module.css'
-import { IS_CE_EDITION, apiPrefix } from '@/config'
-import Button from '@/app/components/base/button'
+import { getPurifyHref } from '@/utils'
 import { login, oauth } from '@/service/common'
 import I18n from '@/context/i18n'
-import { getPurifyHref } from '@/utils'
+import { IS_CE_EDITION, apiPrefix } from '@/config'
+import Button from '@/app/components/base/button'
 const validEmailReg = /^[\w\.-]+@([\w-]+\.)+[\w-]{2,}$/
 
 type IState = {
@@ -284,15 +284,15 @@ const NormalForm = () => {
             </>
           }
           {/*  agree to our Terms and Privacy Policy. */}
-          <div className="w-hull text-center block mt-2 text-xs text-gray-600">
+          <div className="w-hull text-center block mt-2 text-xs text-gray-600 hidden">
             {t('login.tosDesc')}
-            &nbsp;
+                        &nbsp;
             <Link
               className='text-primary-600'
               target='_blank' rel='noopener noreferrer'
               href='https://dify.ai/terms'
             >{t('login.tos')}</Link>
-            &nbsp;&&nbsp;
+                        &nbsp;&&nbsp;
             <Link
               className='text-primary-600'
               target='_blank' rel='noopener noreferrer'
@@ -302,7 +302,7 @@ const NormalForm = () => {
 
           {IS_CE_EDITION && <div className="w-hull text-center block mt-2 text-xs text-gray-600">
             {t('login.goToInit')}
-            &nbsp;
+                        &nbsp;
             <Link
               className='text-primary-600'
               href='/install'

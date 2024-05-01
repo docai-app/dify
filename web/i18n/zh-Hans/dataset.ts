@@ -7,11 +7,11 @@ const translation = {
   createDatasetIntro: '导入您自己的文本数据或通过 Webhook 实时写入数据以增强 LLM 的上下文。',
   deleteDatasetConfirmTitle: '要删除知识库吗？',
   deleteDatasetConfirmContent:
-    '删除知识库是不可逆的。用户将无法再访问您的知识库,所有的提示配置和日志将被永久删除。',
+        '删除知识库是不可逆的。用户将无法再访问您的知识库,所有的提示配置和日志将被永久删除。',
   datasetDeleted: '知识库已删除',
   datasetDeleteFailed: '删除知识库失败',
   didYouKnow: '你知道吗？',
-  intro1: '知识库可以被集成到 Dify 应用中',
+  intro1: '知识库可以被集成到 DocAI 应用中',
   intro2: '作为上下文',
   intro3: ',',
   intro4: '或可以',

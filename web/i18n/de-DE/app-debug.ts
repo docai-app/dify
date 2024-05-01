@@ -201,7 +201,7 @@ const translation = {
   },
   automatic: {
     title: 'Automatisierte Anwendungsorchestrierung',
-    description: 'Beschreiben Sie Ihr Szenario, Dify wird eine Anwendung für Sie orchestrieren.',
+    description: 'Beschreiben Sie Ihr Szenario, DocAI wird eine Anwendung für Sie orchestrieren.',
     intendedAudience: 'Wer ist die Zielgruppe?',
     intendedAudiencePlaceHolder: 'z.B. Student',
     solveProblem: 'Welche Probleme hoffen sie, dass KI für sie lösen kann?',
@@ -219,29 +219,29 @@ const translation = {
   resetConfig: {
     title: 'Zurücksetzen bestätigen?',
     message:
-      'Zurücksetzen verwirft Änderungen und stellt die zuletzt veröffentlichte Konfiguration wieder her.',
+            'Zurücksetzen verwirft Änderungen und stellt die zuletzt veröffentlichte Konfiguration wieder her.',
   },
   errorMessage: {
     nameOfKeyRequired: 'Name des Schlüssels: {{key}} erforderlich',
     valueOfVarRequired: '{{key}} Wert darf nicht leer sein',
     queryRequired: 'Anfragetext ist erforderlich.',
     waitForResponse:
-      'Bitte warten Sie auf die Antwort auf die vorherige Nachricht, um abzuschließen.',
+            'Bitte warten Sie auf die Antwort auf die vorherige Nachricht, um abzuschließen.',
     waitForBatchResponse:
-      'Bitte warten Sie auf die Antwort auf die Stapelaufgabe, um abzuschließen.',
+            'Bitte warten Sie auf die Antwort auf die Stapelaufgabe, um abzuschließen.',
     notSelectModel: 'Bitte wählen Sie ein Modell',
     waitForImgUpload: 'Bitte warten Sie, bis das Bild hochgeladen ist',
   },
   chatSubTitle: 'Anweisungen',
   completionSubTitle: 'Vor-Prompt',
   promptTip:
-    'Prompts leiten KI-Antworten mit Anweisungen und Einschränkungen. Fügen Sie Variablen wie {{input}} ein. Dieses Prompt wird den Benutzern nicht angezeigt.',
+        'Prompts leiten KI-Antworten mit Anweisungen und Einschränkungen. Fügen Sie Variablen wie {{input}} ein. Dieses Prompt wird den Benutzern nicht angezeigt.',
   formattingChangedTitle: 'Formatierung geändert',
   formattingChangedText:
-    'Die Änderung der Formatierung wird den Debug-Bereich zurücksetzen, sind Sie sicher?',
+        'Die Änderung der Formatierung wird den Debug-Bereich zurücksetzen, sind Sie sicher?',
   variableTitle: 'Variablen',
   variableTip:
-    'Benutzer füllen Variablen in einem Formular aus, automatisches Ersetzen von Variablen im Prompt.',
+        'Benutzer füllen Variablen in einem Formular aus, automatisches Ersetzen von Variablen im Prompt.',
   notSetVar: 'Variablen ermöglichen es Benutzern, Aufforderungswörter oder Eröffnungsbemerkungen einzuführen, wenn sie Formulare ausfüllen. Sie könnten versuchen, "{{input}}" im Prompt einzugeben.',
   autoAddVar: 'Im Vor-Prompt referenzierte undefinierte Variablen, möchten Sie sie im Benutzereingabeformular hinzufügen?',
   variableTable: {
@@ -317,7 +317,7 @@ const translation = {
     placeholder: 'Schreiben Sie hier Ihre Eröffnungsnachricht, Sie können Variablen verwenden, versuchen Sie {{Variable}} zu tippen.',
     openingQuestion: 'Eröffnungsfragen',
     noDataPlaceHolder:
-      'Den Dialog mit dem Benutzer zu beginnen, kann helfen, in konversationellen Anwendungen eine engere Verbindung mit ihnen herzustellen.',
+            'Den Dialog mit dem Benutzer zu beginnen, kann helfen, in konversationellen Anwendungen eine engere Verbindung mit ihnen herzustellen.',
     varTip: 'Sie können Variablen verwenden, versuchen Sie {{Variable}} zu tippen',
     tooShort: 'Für die Erzeugung von Eröffnungsbemerkungen für das Gespräch werden mindestens 20 Wörter des Anfangsprompts benötigt.',
     notIncludeKey: 'Das Anfangsprompt enthält nicht die Variable: {{key}}. Bitte fügen Sie sie dem Anfangsprompt hinzu.',
@@ -337,9 +337,9 @@ const translation = {
     userInputField: 'Benutzereingabefeld',
     noVar: 'Füllen Sie den Wert der Variable aus, der bei jedem Start einer neuen Sitzung automatisch im Prompt ersetzt wird.',
     chatVarTip:
-      'Füllen Sie den Wert der Variable aus, der bei jedem Start einer neuen Sitzung automatisch im Prompt ersetzt wird',
+            'Füllen Sie den Wert der Variable aus, der bei jedem Start einer neuen Sitzung automatisch im Prompt ersetzt wird',
     completionVarTip:
-      'Füllen Sie den Wert der Variable aus, der bei jeder Einreichung einer Frage automatisch in den Prompt-Wörtern ersetzt wird.',
+            'Füllen Sie den Wert der Variable aus, der bei jeder Einreichung einer Frage automatisch in den Prompt-Wörtern ersetzt wird.',
     previewTitle: 'Prompt-Vorschau',
     queryTitle: 'Anfrageinhalt',
     queryPlaceholder: 'Bitte geben Sie den Anfragetext ein.',

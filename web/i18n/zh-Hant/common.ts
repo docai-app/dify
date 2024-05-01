@@ -77,19 +77,19 @@ const translation = {
     params: {
       temperature: '隨機性 temperature',
       temperatureTip:
-        '控制回覆的隨機性。\n值越大，回覆越隨機。\n值越小，回覆越確定或一致。',
+                '控制回覆的隨機性。\n值越大，回覆越隨機。\n值越小，回覆越確定或一致。',
       top_p: '核取樣 top_p',
       top_pTip:
-        '控制生成多樣性。\n值越大，輸出會包括更多的單詞選項。\n值越小，模型會更集中在高機率的單詞上，輸出更確定但可能缺乏多樣性。\n核取樣和隨機性不建議同時修改。',
+                '控制生成多樣性。\n值越大，輸出會包括更多的單詞選項。\n值越小，模型會更集中在高機率的單詞上，輸出更確定但可能缺乏多樣性。\n核取樣和隨機性不建議同時修改。',
       presence_penalty: '話題新鮮度 presence_penalty',
       presence_penaltyTip:
-        '控制生成時對上文已存在的話題的偏好程度。\n值越大，越可能使用到新的話題。',
+                '控制生成時對上文已存在的話題的偏好程度。\n值越大，越可能使用到新的話題。',
       frequency_penalty: '頻率懲罰度 frequency_penalty',
       frequency_penaltyTip:
-        '影響常見與罕見詞彙使用。\n值較大時，傾向於生成不常見的詞彙和表達方式。\n值越小，更傾向於使用常見和普遍接受的詞彙或短語。',
+                '影響常見與罕見詞彙使用。\n值較大時，傾向於生成不常見的詞彙和表達方式。\n值越小，更傾向於使用常見和普遍接受的詞彙或短語。',
       max_tokens: '單次回覆限制 max_tokens',
       max_tokensTip:
-        '用於限制回覆的最大長度，以 token 為單位。\n較大的值可能會限制給提示詞、聊天記錄和知識庫留出的空間。\n建議將其設定在三分之二以下。\ngpt-4-1106-preview、gpt-4-vision-preview 最大長度 (輸入128k，輸出4k)',
+                '用於限制回覆的最大長度，以 token 為單位。\n較大的值可能會限制給提示詞、聊天記錄和知識庫留出的空間。\n建議將其設定在三分之二以下。\ngpt-4-1106-preview、gpt-4-vision-preview 最大長度 (輸入128k，輸出4k)',
       maxTokenSettingTip: '您設定的最大 tokens 數較大，可能會導致 prompt、使用者問題、知識庫內容沒有 token 空間進行處理，建議設定到 2/3 以下。',
       setToCurrentModelMaxTokenTip: '最大令牌數更新為當前模型最大的令牌數 {{maxToken}} 的 80%。',
       stop_sequences: '停止序列 stop_sequences',
@@ -151,8 +151,8 @@ const translation = {
     newPassword: '新密碼',
     notEqual: '兩個密碼不相同',
     confirmPassword: '確認密碼',
-    langGeniusAccount: 'Dify 賬號',
-    langGeniusAccountTip: '您的 Dify 賬號和相關的使用者資料。',
+    langGeniusAccount: 'DocAI 賬號',
+    langGeniusAccountTip: '您的 DocAI 賬號和相關的使用者資料。',
     editName: '編輯名字',
     showAppLength: '顯示 {{length}} 個應用',
   },
@@ -176,7 +176,7 @@ const translation = {
     sendInvite: '傳送邀請',
     invitedAsRole: '邀請為{{role}}使用者',
     invitationSent: '邀請已傳送',
-    invitationSentTip: '邀請已傳送，對方登入 Dify 後即可訪問你的團隊資料。',
+    invitationSentTip: '邀請已傳送，對方登入 DocAI 後即可訪問你的團隊資料。',
     invitationLink: '邀請連結',
     failedinvitationEmails: '邀請以下郵箱失敗',
     ok: '好的',
@@ -223,7 +223,7 @@ const translation = {
       openaiHosted: '託管 OpenAI',
       onTrial: '體驗',
       exhausted: '超出限額',
-      desc: '託管 OpenAI 由 Dify 提供的託管 OpenAI 服務，你可以使用 GPT-3.5 等模型，在體驗額度消耗完畢前你需要設定其它模型供應商。',
+      desc: '託管 OpenAI 由 DocAI 提供的託管 OpenAI 服務，你可以使用 GPT-3.5 等模型，在體驗額度消耗完畢前你需要設定其它模型供應商。',
       callTimes: '呼叫次數',
       usedUp: '試用額度已用完，請在下方新增自己的模型供應商',
       useYourModel: '當前正在使用你自己的模型供應商。',
@@ -365,9 +365,9 @@ const translation = {
     },
   },
   apiBasedExtension: {
-    title: 'API 擴充套件提供了一個集中式的 API 管理，在此統一新增 API 配置後，方便在 Dify 上的各類應用中直接使用。',
+    title: 'API 擴充套件提供了一個集中式的 API 管理，在此統一新增 API 配置後，方便在 DocAI 上的各類應用中直接使用。',
     link: '瞭解如何開發您自己的 API 擴充套件。',
-    linkUrl: 'https://docs.dify.ai/v/zh-hans/advanced/api_based_extension',
+    linkUrl: 'https://docs.DocAI.ai/v/zh-hans/advanced/api_based_extension',
     add: '新增 API 擴充套件',
     selector: {
       title: 'API 擴充套件',
@@ -396,8 +396,8 @@ const translation = {
   about: {
     changeLog: '更新日誌',
     updateNow: '現在更新',
-    nowAvailable: 'Dify {{version}} 現已可用。',
-    latestAvailable: 'Dify {{version}} 已是最新版本。',
+    nowAvailable: 'DocAI {{version}} 現已可用。',
+    latestAvailable: 'DocAI {{version}} 已是最新版本。',
   },
   appMenus: {
     overview: '概覽',
