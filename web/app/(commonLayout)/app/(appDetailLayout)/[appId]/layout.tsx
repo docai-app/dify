@@ -1,21 +1,20 @@
 'use client'
-import type { FC } from 'react'
 import { useUnmount } from 'ahooks'
-import React, { useCallback, useEffect, useState } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
 import cn from 'classnames'
+import { usePathname, useRouter } from 'next/navigation'
+import type { FC } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import s from './style.module.css'
-import { useStore } from '@/app/components/app/store'
 import AppSideBar from '@/app/components/app-sidebar'
 import type { NavIcon } from '@/app/components/app-sidebar/navLink'
-import { fetchAppDetail } from '@/service/apps'
-import { useAppContext } from '@/context/app-context'
-import Loading from '@/app/components/base/loading'
+import { useStore } from '@/app/components/app/store'
 import { BarChartSquare02, FileHeart02, PromptEngineering, TerminalSquare } from '@/app/components/base/icons/src/vender/line/development'
 import { BarChartSquare02 as BarChartSquare02Solid, FileHeart02 as FileHeart02Solid, PromptEngineering as PromptEngineeringSolid, TerminalSquare as TerminalSquareSolid } from '@/app/components/base/icons/src/vender/solid/development'
+import Loading from '@/app/components/base/loading'
+import { useAppContext } from '@/context/app-context'
 import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
+import { fetchAppDetail } from '@/service/apps'
 
 export type IAppDetailLayoutProps = {
   children: React.ReactNode
@@ -82,7 +81,7 @@ const AppDetailLayout: FC<IAppDetailLayoutProps> = (props) => {
 
   useEffect(() => {
     if (appDetail) {
-      document.title = `${(appDetail.name || 'App')} - Dify`
+      document.title = `${(appDetail.name || 'App')} - DocAI`
       const localeMode = localStorage.getItem('app-detail-collapse-or-expand') || 'expand'
       const mode = isMobile ? 'collapse' : 'expand'
       setAppSiderbarExpand(isMobile ? mode : localeMode)

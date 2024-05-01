@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import NavLink from './navLink'
-import type { NavIcon } from './navLink'
-import AppBasic from './basic'
 import AppInfo from './app-info'
+import AppBasic from './basic'
+import type { NavIcon } from './navLink'
+import NavLink from './navLink'
 import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
 import {
   AlignLeft01,
@@ -60,7 +60,7 @@ const AppDetailNav = ({ title, desc, icon, icon_background, navigation, extraInf
         `}
       >
         {iconType === 'app' && (
-          <AppInfo expand={expand}/>
+          <AppInfo expand={expand} />
         )}
         {iconType !== 'app' && (
           <AppBasic
@@ -74,7 +74,7 @@ const AppDetailNav = ({ title, desc, icon, icon_background, navigation, extraInf
         )}
       </div>
       {!expand && (
-        <div className='mt-1 mx-auto w-6 h-[1px] bg-gray-100'/>
+        <div className='mt-1 mx-auto w-6 h-[1px] bg-gray-100' />
       )}
       <nav
         className={`

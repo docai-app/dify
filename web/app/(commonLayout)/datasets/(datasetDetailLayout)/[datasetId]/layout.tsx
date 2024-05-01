@@ -1,43 +1,42 @@
 'use client'
-import type { FC, SVGProps } from 'react'
-import React, { useEffect } from 'react'
-import { usePathname } from 'next/navigation'
-import useSWR from 'swr'
-import { useTranslation } from 'react-i18next'
-import classNames from 'classnames'
-import { useBoolean } from 'ahooks'
 import {
   Cog8ToothIcon,
-  // CommandLineIcon,
-  Squares2X2Icon,
-  // eslint-disable-next-line sort-imports
-  PuzzlePieceIcon,
   DocumentTextIcon,
   PaperClipIcon,
+
+  PuzzlePieceIcon,
   QuestionMarkCircleIcon,
+  // CommandLineIcon,
+  Squares2X2Icon,
 } from '@heroicons/react/24/outline'
 import {
   Cog8ToothIcon as Cog8ToothSolidIcon,
   // CommandLineIcon as CommandLineSolidIcon,
   DocumentTextIcon as DocumentTextSolidIcon,
 } from '@heroicons/react/24/solid'
+import { useBoolean } from 'ahooks'
+import classNames from 'classnames'
 import Link from 'next/link'
-import s from './style.module.css'
-import { fetchDatasetDetail, fetchDatasetRelatedApps } from '@/service/datasets'
-import type { RelatedApp, RelatedAppResponse } from '@/models/datasets'
+import { usePathname } from 'next/navigation'
+import type { FC, SVGProps } from 'react'
+import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import useSWR from 'swr'
 import AppSideBar from '@/app/components/app-sidebar'
-import Divider from '@/app/components/base/divider'
-import AppIcon from '@/app/components/base/app-icon'
-import Loading from '@/app/components/base/loading'
-import FloatPopoverContainer from '@/app/components/base/float-popover-container'
-import DatasetDetailContext from '@/context/dataset-detail'
-import { DataSourceType } from '@/models/datasets'
-import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
-import { LanguagesSupported } from '@/i18n/language'
 import { useStore } from '@/app/components/app/store'
+import AppIcon from '@/app/components/base/app-icon'
+import Divider from '@/app/components/base/divider'
+import FloatPopoverContainer from '@/app/components/base/float-popover-container'
 import { AiText, ChatBot, CuteRobote } from '@/app/components/base/icons/src/vender/solid/communication'
 import { Route } from '@/app/components/base/icons/src/vender/solid/mapsAndTravel'
+import Loading from '@/app/components/base/loading'
+import DatasetDetailContext from '@/context/dataset-detail'
+import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
 import { getLocaleOnClient } from '@/i18n'
+import { LanguagesSupported } from '@/i18n/language'
+import type { RelatedApp, RelatedAppResponse } from '@/models/datasets'
+import { DataSourceType } from '@/models/datasets'
+import { fetchDatasetDetail, fetchDatasetRelatedApps } from '@/service/datasets'
 
 export type IAppDetailLayoutProps = {
   children: React.ReactNode
@@ -210,7 +209,7 @@ const DatasetDetailLayout: FC<IAppDetailLayoutProps> = (props) => {
 
   useEffect(() => {
     if (datasetRes)
-      document.title = `${datasetRes.name || 'Dataset'} - Dify`
+      document.title = `${datasetRes.name || 'Dataset'} - DocAI`
   }, [datasetRes])
 
   const setAppSiderbarExpand = useStore(state => state.setAppSiderbarExpand)

@@ -1,15 +1,15 @@
 'use client'
 import type { FC } from 'react'
-import { useTranslation } from 'react-i18next'
 import React, { useEffect } from 'react'
-import Tools from '@/app/components/tools'
+import { useTranslation } from 'react-i18next'
 import { LOC } from '@/app/components/tools/types'
+import Tools from '@/app/components/tools'
 
 const Layout: FC = () => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    document.title = `${t('tools.title')} - Dify`
+    document.title = `${t('tools.title')} - DocAI`
   }, [])
 
   return (

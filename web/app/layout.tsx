@@ -1,14 +1,14 @@
 import type { Viewport } from 'next'
-import I18nServer from './components/i18n-server'
-import BrowerInitor from './components/browser-initor'
-import SentryInitor from './components/sentry-initor'
 import Topbar from './components/base/topbar'
+import BrowerInitor from './components/browser-initor'
+import I18nServer from './components/i18n-server'
+import SentryInitor from './components/sentry-initor'
 import { getLocaleOnServer } from '@/i18n/server'
 import './styles/globals.css'
 import './styles/markdown.scss'
 
 export const metadata = {
-  title: 'Dify',
+  title: 'DocAI',
 }
 
 export const viewport: Viewport = {
@@ -44,7 +44,7 @@ const LocaleLayout = ({
         data-public-site-about={process.env.NEXT_PUBLIC_SITE_ABOUT}
         suppressHydrationWarning
       >
-        <Topbar/>
+        <Topbar />
         <BrowerInitor>
           <SentryInitor>
             {/* @ts-expect-error Async Server Component */}

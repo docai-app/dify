@@ -1,29 +1,29 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
-import useSWRInfinite from 'swr/infinite'
-import { useTranslation } from 'react-i18next'
 import { useDebounceFn } from 'ahooks'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import useSWRInfinite from 'swr/infinite'
 import AppCard from './AppCard'
 import NewAppCard from './NewAppCard'
 import useAppsQueryState from './hooks/useAppsQueryState'
-import type { AppListResponse } from '@/models/app'
-import { fetchAppList } from '@/service/apps'
-import { useAppContext } from '@/context/app-context'
-import { NEED_REFRESH_APP_LIST_KEY } from '@/config'
-import { CheckModal } from '@/hooks/use-pay'
-import TabSliderNew from '@/app/components/base/tab-slider-new'
-import { useTabSearchParams } from '@/hooks/use-tab-searchparams'
-import { DotsGrid } from '@/app/components/base/icons/src/vender/line/general'
 import {
   ChatBot,
   CuteRobot,
 } from '@/app/components/base/icons/src/vender/line/communication'
+import { DotsGrid } from '@/app/components/base/icons/src/vender/line/general'
 import { Route } from '@/app/components/base/icons/src/vender/line/mapsAndTravel'
 import SearchInput from '@/app/components/base/search-input'
-import { useStore as useTagStore } from '@/app/components/base/tag-management/store'
+import TabSliderNew from '@/app/components/base/tab-slider-new'
 import TagManagementModal from '@/app/components/base/tag-management'
 import TagFilter from '@/app/components/base/tag-management/filter'
+import { useStore as useTagStore } from '@/app/components/base/tag-management/store'
+import { NEED_REFRESH_APP_LIST_KEY } from '@/config'
+import { useAppContext } from '@/context/app-context'
+import { CheckModal } from '@/hooks/use-pay'
+import { useTabSearchParams } from '@/hooks/use-tab-searchparams'
+import type { AppListResponse } from '@/models/app'
+import { fetchAppList } from '@/service/apps'
 
 const getKey = (
   pageIndex: number,
@@ -73,14 +73,14 @@ const Apps = () => {
 
   const anchorRef = useRef<HTMLDivElement>(null)
   const options = [
-    { value: 'all', text: t('app.types.all'), icon: <DotsGrid className='w-[14px] h-[14px] mr-1'/> },
-    { value: 'chat', text: t('app.types.chatbot'), icon: <ChatBot className='w-[14px] h-[14px] mr-1'/> },
-    { value: 'agent-chat', text: t('app.types.agent'), icon: <CuteRobot className='w-[14px] h-[14px] mr-1'/> },
-    { value: 'workflow', text: t('app.types.workflow'), icon: <Route className='w-[14px] h-[14px] mr-1'/> },
+    { value: 'all', text: t('app.types.all'), icon: <DotsGrid className='w-[14px] h-[14px] mr-1' /> },
+    { value: 'chat', text: t('app.types.chatbot'), icon: <ChatBot className='w-[14px] h-[14px] mr-1' /> },
+    { value: 'agent-chat', text: t('app.types.agent'), icon: <CuteRobot className='w-[14px] h-[14px] mr-1' /> },
+    { value: 'workflow', text: t('app.types.workflow'), icon: <Route className='w-[14px] h-[14px] mr-1' /> },
   ]
 
   useEffect(() => {
-    document.title = `${t('common.menus.apps')} -  Dify`
+    document.title = `${t('common.menus.apps')} -  DocAI`
     if (localStorage.getItem(NEED_REFRESH_APP_LIST_KEY) === '1') {
       localStorage.removeItem(NEED_REFRESH_APP_LIST_KEY)
       mutate()
@@ -131,7 +131,7 @@ const Apps = () => {
       </div>
       <nav className='grid content-start grid-cols-1 gap-4 px-12 pt-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grow shrink-0'>
         {isCurrentWorkspaceManager
-          && <NewAppCard onSuccess={mutate} />}
+                    && <NewAppCard onSuccess={mutate} />}
         {data?.map(({ data: apps }: any) => apps.map((app: any) => (
           <AppCard key={app.id} app={app} onRefresh={mutate} />
         )))}
