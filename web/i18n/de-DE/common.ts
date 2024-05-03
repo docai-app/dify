@@ -176,7 +176,7 @@ const translation = {
         sendInvite: 'Einladung senden',
         invitedAsRole: 'Eingeladen als {{role}}-Benutzer',
         invitationSent: 'Einladung gesendet',
-        invitationSentTip: 'Einladung gesendet, und sie können sich bei Dify anmelden, um auf Ihre Teamdaten zuzugreifen.',
+        invitationSentTip: 'Einladung gesendet, und sie können sich bei DocAI anmelden, um auf Ihre Teamdaten zuzugreifen.',
         invitationLink: 'Einladungslink',
         failedinvitationEmails: 'Die folgenden Benutzer wurden nicht erfolgreich eingeladen',
         ok: 'OK',
@@ -223,7 +223,7 @@ const translation = {
             openaiHosted: 'Gehostetes OpenAI',
             onTrial: 'IN PROBE',
             exhausted: 'KONTINGENT ERSCHÖPFT',
-            desc: 'Der OpenAI-Hostingdienst von Dify ermöglicht es Ihnen, Modelle wie GPT-3.5 zu verwenden. Bevor Ihr Probe-Kontingent aufgebraucht ist, müssen Sie andere Modellanbieter einrichten.',
+            desc: 'Der OpenAI-Hostingdienst von DocAI ermöglicht es Ihnen, Modelle wie GPT-3.5 zu verwenden. Bevor Ihr Probe-Kontingent aufgebraucht ist, müssen Sie andere Modellanbieter einrichten.',
             callTimes: 'Anrufzeiten',
             usedUp: 'Probe-Kontingent aufgebraucht. Eigenen Modellanbieter hinzufügen.',
             useYourModel: 'Derzeit wird eigener Modellanbieter verwendet.',
@@ -365,7 +365,7 @@ const translation = {
         },
     },
     apiBasedExtension: {
-        title: 'API-Erweiterungen bieten zentralisiertes API-Management und vereinfachen die Konfiguration für eine einfache Verwendung in Difys Anwendungen.',
+        title: 'API-Erweiterungen bieten zentralisiertes API-Management und vereinfachen die Konfiguration für eine einfache Verwendung in DocAIs Anwendungen.',
         link: 'Erfahren Sie, wie Sie Ihre eigene API-Erweiterung entwickeln.',
         linkUrl: 'https://docs.dify.ai/features/extension/api_based_extension',
         add: 'API-Erweiterung hinzufügen',
@@ -396,8 +396,8 @@ const translation = {
     about: {
         changeLog: 'Änderungsprotokoll',
         updateNow: 'Jetzt aktualisieren',
-        nowAvailable: 'Dify {{version}} ist jetzt verfügbar.',
-        latestAvailable: 'Dify {{version}} ist die neueste verfügbare Version.',
+        nowAvailable: 'DocAI {{version}} ist jetzt verfügbar.',
+        latestAvailable: 'DocAI {{version}} ist die neueste verfügbare Version.',
     },
     appMenus: {
         overview: 'Übersicht',
