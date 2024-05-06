@@ -21,7 +21,7 @@ const Activate = () => {
                 <Header />
                 <ActivateForm />
                 <div className='px-8 py-6 text-sm font-normal text-gray-500'>
-                    © {new Date().getFullYear()} DocAI, Inc. All rights reserved.
+                    © {new Date().getFullYear()} AIBANNK Technology Ltd. All rights reserved.
                 </div>
             </div>
         </div>

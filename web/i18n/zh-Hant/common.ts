@@ -399,6 +399,9 @@ const translation = {
         nowAvailable: 'DocAI {{version}} 現已可用。',
         latestAvailable: 'DocAI {{version}} 已是最新版本。',
     },
+    help: {
+        title: '如有任何其他問題或疑慮，請發送電子郵件至support@hospidocai.com。'
+    },
     appMenus: {
         overview: '概覽',
         promptEng: '編排',

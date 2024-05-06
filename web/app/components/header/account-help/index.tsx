@@ -31,7 +31,7 @@ export default function AccountHelp({
                     <LogoSite className='mx-auto mb-2' />
                     <div className='mb-3 text-center text-xs font-normal text-gray-500'>Help </div>
                     <div className='mb-4 text-center text-xs font-normal text-gray-700'>
-                        <div>請電郵至support@hospidocai.com</div>
+                        <div>{t('common.help.title')}</div>
                     </div>
                 </div>
                 <div className='mb-4 -mx-8 h-[0.5px] bg-gray-200' />
