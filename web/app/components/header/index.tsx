@@ -68,7 +68,7 @@ const Header = () => {
             )}
             {!isMobile && (
                 <div className='flex items-center'>
-                    {/* <ExploreNav className={navClassName} /> */}
+                    <ExploreNav className={navClassName} />
                     <AppNav />
                     {isCurrentWorkspaceManager && <DatasetNav />}
                     <ToolsNav className={navClassName} />
