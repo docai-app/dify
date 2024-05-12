@@ -1,5 +1,7 @@
+import ApikeyInfoPanel from '@/app/components/app/overview/apikey-info-panel'
 import { getLocaleOnServer, useTranslation as translate } from '@/i18n/server'
 import CardView from './cardView'
+import ChartView from './chartView'
 
 export type IDevelopProps = {
     params: { appId: string }
@@ -16,12 +18,12 @@ const Overview = async ({
     const { t } = await translate(locale, 'app-overview')
     return (
         <div className="h-full px-4 sm:px-16 py-6 overflow-scroll">
-            {/* <ApikeyInfoPanel /> */}
+            <ApikeyInfoPanel />
             <div className='flex flex-row items-center justify-between mb-4 text-xl text-gray-900'>
                 {t('overview.title')}
             </div>
             <CardView appId={appId} />
-            {/* <ChartView appId={appId} /> */}
+            <ChartView appId={appId} />
         </div>
     )
 }

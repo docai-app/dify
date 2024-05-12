@@ -14,6 +14,7 @@ import { asyncRunSafe, randomString } from '@/utils'
 import {
     Cog8ToothIcon,
     DocumentTextIcon,
+    PaintBrushIcon,
     RocketLaunchIcon
 } from '@heroicons/react/24/outline'
 import { usePathname, useRouter } from 'next/navigation'
@@ -62,13 +63,13 @@ function AppCard({
         const operationsMap = {
             webapp: [
                 { opName: t('appOverview.overview.appInfo.preview'), opIcon: RocketLaunchIcon },
-                // { opName: t('appOverview.overview.appInfo.customize.entry'), opIcon: PaintBrushIcon },
+                { opName: t('appOverview.overview.appInfo.customize.entry'), opIcon: PaintBrushIcon },
             ] as { opName: string; opIcon: any }[],
             api: [{ opName: t('appOverview.overview.apiInfo.doc'), opIcon: DocumentTextIcon }],
             app: [],
         }
-        // if (appInfo.mode !== 'completion' && appInfo.mode !== 'workflow')
-        //     operationsMap.webapp.push({ opName: t('appOverview.overview.appInfo.embedded.entry'), opIcon: EmbedIcon })
+        if (appInfo.mode !== 'completion' && appInfo.mode !== 'workflow')
+            operationsMap.webapp.push({ opName: t('appOverview.overview.appInfo.embedded.entry'), opIcon: EmbedIcon })
 
         if (isCurrentWorkspaceManager)
             operationsMap.webapp.push({ opName: t('appOverview.overview.appInfo.settings.entry'), opIcon: Cog8ToothIcon })

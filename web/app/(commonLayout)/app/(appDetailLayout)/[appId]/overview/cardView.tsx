@@ -105,11 +105,11 @@ const CardView: FC<ICardViewProps> = ({ appId }) => {
                 onGenerateCode={onGenerateCode}
                 onSaveSiteConfig={onSaveSiteConfig}
             />
-            {/* <AppCard
-        cardType="api"
-        appInfo={appDetail}
-        onChangeStatus={onChangeApiStatus}
-      /> */}
+            <AppCard
+                cardType="api"
+                appInfo={appDetail}
+                onChangeStatus={onChangeApiStatus}
+            />
         </div>
     )
 }
