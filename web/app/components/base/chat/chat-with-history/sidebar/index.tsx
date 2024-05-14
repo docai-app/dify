@@ -9,9 +9,7 @@ import {
     useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import Toast from '../../../toast'
 import { useChatWithHistoryContext } from '../context'
-import Countdown from './Countdown'
 import List from './list'
 
 const Sidebar = () => {
@@ -28,9 +26,7 @@ const Sidebar = () => {
         conversationRenaming,
         handleRenameConversation,
         handleDeleteConversation,
-        isMobile,
-        isStartTimer,
-        handleTimer
+        isMobile
     } = useChatWithHistoryContext()
     const [showConfirm, setShowConfirm] = useState<ConversationItem | null>(null)
     const [showRename, setShowRename] = useState<ConversationItem | null>(null)
@@ -75,26 +71,11 @@ const Sidebar = () => {
                             background={appData?.site.icon_background}
                         />
                         <div className='py-1 text-base font-semibold text-gray-800'>
-                            {appData?.site.title}-{isStartTimer + ""}
+                            {appData?.site.title}
                         </div>
                     </div>
                 )
             }
-            <div className='shrink-0 flex px-4'>
-                <Countdown
-                    minute={5}
-                    visible={isStartTimer && true}
-                    started={isStartTimer}
-                    finish={() => {
-                        console.log('時間到');
-                        handleTimer()
-                        // alert('時間到!')
-                        Toast.notify({
-                            type: 'info',
-                            message: '時間到!',
-                        })
-                    }} />
-            </div>
             <div className='shrink-0 p-4'>
                 <Button
                     className='justify-start px-3 py-0 w-full h-9 text-sm font-medium text-primary-600'

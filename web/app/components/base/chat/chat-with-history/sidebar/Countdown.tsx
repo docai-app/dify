@@ -1,12 +1,18 @@
 import { ClockIcon } from '@heroicons/react/24/outline';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
+import QRcodeModal from './QRcodeModal';
 
 const Countdown = ({
     minute = 5,
     started = false,
     finish,
-    visible = false
+    visible = false,
+    currentConversationId = '',
+    handleNext = () => { }
 }: any) => {
+    const [visable, setVisible] = useState(false);
+    const [link, setLink] = useState(false);
     const targetTime = new Date().getTime() + minute * 60 * 1000; // 当前时间 + 5 分钟的毫秒数
 
     const calculateTimeLeft = () => {
@@ -60,23 +66,44 @@ const Countdown = ({
         if (timeLeft.minutes === 0 && timeLeft.seconds === 0) {
             // alert('Time is up!');
             // setStarted(false);
+            //window.location.hostname "dify.docai.net"
             finish()
+            axios.post('https://docai-dev.m2mda.com/api/v1/tools/dify_chatbot_report.json', { "domain": window.location.hostname, "conversation_id": currentConversationId }).then((res) => {
+                // console.log(res.data);
+                setVisible(true)
+                setLink(res.data.file_url)
+            })
         }
     }, [timeLeft]);
 
     return (
-        <div className={`${visible ? '' : 'hidden'}`}>
-            <div className='flex flex-row items-center cursor-pointer '>
-                <ClockIcon className='w-4 mx-2 text-[#0080E8] ' />
-                {/* <img src='./assets/images/chat/time.png' className='w-4 mr-2' /> */}
-                <div>
-                    <label className='text-[#0080E8] text-sm'> {formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}</label>
+        <>
+            <div className={`${visible ? '' : 'hidden'}`}>
+                <div className='flex flex-row items-center cursor-pointer '>
+                    <ClockIcon className='w-4 mx-2 text-[#0080E8] ' />
+                    {/* <img src='./assets/images/chat/time.png' className='w-4 mr-2' /> */}
+                    <div>
+                        <label className='text-[#0080E8] text-sm'> {formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}</label>
+                    </div>
                 </div>
-            </div>
-            {/* {!started && (
+                {/* {!started && (
                     <button onClick={handleStart}>Start Countdown</button>
                 )} */}
-        </div>
+            </div>
+            <QRcodeModal
+                visable={visable}
+                title={'掃描二維碼查看報告'}
+                name={''}
+                link={link}
+                cancelClick={() => {
+                    setVisible(false);
+                }}
+                next={() => {
+                    setVisible(false);
+                    handleNext()
+                }}
+            />
+        </>
     );
 };
 

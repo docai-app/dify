@@ -228,16 +228,19 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
         if (checkInputsRequired()) {
             setShowConfigPanelBeforeChat(false)
             setShowNewConversationItemInList(true)
-            setIsStartTimer(true)
+            // startTimer()
         }
-        console.log('点击开始对话');
+    }, [setShowConfigPanelBeforeChat, setShowNewConversationItemInList, checkInputsRequired])
 
-    }, [setShowConfigPanelBeforeChat, setShowNewConversationItemInList, checkInputsRequired, setIsStartTimer])
+    //開始Timer
+    const startTimer = () => {
+        console.log('开始对话');
+        setIsStartTimer(true)
+    }
 
     //结束Timer
     const handleTimer = () => {
         console.log('结束对话');
-
         setIsStartTimer(false)
     }
     const currentChatInstanceRef = useRef<{ handleStop: () => void }>({ handleStop: () => { } })
@@ -403,6 +406,7 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
         handleFeedback,
         currentChatInstanceRef,
         isStartTimer,
-        handleTimer
+        handleTimer,
+        startTimer
     }
 }
