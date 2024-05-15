@@ -3,6 +3,7 @@ import {
     getUrl,
     stopChatMessageResponding,
 } from '@/service/share'
+import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo } from 'react'
 import Chat from '../chat'
 import { useChat } from '../chat/hooks'
@@ -31,6 +32,7 @@ const ChatWrapper = () => {
         currentChatInstanceRef,
         startTimer
     } = useChatWithHistoryContext()
+    const searhParams = useSearchParams()
     const appConfig = useMemo(() => {
         const config = appParams || {}
         return {
@@ -62,8 +64,11 @@ const ChatWrapper = () => {
     }, [])
 
     useEffect(() => {
-        startTimer()
-    }, [currentConversationId])
+        const timer = searhParams.get('timer')
+        if (timer) {
+            startTimer()
+        }
+    }, [currentConversationId, searhParams])
 
     const doSend: OnSend = useCallback((message, files) => {
         const data: any = {
