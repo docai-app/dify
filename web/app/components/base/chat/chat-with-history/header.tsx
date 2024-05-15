@@ -31,7 +31,7 @@ const Header: FC<HeaderProps> = ({
                 {title}
             </div>
             <Countdown
-                minute={15}
+                minute={2}
                 visible={isStartTimer && true}
                 started={isStartTimer}
                 currentConversationId={currentConversationId}
