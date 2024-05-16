@@ -150,7 +150,8 @@ const ChatWrapper = () => {
             allToolIcons={appMeta?.tool_icons || {}}
             onFeedback={handleFeedback}
             suggestedQuestions={suggestedQuestions}
-        />
+          hideProcessDetail
+    />
     )
 }
 

@@ -2,9 +2,14 @@
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-// import { useContext } from 'use-context-selector'
-import Button from '@/app/components/base/button'
+import Link from 'next/link'
+import type { SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import classNames from 'classnames'
 import Loading from '../components/base/loading'
+import Button from '@/app/components/base/button'
 import Toast from '../components/base/toast'
 // import I18n from '@/context/i18n'
 
@@ -13,6 +18,19 @@ import { fetchInitValidateStatus, fetchSetupStatus, setup } from '@/service/comm
 
 const validEmailReg = /^[\w\.-]+@([\w-]+\.)+[\w-]{2,}$/
 const validPassword = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
+
+const accountFormSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: 'login.error.emailInValid' })
+    .email('login.error.emailInValid'),
+  name: z.string().min(1, { message: 'login.error.nameEmpty' }),
+  password: z.string().min(8, {
+    message: 'login.error.passwordLengthInValid',
+  }).regex(validPassword, 'login.error.passwordInvalid'),
+})
+
+type AccountFormValues = z.infer<typeof accountFormSchema>
 
 const InstallForm = () => {
     const { t } = useTranslation()

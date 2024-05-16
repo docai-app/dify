@@ -13,6 +13,7 @@ import useSWR from 'swr'
 import { useContext } from 'use-context-selector'
 import Toast from '../components/base/toast'
 import style from './page.module.css'
+
 const validEmailReg = /^[\w\.-]+@([\w-]+\.)+[\w-]{2,}$/
 
 type IState = {
@@ -100,15 +101,13 @@ const NormalForm = () => {
             if (res.result === 'success') {
                 localStorage.setItem('console_token', res.data)
                 router.replace('/apps')
-            }
-            else {
+            } else {
                 Toast.notify({
                     type: 'error',
                     message: res.data,
                 })
             }
-        }
-        finally {
+        } finally {
             setIsLoading(false)
         }
     }
@@ -116,18 +115,12 @@ const NormalForm = () => {
     const { data: github, error: github_error } = useSWR(state.github
         ? ({
             url: '/oauth/login/github',
-            // params: {
-            //   provider: 'github',
-            // },
         })
         : null, oauth)
 
     const { data: google, error: google_error } = useSWR(state.google
         ? ({
             url: '/oauth/login/google',
-            // params: {
-            //   provider: 'google',
-            // },
         })
         : null, oauth)
 
@@ -143,7 +136,7 @@ const NormalForm = () => {
             dispatch({ type: 'google_login_failed' })
         if (google)
             window.location.href = google.redirect_url
-    }, [google, google])
+    }, [google, google_error])
 
     return (
         <>
@@ -197,17 +190,8 @@ const NormalForm = () => {
                         </div>
                     )}
 
-                    {
-                        IS_CE_EDITION && <>
-                            {/* <div className="relative mt-6">
-                <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                  <div className="w-full border-t border-gray-300" />
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 text-gray-300 bg-white">OR</span>
-                </div>
-              </div> */}
-
+                    {IS_CE_EDITION && (
+                        <>
                             <form onSubmit={() => { }}>
                                 <div className='mb-5'>
                                     <label htmlFor="email" className="my-2 block text-sm font-medium text-gray-900">
@@ -229,21 +213,6 @@ const NormalForm = () => {
                                 <div className='mb-4'>
                                     <label htmlFor="password" className="my-2 flex items-center justify-between text-sm font-medium text-gray-900">
                                         <span>{t('login.password')}</span>
-                                        {/* <Tooltip
-                      selector='forget-password'
-                      htmlContent={
-                        <div>
-                          <div className='font-medium'>{t('login.forget')}</div>
-                          <div className='font-medium text-gray-500'>
-                            <code>
-                              sudo rm -rf /
-                            </code>
-                          </div>
-                        </div>
-                      }
-                    >
-                      <span className='cursor-pointer text-primary-600'>{t('login.forget')}</span>
-                    </Tooltip> */}
                                     </label>
                                     <div className="relative mt-1">
                                         <input
@@ -282,33 +251,7 @@ const NormalForm = () => {
                                 </div>
                             </form>
                         </>
-                    }
-                    {/*  agree to our Terms and Privacy Policy. */}
-                    <div className="w-hull text-center block mt-2 text-xs text-gray-600 hidden">
-                        {t('login.tosDesc')}
-                        &nbsp;
-                        <Link
-                            className='text-primary-600'
-                            target='_blank' rel='noopener noreferrer'
-                            href='https://dify.ai/terms'
-                        >{t('login.tos')}</Link>
-                        &nbsp;&&nbsp;
-                        <Link
-                            className='text-primary-600'
-                            target='_blank' rel='noopener noreferrer'
-                            href='https://dify.ai/privacy'
-                        >{t('login.pp')}</Link>
-                    </div>
-
-                    {/* {IS_CE_EDITION && <div className="w-hull text-center block mt-2 text-xs text-gray-600">
-            {t('login.goToInit')}
-                        &nbsp;
-            <Link
-              className='text-primary-600'
-              href='/install'
-            >{t('login.setAdminAccount')}</Link>
-          </div>} */}
-
+                    )}
                 </div>
             </div>
         </>

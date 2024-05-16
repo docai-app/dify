@@ -131,20 +131,27 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
         setNewConversationInputs(newInputs)
     }, [])
     const inputsForms = useMemo(() => {
-        return (appParams?.user_input_form || []).filter((item: any) => item.paragraph || item.select || item['text-input']).map((item: any) => {
+        return (appParams?.user_input_form || []).filter((item: any) => item.paragraph || item.select || item['text-input'] || item.number).map((item: any) => {
             if (item.paragraph) {
                 return {
                     ...item.paragraph,
                     type: 'paragraph',
                 }
             }
-            if (item.select) {
+            if (item.number) {
+        return {
+          ...item.number,
+          type: 'number',
+        }
+      }
+      if (item.select) {
                 return {
                     ...item.select,
                     type: 'select',
                 }
             }
-            return {
+      
+      return {
                 ...item['text-input'],
                 type: 'text-input',
             }
@@ -243,7 +250,7 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
         console.log('结束对话');
         setIsStartTimer(false)
     }
-    const currentChatInstanceRef = useRef<{ handleStop: () => void }>({ handleStop: () => { } })
+    const currentChatInstanceRef = useRef<{ handleStop: () => void }>({ handleStop: () => {  } })
     const handleChangeConversation = useCallback((conversationId: string) => {
         currentChatInstanceRef.current.handleStop()
         setNewConversationId('')
