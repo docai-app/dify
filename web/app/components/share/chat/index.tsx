@@ -757,7 +757,6 @@ const Main: FC<IMainProps> = ({
                         getChatList(),
                         (draft) => {
                             const current = draft.find(item => item.id === messageReplace.id)
-
                             if (current)
                                 current.content = messageReplace.answer
                         },
@@ -773,6 +772,37 @@ const Main: FC<IMainProps> = ({
             },
         }, isInstalledApp, installedAppInfo?.id)
     }
+          {
+            hasSetInputs && (
+              <div className={cn(doShowSuggestion ? 'pb-[140px]' : (isResponding ? 'pb-[113px]' : 'pb-[76px]'), 'relative grow h-[200px] pc:w-[794px] max-w-full mobile:w-full mx-auto mb-3.5 overflow-hidden')}>
+                <div className='h-full overflow-y-auto' ref={chatListDomRef}>
+                  <Chat
+                    chatList={chatList}
+                    query={userQuery}
+                    onQueryChange={setUserQuery}
+                    onSend={handleSend}
+                    isHideFeedbackEdit
+                    onFeedback={handleFeedback}
+                    isResponding={isResponding}
+                    canStopResponding={!!messageTaskId && isRespondingConIsCurrCon}
+                    abortResponding={handleAbortResponding}
+                    checkCanSend={checkCanSend}
+                    controlFocus={controlFocus}
+                    isShowSuggestion={doShowSuggestion}
+                    suggestionList={suggestedQuestions}
+                    isShowSpeechToText={speechToTextConfig?.enabled}
+                    isShowTextToSpeech={textToSpeechConfig?.enabled}
+                    isShowCitation={citationConfig?.enabled}
+                    visionConfig={{
+                      ...visionConfig,
+                      image_file_size_limit: fileUploadConfigResponse ? fileUploadConfigResponse.image_file_size_limit : visionConfig.image_file_size_limit,
+                    }}
+                    allToolIcons={appMeta?.tool_icons || {}}
+                    customDisclaimer={siteInfo.custom_disclaimer}
+                  />
+                </div>
+              </div>)
+          }
 
     const handleFeedback = useCallback(async (messageId: string, feedback: Feedbacktype) => {
         await updateFeedback({ url: `/messages/${messageId}/feedbacks`, body: { rating: feedback.rating } }, isInstalledApp, installedAppInfo?.id)
