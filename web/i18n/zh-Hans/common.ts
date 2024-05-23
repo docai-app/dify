@@ -510,7 +510,7 @@ const translation = {
         pasteImageLink: '粘贴图片链接',
         pasteImageLinkInputPlaceholder: '将图像链接粘贴到此处',
         pasteImageLinkInvalid: '图片链接无效',
-        imageUpload: '图片上传',
+        imageUpload: '文件上传',
     },
     tag: {
         placeholder: '全部标签',

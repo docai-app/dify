@@ -510,7 +510,7 @@ const translation = {
         pasteImageLink: '貼上圖片連結',
         pasteImageLinkInputPlaceholder: '將影象連結貼上到此處',
         pasteImageLinkInvalid: '圖片連結無效',
-        imageUpload: '圖片上傳',
+        imageUpload: '文件上傳',
     },
     tag: {
         placeholder: '全部標籤',
