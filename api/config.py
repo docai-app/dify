@@ -32,6 +32,7 @@ DEFAULTS = {
     'SQLALCHEMY_POOL_SIZE': 30,
     'SQLALCHEMY_MAX_OVERFLOW': 10,
     'SQLALCHEMY_POOL_RECYCLE': 3600,
+    'SQLALCHEMY_POOL_PRE_PING': 'False',
     'SQLALCHEMY_ECHO': 'False',
     'SENTRY_TRACES_SAMPLE_RATE': 1.0,
     'SENTRY_PROFILES_SAMPLE_RATE': 1.0,
@@ -78,6 +79,7 @@ DEFAULTS = {
     'KEYWORD_DATA_SOURCE_TYPE': 'database',
     'INNER_API': 'False',
     'ENTERPRISE_ENABLED': 'False',
+    'INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH': 1000,
 }
 
 
@@ -174,7 +176,8 @@ class Config:
         self.SQLALCHEMY_ENGINE_OPTIONS = {
             'pool_size': int(get_env('SQLALCHEMY_POOL_SIZE')),
             'max_overflow': int(get_env('SQLALCHEMY_MAX_OVERFLOW')),
-            'pool_recycle': int(get_env('SQLALCHEMY_POOL_RECYCLE'))
+            'pool_recycle': int(get_env('SQLALCHEMY_POOL_RECYCLE')),
+            'pool_pre_ping': get_bool_env('SQLALCHEMY_POOL_PRE_PING')
         }
 
         self.SQLALCHEMY_ECHO = get_bool_env('SQLALCHEMY_ECHO')
@@ -363,6 +366,7 @@ class Config:
 
         self.ETL_TYPE = get_env('ETL_TYPE')
         self.UNSTRUCTURED_API_URL = get_env('UNSTRUCTURED_API_URL')
+        self.UNSTRUCTURED_API_KEY = get_env('UNSTRUCTURED_API_KEY')
         self.BILLING_ENABLED = get_bool_env('BILLING_ENABLED')
         self.CAN_REPLACE_LOGO = get_bool_env('CAN_REPLACE_LOGO')
 
@@ -376,3 +380,8 @@ class Config:
 
         self.KEYWORD_DATA_SOURCE_TYPE = get_env('KEYWORD_DATA_SOURCE_TYPE')
         self.ENTERPRISE_ENABLED = get_bool_env('ENTERPRISE_ENABLED')
+
+        # ------------------------
+        # Indexing Configurations.
+        # ------------------------
+        self.INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH = get_env('INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH')
