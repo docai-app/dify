@@ -11,6 +11,7 @@ import { ModelFeatureEnum } from '@/app/components/header/account-setting/model-
 import { useTextGenerationCurrentProviderAndModelAndModelList } from '@/app/components/header/account-setting/model-provider-page/hooks'
 import { type Collection } from '@/app/components/tools/types'
 import { ANNOTATION_DEFAULT, DEFAULT_AGENT_SETTING, DEFAULT_CHAT_PROMPT_CONFIG, DEFAULT_COMPLETION_PROMPT_CONFIG } from '@/config'
+import { useAppContext } from '@/context/app-context'
 import ConfigContext from '@/context/debug-configuration'
 import { useModalContext } from '@/context/modal-context'
 import { useProviderContext } from '@/context/provider-context'
@@ -47,6 +48,7 @@ import { useContext } from 'use-context-selector'
 import { useShallow } from 'zustand/react/shallow'
 import Button from '../../base/button'
 import Loading from '../../base/loading'
+import ModelParameterModal from '../../header/account-setting/model-provider-page/model-parameter-modal'
 import AppPublisher from '../app-publisher'
 import EditHistoryModal from './config-prompt/conversation-histroy/edit-modal'
 import AgentSettingButton from './config/agent-setting-button'
@@ -65,6 +67,7 @@ type PublishConfig = {
 const Configuration: FC = () => {
     const { t } = useTranslation()
     const { notify } = useContext(ToastContext)
+    const { isCurrentWorkspaceManager } = useAppContext()
     const { appDetail, setAppSiderbarExpand } = useAppStore(useShallow(state => ({
         appDetail: state.appDetail,
         setAppSiderbarExpand: state.setAppSiderbarExpand,
@@ -774,24 +777,24 @@ const Configuration: FC = () => {
                                         />
                                     )}
                                     {/* Model and Parameters */}
-                                    {/* {!debugWithMultipleModel && (
-                    <>
-                      <ModelParameterModal
-                        isAdvancedMode={isAdvancedMode}
-                        mode={mode}
-                        provider={modelConfig.provider}
-                        completionParams={completionParams}
-                        modelId={modelConfig.model_id}
-                        setModel={setModel as any}
-                        onCompletionParamsChange={(newParams: FormValue) => {
-                          setCompletionParams(newParams)
-                        }}
-                        debugWithMultipleModel={debugWithMultipleModel}
-                        onDebugWithMultipleModelChange={handleDebugWithMultipleModelChange}
-                      />
-                      <div className='mx-2 w-[1px] h-[14px] bg-gray-200'></div>
-                    </>
-                  )} */}
+                                    {!debugWithMultipleModel && isCurrentWorkspaceManager && (
+                                        <>
+                                            <ModelParameterModal
+                                                isAdvancedMode={isAdvancedMode}
+                                                mode={mode}
+                                                provider={modelConfig.provider}
+                                                completionParams={completionParams}
+                                                modelId={modelConfig.model_id}
+                                                setModel={setModel as any}
+                                                onCompletionParamsChange={(newParams: FormValue) => {
+                                                    setCompletionParams(newParams)
+                                                }}
+                                                debugWithMultipleModel={debugWithMultipleModel}
+                                                onDebugWithMultipleModelChange={handleDebugWithMultipleModelChange}
+                                            />
+                                            <div className='mx-2 w-[1px] h-[14px] bg-gray-200'></div>
+                                        </>
+                                    )}
                                     {isMobile && (
                                         <Button className='!h-8 !text-[13px] font-medium' onClick={showDebugPanel}>
                                             <span className='mr-1'>{t('appDebug.operation.debugConfig')}</span>
