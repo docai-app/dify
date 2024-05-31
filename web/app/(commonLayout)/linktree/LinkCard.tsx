@@ -1,0 +1,238 @@
+'use client'
+
+import Confirm from '@/app/components/base/confirm'
+import Divider from '@/app/components/base/divider'
+import { DotsHorizontal } from '@/app/components/base/icons/src/vender/line/general'
+import CustomPopover, { HtmlContentProps } from '@/app/components/base/popover'
+import { ToastContext } from '@/app/components/base/toast'
+import QRcodeModal from '@/app/components/linktree/QRcodeModal'
+import CreateLinkModal, { CreateLinkModalProps } from '@/app/components/linktree/create-link-modal'
+import { useAppContext } from '@/context/app-context'
+import { deleteLinkSet, updateLinkSetInfo } from '@/service/linktree'
+import { LinkSet } from '@/types/app'
+import { CubeIcon } from '@heroicons/react/24/outline'
+import { LinkIcon } from '@heroicons/react/24/solid'
+import cn from 'classnames'
+import { useRouter } from 'next/navigation'
+import { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useContext } from 'use-context-selector'
+import s from './style.module.css'
+
+
+export type CardProps = {
+    app: LinkSet
+    onRefresh?: () => void
+}
+
+const LinkCard = ({ app, onRefresh }: CardProps) => {
+    const { t } = useTranslation()
+    const { notify } = useContext(ToastContext)
+    const { isCurrentWorkspaceManager } = useAppContext()
+    const { push } = useRouter()
+
+
+
+    const [showEditModal, setShowEditModal] = useState(false)
+    const [showQrcode, setShowQrcode] = useState<boolean>(false)
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false)
+
+    const onEdit: CreateLinkModalProps['onConfirm'] = useCallback(async ({
+        name,
+        description,
+    }) => {
+
+        try {
+            await updateLinkSetInfo({
+                id: app.id,
+                name: name,
+                description: description
+            })
+            setShowEditModal(false)
+            notify({
+                type: 'success',
+                message: t('app.editDone'),
+            })
+            if (onRefresh)
+                onRefresh()
+        }
+        catch (e) {
+            notify({ type: 'error', message: t('app.editFailed') })
+        }
+    }, [])
+
+    const onConfirmDelete = useCallback(async () => {
+        try {
+            await deleteLinkSet(app.id + "")
+            notify({ type: 'success', message: t('app.appDeleted') })
+            if (onRefresh)
+                onRefresh()
+        }
+        catch (e: any) {
+            notify({
+                type: 'error',
+                message: `${t('app.appDeleteFailed')}${'message' in e ? `: ${e.message}` : ''}`,
+            })
+        }
+        setShowConfirmDelete(false)
+    }, [])
+
+    const Operations = (props: HtmlContentProps) => {
+        const onMouseLeave = async () => {
+            props.onClose?.()
+        }
+        const onClickSettings = async (e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation()
+            props.onClick?.()
+            e.preventDefault()
+            setShowEditModal(true)
+        }
+        const onClickShare = async (e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation()
+            props.onClick?.()
+            e.preventDefault()
+            setShowQrcode(true)
+        }
+        const onClickDelete = async (e: React.MouseEvent<HTMLDivElement>) => {
+            e.stopPropagation()
+            props.onClick?.()
+            e.preventDefault()
+            setShowConfirmDelete(true)
+        }
+        return (
+            <div className="relative w-full py-1" onMouseLeave={onMouseLeave}>
+                <button className={s.actionItem} onClick={onClickSettings}>
+                    <span className={s.actionName}>{t('app.editApp')}</span>
+                </button>
+                <button className={s.actionItem} onClick={onClickShare}>
+                    <span className={s.actionName}>{'分享'}</span>
+                </button>
+                <Divider className="!my-1" />
+                <div
+                    className={cn(s.actionItem, s.deleteActionItem, 'group')}
+                    onClick={onClickDelete}
+                >
+                    <span className={cn(s.actionName, 'group-hover:text-red-500')}>
+                        {t('common.operation.delete')}
+                    </span>
+                </div>
+            </div>
+        )
+    }
+    return (
+        <>
+            <div
+                onClick={(e) => {
+                    e.preventDefault()
+                    push(`/linktree/${app.id}`)
+                    // getRedirection(isCurrentWorkspaceManager, app, push)
+                }}
+                className='group flex col-span-1 bg-white border-2 border-solid border-transparent rounded-xl shadow-sm min-h-[160px] flex flex-col transition-all duration-200 ease-in-out cursor-pointer hover:shadow-lg'
+            >
+                <div className='flex pt-[14px] px-[14px] pb-3 h-[66px] items-center gap-3 grow-0 shrink-0'>
+                    <div className='relative shrink-0'>
+                        <div className='w-10 h-10 items-center flex justify-center bg-green-200 rounded-md' >
+                            <CubeIcon className='w-5 h-5 text-blue-600' />
+                        </div>
+
+                        <span className='absolute bottom-[-3px] right-[-3px] w-4 h-4 p-0.5 bg-white rounded border-[0.5px] border-[rgba(0,0,0,0.02)] shadow-sm'>
+                            <LinkIcon className='w-3 h-3 text-[#1570EF]' />
+                        </span>
+                    </div>
+                    <div className='grow w-0 py-[1px]'>
+                        <div className='flex items-center text-sm leading-5 font-semibold text-gray-800'>
+                            <div className='truncate' title={app?.name}>{app?.name}</div>
+                        </div>
+                        <div className='flex items-center text-[10px] leading-[18px] text-gray-500 font-medium'>
+                            AI Apps
+                        </div>
+                    </div>
+
+                </div>
+                <div
+                    className={cn(
+                        'grow mb-2 px-[14px] max-h-[72px] text-xs leading-normal text-gray-500 group-hover:line-clamp-2 group-hover:max-h-[36px]',
+                        'line-clamp-4',
+                    )}
+                    title={app?.description}
+                >
+                    {app?.description}
+                </div>
+                <div className={cn(
+                    'items-center shrink-0 mt-1 pt-1 pl-[14px] pr-[6px] pb-[6px] h-[42px]',
+                    '!hidden group-hover:!flex'
+                )}>
+                    <div className={cn('grow flex items-center gap-1 w-0')} onClick={(e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                    }}>
+                        <div className={cn(
+                            'group-hover:!block group-hover:!mr-0 mr-[41px] grow w-full',
+                            <p>ass</p>
+                        )}>
+
+                        </div>
+                    </div>
+
+                    <div className='!hidden group-hover:!flex shrink-0'>
+                        <CustomPopover
+                            htmlContent={<Operations />}
+                            position="br"
+                            trigger="click"
+                            btnElement={
+                                <div
+                                    className='flex items-center justify-center w-8 h-8 cursor-pointer rounded-md'
+                                >
+                                    <DotsHorizontal className='w-4 h-4 text-gray-700' />
+                                </div>
+                            }
+                            btnClassName={open =>
+                                cn(
+                                    open ? '!bg-black/5 !shadow-none' : '!bg-transparent',
+                                    'h-8 w-8 !p-2 rounded-md border-none hover:!bg-black/5',
+                                )
+                            }
+                            popupClassName={
+                                '!w-[238px] translate-x-[-110px]'
+                            }
+                            className={'!w-[128px] h-fit !z-20'}
+                        />
+                    </div>
+                </div>
+            </div>
+            {showEditModal && (
+                <CreateLinkModal
+                    isEditModal
+                    appName={app.name}
+                    appDescription={app.description}
+                    show={showEditModal}
+                    onConfirm={onEdit}
+                    onHide={() => setShowEditModal(false)}
+                />
+            )}
+            {showConfirmDelete && (
+                <Confirm
+                    title={t('app.deleteAppConfirmTitle')}
+                    content={t('app.deleteAppConfirmContent')}
+                    isShow={showConfirmDelete}
+                    onClose={() => setShowConfirmDelete(false)}
+                    onConfirm={onConfirmDelete}
+                    onCancel={() => setShowConfirmDelete(false)}
+                />
+            )}
+            {showQrcode && (
+                <QRcodeModal
+                    visable={showQrcode}
+                    title={app.name}
+                    name={''}
+                    link={"https://chatbot-dev.docai.net/apps/" + app?.id}
+                    cancelClick={() => {
+                        setShowQrcode(false);
+                    }}
+                />
+            )}
+        </>
+    )
+}
+
+export default LinkCard

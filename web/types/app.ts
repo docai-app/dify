@@ -382,3 +382,22 @@ export type RetrievalConfig = {
     score_threshold_enabled: boolean
     score_threshold: number
 }
+
+export type LinkSet = {
+    id: number;
+    name: string;
+    description?: string;
+    created_at: string;
+    updated_at: string;
+    links?: Link[];
+}
+
+export type Link = {
+    id: number;
+    title: string;
+    url: string;
+    link_set_id: number;
+    meta?: any;
+    created_at: string;
+    updated_at: string;
+}

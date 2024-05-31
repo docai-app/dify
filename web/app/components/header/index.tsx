@@ -16,6 +16,7 @@ import AppNav from './app-nav'
 import DatasetNav from './dataset-nav'
 import EnvNav from './env-nav'
 import ExploreNav from './explore-nav'
+import LinktreeNav from './linktree-nav'
 import ToolsNav from './tools-nav'
 
 const navClassName = `
@@ -72,6 +73,7 @@ const Header = () => {
                     <AppNav />
                     {isCurrentWorkspaceManager && <DatasetNav />}
                     <ToolsNav className={navClassName} />
+                    <LinktreeNav className={navClassName} />
                 </div>
             )}
             <div className='flex items-center flex-shrink-0'>
@@ -99,6 +101,7 @@ const Header = () => {
                     <AppNav />
                     {isCurrentWorkspaceManager && <DatasetNav />}
                     <ToolsNav className={navClassName} />
+                    <LinktreeNav className={navClassName} />
                 </div>
             )}
         </div>
