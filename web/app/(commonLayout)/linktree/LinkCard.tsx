@@ -105,7 +105,7 @@ const LinkCard = ({ app, onRefresh }: CardProps) => {
                     <span className={s.actionName}>{t('app.editApp')}</span>
                 </button>
                 <button className={s.actionItem} onClick={onClickShare}>
-                    <span className={s.actionName}>{'分享'}</span>
+                    <span className={s.actionName}>{t('linktree.share')}</span>
                 </button>
                 <Divider className="!my-1" />
                 <div

@@ -61,11 +61,11 @@ const CreateLinkModal = ({
                 <div className='absolute right-4 top-4 p-2 cursor-pointer' onClick={onHide}>
                     <XClose className='w-4 h-4 text-gray-500' />
                 </div>
-                <div className='mb-9 font-semibold text-xl leading-[30px] text-gray-900'>{"編輯信息"}</div>
+                <div className='mb-9 font-semibold text-xl leading-[30px] text-gray-900'>{t('linktree.link_set.edit')}</div>
                 <div className='mb-9'>
                     {/* icon & name */}
                     <div className='pt-2'>
-                        <div className='py-2 text-sm font-medium leading-[20px] text-gray-900'>{"名稱"}</div>
+                        <div className='py-2 text-sm font-medium leading-[20px] text-gray-900'>{t('linktree.name')}</div>
                         <div className='flex items-center justify-between space-x-2'>
                             <div className='w-10 h-10 items-center flex justify-center bg-green-200 rounded-md' >
                                 <CubeIcon className='w-5 h-5 text-blue-600' />
@@ -73,14 +73,14 @@ const CreateLinkModal = ({
                             <input
                                 value={name}
                                 onChange={e => setName(e.target.value)}
-                                placeholder={'名稱'}
+                                placeholder={t('linktree.name') || ''}
                                 className='grow h-10 px-3 text-sm font-normal bg-gray-100 rounded-lg border border-transparent outline-none appearance-none caret-primary-600 placeholder:text-gray-400 hover:bg-gray-50 hover:border hover:border-gray-300 focus:bg-gray-50 focus:border focus:border-gray-300 focus:shadow-xs'
                             />
                         </div>
                     </div>
                     {/* description */}
                     <div className='pt-2'>
-                        <div className='py-2 text-sm font-medium leading-[20px] text-gray-900'>{"輸入描述"}</div>
+                        <div className='py-2 text-sm font-medium leading-[20px] text-gray-900'>{t('linktree.input_description')}</div>
                         <textarea
                             className='w-full h-10 px-3 py-2 text-sm font-normal bg-gray-100 rounded-lg border border-transparent outline-none appearance-none caret-primary-600 placeholder:text-gray-400 hover:bg-gray-50 hover:border hover:border-gray-300 focus:bg-gray-50 focus:border focus:border-gray-300 focus:shadow-xs h-[80px] resize-none'
                             placeholder={t('app.newApp.appDescriptionPlaceholder') || ''}

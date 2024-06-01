@@ -49,10 +49,10 @@ const NewLinkCard = forwardRef<HTMLAnchorElement, CreateLinkCardProps>(({ onSucc
             className='relative col-span-1 flex flex-col justify-between min-h-[160px] bg-gray-200 rounded-xl border-[0.5px] border-black/5'
         >
             <div className='grow p-2 rounded-t-xl'>
-                <div className='px-6 pt-2 pb-1 text-xs font-medium leading-[18px] text-gray-500'>{"創建AI Apps"}</div>
+                <div className='px-6 pt-2 pb-1 text-xs font-medium leading-[18px] text-gray-500'>{t('linktree.link_set.create')}</div>
                 <div className='flex items-center mb-1 px-6 py-[7px] rounded-lg text-[13px] font-medium leading-[18px] text-gray-600 cursor-pointer hover:text-primary-600 hover:bg-white' onClick={() => setShowNewLinkModal(true)}>
                     <FilePlus01 className='shrink-0 mr-2 w-4 h-4' />
-                    {"創建空白AI Apps"}
+                    {t('linktree.link_set.create_blank')}
                 </div>
             </div>
             <CreateLinkModal

@@ -28,7 +28,7 @@ const LinktreeNav = ({
                     ? <CubeSoildIcon className='mr-2 w-4 h-4' />
                     : <CubeIcon className='mr-2 w-4 h-4' />
             }
-            {'AI Apps'}
+            {t('linktree.title')}
         </Link>
     )
 }

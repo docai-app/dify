@@ -62,11 +62,11 @@ const CreateLinkDetailModal = ({
                 <div className='absolute right-4 top-4 p-2 cursor-pointer' onClick={onHide}>
                     <XClose className='w-4 h-4 text-gray-500' />
                 </div>
-                <div className='mb-9 font-semibold text-xl leading-[30px] text-gray-900'>{"編輯連結信息"}</div>
+                <div className='mb-9 font-semibold text-xl leading-[30px] text-gray-900'>{t('linktree.link.edit')}</div>
                 <div className='mb-9'>
                     {/* icon & name */}
                     <div className='pt-2'>
-                        <div className='py-2 text-sm font-medium leading-[20px] text-gray-900'>{"名稱"}</div>
+                        <div className='py-2 text-sm font-medium leading-[20px] text-gray-900'>{t('linktree.name')}</div>
                         <div className='flex items-center justify-between space-x-2'>
                             <div className='w-10 h-10 items-center flex justify-center bg-green-200 rounded-md' >
                                 <LinkIcon className='w-5 h-5 text-blue-600' />
@@ -74,26 +74,26 @@ const CreateLinkDetailModal = ({
                             <input
                                 value={title}
                                 onChange={e => setTitle(e.target.value)}
-                                placeholder={'名稱'}
+                                placeholder={t('linktree.name') || ''}
                                 className='grow h-10 px-3 text-sm font-normal bg-gray-100 rounded-lg border border-transparent outline-none appearance-none caret-primary-600 placeholder:text-gray-400 hover:bg-gray-50 hover:border hover:border-gray-300 focus:bg-gray-50 focus:border focus:border-gray-300 focus:shadow-xs'
                             />
                         </div>
                     </div>
                     {/* description */}
                     <div className='pt-2'>
-                        <div className='py-2 text-sm font-medium leading-[20px] text-gray-900'>{"連結"}</div>
+                        <div className='py-2 text-sm font-medium leading-[20px] text-gray-900'>{t('linktree.link.title')}</div>
                         <input
                             value={url}
                             onChange={e => setUrl(e.target.value)}
-                            placeholder={'連結'}
+                            placeholder={t('linktree.link.title') || ''}
                             className='w-full grow h-10 px-3 text-sm font-normal bg-gray-100 rounded-lg border border-transparent outline-none appearance-none caret-primary-600 placeholder:text-gray-400 hover:bg-gray-50 hover:border hover:border-gray-300 focus:bg-gray-50 focus:border focus:border-gray-300 focus:shadow-xs'
                         />
                     </div>
                     <div className='pt-2'>
                         <FeatureItem
                             previewImgClassName='openingStatementPreview'
-                            title={'生成報告'}
-                            description={'在限定的對話時間內生成報告'}
+                            title={t('linktree.link.create_report')}
+                            description={t('linktree.link.create_report_tip')}
                             value={is_required_time_limit}
                             onChange={value => { set_is_required_time_limit(value) }}
                             icon={<DocumentTextIcon className='w-4 h-4 text-green-600' />}
