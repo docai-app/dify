@@ -240,6 +240,7 @@ const baseFetch = <T>(
     }: IOtherOptions,
 ): Promise<T> => {
     const options: typeof baseOptions & FetchOptionType = Object.assign({}, baseOptions, fetchOptions)
+
     if (getAbortController) {
         const abortController = new AbortController()
         getAbortController(abortController)
@@ -274,7 +275,13 @@ const baseFetch = <T>(
     const urlPrefix = isPublicAPI ? PUBLIC_API_PREFIX : API_PREFIX
     let urlWithPrefix = `${urlPrefix}${url.startsWith('/') ? url : `/${url}`}`
 
+    const user_id = localStorage.getItem('user_id') || ''
     urlWithPrefix = url.startsWith('link') ? 'https://docai-dev.m2mda.com/api/v1/' + url : urlWithPrefix
+    if (url.startsWith('link')) {
+        options.headers.set('User-Id', user_id)
+    } else {
+        options.headers.delete('User-Id')
+    }
 
     const { method, params, body } = options
     // handle query
