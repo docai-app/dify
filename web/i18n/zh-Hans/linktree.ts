@@ -15,8 +15,8 @@ const translation = {
         create: '创建连结',
         create_blank: '创建空白连结',
         edit: '编辑信息',
-        create_report: '生成报告',
-        create_report_tip: '在限定的對話時間內生成報告'
+        create_report: '显示会话',
+        create_report_tip: '限制每个对话在5分后结束'
     },
     delete_modal: {
         title: '确认删除',
