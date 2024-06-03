@@ -11,7 +11,7 @@ import { deleteLink, updateLinkInfo } from '@/service/linktree'
 import type { Link } from '@/types/app'
 import { LinkIcon } from '@heroicons/react/24/solid'
 import cn from 'classnames'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'use-context-selector'
@@ -28,6 +28,7 @@ const LinkDetailCard = ({ app, onRefresh }: AppCardProps) => {
     const { notify } = useContext(ToastContext)
     const { isCurrentWorkspaceManager } = useAppContext()
     const { push } = useRouter()
+    const { id } = useParams()
 
     const [showEditModal, setShowEditModal] = useState(false)
     const [showConfirmDelete, setShowConfirmDelete] = useState(false)
@@ -39,7 +40,7 @@ const LinkDetailCard = ({ app, onRefresh }: AppCardProps) => {
     }) => {
         try {
             await updateLinkInfo({
-                linktree_id: app.link_set_id,
+                linktree_id: id as string,
                 id: app.id,
                 title: title,
                 url: url,
@@ -64,7 +65,7 @@ const LinkDetailCard = ({ app, onRefresh }: AppCardProps) => {
     const onConfirmDelete = useCallback(async () => {
         try {
             await deleteLink({
-                linktree_id: app.link_set_id,
+                linktree_id: id as string,
                 id: app.id
             })
             notify({ type: 'success', message: t('app.appDeleted') })
@@ -200,8 +201,8 @@ const LinkDetailCard = ({ app, onRefresh }: AppCardProps) => {
             )}
             {showConfirmDelete && (
                 <Confirm
-                    title={t('app.deleteAppConfirmTitle')}
-                    content={t('app.deleteAppConfirmContent')}
+                    title={t('linktree.delete_modal.title')}
+                    content={t('linktree.delete_modal.description')}
                     isShow={showConfirmDelete}
                     onClose={() => setShowConfirmDelete(false)}
                     onConfirm={onConfirmDelete}

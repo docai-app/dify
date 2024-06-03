@@ -17,6 +17,10 @@ const translation = {
         edit: '编辑信息',
         create_report: '生成报告',
         create_report_tip: '在限定的對話時間內生成報告'
+    },
+    delete_modal: {
+        title: '确认删除',
+        description: '删除将无法撤销。'
     }
 }
 

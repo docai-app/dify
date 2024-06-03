@@ -27,10 +27,10 @@ export const createLink: Fetcher<GeneralResponse, { id: any, title: string, url:
     return post<GeneralResponse>(`link_sets/${id}/links.json`, { body: { title, url, meta } })
 }
 
-export const updateLinkInfo: Fetcher<GeneralResponse, { linktree_id: number, id: number, title: string, url: string, meta?: any }> = ({ linktree_id, id, title, url, meta }) => {
+export const updateLinkInfo: Fetcher<GeneralResponse, { linktree_id: string, id: number, title: string, url: string, meta?: any }> = ({ linktree_id, id, title, url, meta }) => {
     return put<GeneralResponse>(`link_sets/${linktree_id}/links/${id}.json`, { body: { title, url, meta } })
 }
 
-export const deleteLink: Fetcher<GeneralResponse, { linktree_id: number, id: number }> = ({ linktree_id, id }) => {
+export const deleteLink: Fetcher<GeneralResponse, { linktree_id: string, id: number }> = ({ linktree_id, id }) => {
     return del<GeneralResponse>(`link_sets/${linktree_id}/links/${id}.json`)
 }

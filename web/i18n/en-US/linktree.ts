@@ -17,6 +17,10 @@ const translation = {
         edit: 'Edit information',
         create_report: 'Generate a report',
         create_report_tip: 'Generate reports within a limited conversation time'
+    },
+    delete_modal: {
+        title: 'Confirm deletion',
+        description: 'The deletion cannot be undone.'
     }
 }
 

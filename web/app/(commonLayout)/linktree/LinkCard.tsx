@@ -124,7 +124,7 @@ const LinkCard = ({ app, onRefresh }: CardProps) => {
             <div
                 onClick={(e) => {
                     e.preventDefault()
-                    push(`/linktree/${app.id}`)
+                    push(`/linktree/${app.slug}`)
                     // getRedirection(isCurrentWorkspaceManager, app, push)
                 }}
                 className='group flex col-span-1 bg-white border-2 border-solid border-transparent rounded-xl shadow-sm min-h-[160px] flex flex-col transition-all duration-200 ease-in-out cursor-pointer hover:shadow-lg'
@@ -212,8 +212,8 @@ const LinkCard = ({ app, onRefresh }: CardProps) => {
             )}
             {showConfirmDelete && (
                 <Confirm
-                    title={t('app.deleteAppConfirmTitle')}
-                    content={t('app.deleteAppConfirmContent')}
+                    title={t('linktree.delete_modal.title')}
+                    content={t('linktree.delete_modal.description')}
                     isShow={showConfirmDelete}
                     onClose={() => setShowConfirmDelete(false)}
                     onConfirm={onConfirmDelete}
@@ -225,7 +225,7 @@ const LinkCard = ({ app, onRefresh }: CardProps) => {
                     visable={showQrcode}
                     title={app.name}
                     name={''}
-                    link={"https://chatbot-dev.docai.net/apps/" + app?.id}
+                    link={"https://chatbot-dev.docai.net/apps/" + app?.slug}
                     cancelClick={() => {
                         setShowQrcode(false);
                     }}

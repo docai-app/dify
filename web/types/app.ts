@@ -385,6 +385,7 @@ export type RetrievalConfig = {
 
 export type LinkSet = {
     id: number;
+    slug: string;
     name: string;
     description?: string;
     created_at: string;
@@ -394,6 +395,7 @@ export type LinkSet = {
 
 export type Link = {
     id: number;
+    slug: string;
     title: string;
     url: string;
     link_set_id: number;
