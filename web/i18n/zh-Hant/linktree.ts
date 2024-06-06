@@ -16,7 +16,8 @@ const translation = {
         create_blank: '創建空白連結',
         edit: '編輯信息',
         create_report: '限時會話',
-        create_report_tip: '限制每個對話在5分鐘後結束'
+        create_report_tip: '限制每個對話在規定時間後結束',
+        set_time: '時間(分鐘)'
     },
     delete_modal: {
         title: '確認刪除',

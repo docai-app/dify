@@ -15,8 +15,9 @@ const translation = {
         create: '创建连结',
         create_blank: '创建空白连结',
         edit: '编辑信息',
-        create_report: '显示会话',
-        create_report_tip: '限制每个对话在5分后结束'
+        create_report: '限时会话',
+        create_report_tip: '限制每个对话在规定时间后结束',
+        set_time: '时间(分钟)'
     },
     delete_modal: {
         title: '确认删除',

@@ -36,7 +36,8 @@ const LinkDetailCard = ({ app, onRefresh }: AppCardProps) => {
     const onEdit: CreateLinkDetailModalProps['onConfirm'] = useCallback(async ({
         title,
         url,
-        is_required_time_limit
+        is_required_time_limit,
+        time_limit
     }) => {
         try {
             await updateLinkInfo({
@@ -46,7 +47,8 @@ const LinkDetailCard = ({ app, onRefresh }: AppCardProps) => {
                 url: url,
                 meta: {
                     ...app.meta,
-                    is_required_time_limit: is_required_time_limit
+                    is_required_time_limit: is_required_time_limit,
+                    time_limit
                 }
             })
             setShowEditModal(false)
@@ -194,6 +196,7 @@ const LinkDetailCard = ({ app, onRefresh }: AppCardProps) => {
                     appName={app.title}
                     appDescription={app.url}
                     appIs_required_time_limit={app.meta?.is_required_time_limit}
+                    appTimeLimit={app.meta?.time_limit}
                     show={showEditModal}
                     onConfirm={onEdit}
                     onHide={() => setShowEditModal(false)}

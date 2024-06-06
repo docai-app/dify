@@ -5,6 +5,7 @@ import Modal from '@/app/components/base/modal'
 import Toast from '@/app/components/base/toast'
 import { DocumentTextIcon } from '@heroicons/react/24/outline'
 import { LinkIcon } from '@heroicons/react/24/solid'
+import cn from 'classnames'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import FeatureItem from '../../app/configuration/config/feature/choose-feature/feature-item'
@@ -15,10 +16,12 @@ export type CreateLinkDetailModalProps = {
     appName: string
     appDescription: string,
     appIs_required_time_limit?: boolean,
+    appTimeLimit?: number,
     onConfirm: (info: {
         title: string,
         url: string,
         is_required_time_limit: boolean
+        time_limit: number
     }) => Promise<void>
     onHide: () => void
 }
@@ -29,6 +32,7 @@ const CreateLinkDetailModal = ({
     appName,
     appDescription,
     appIs_required_time_limit,
+    appTimeLimit,
     onConfirm,
     onHide,
 }: CreateLinkDetailModalProps) => {
@@ -37,6 +41,7 @@ const CreateLinkDetailModal = ({
     const [title, setTitle] = React.useState(appName)
     const [url, setUrl] = useState(appDescription || '')
     const [is_required_time_limit, set_is_required_time_limit] = useState(appIs_required_time_limit || false)
+    const [time_limit, setTimeLimit] = useState<any>(appTimeLimit || 5)
 
     const submit = () => {
         if (!title.trim()) {
@@ -46,7 +51,8 @@ const CreateLinkDetailModal = ({
         onConfirm({
             title,
             url,
-            is_required_time_limit
+            is_required_time_limit,
+            time_limit
         })
         onHide()
     }
@@ -99,15 +105,18 @@ const CreateLinkDetailModal = ({
                             icon={<DocumentTextIcon className='w-4 h-4 text-green-600' />}
                         />
                     </div>
-                    <div className='pt-2 hidden'>
-                        <div className='py-2 text-sm font-medium leading-[20px] text-gray-900'>{"时间(分钟)"}</div>
+                    <div className={cn('pt-2', !is_required_time_limit && 'hidden')}>
+                        <div className='py-2 text-sm font-medium leading-[20px] text-gray-900'>{t('linktree.link.set_time')}</div>
                         <input
                             className='shrink-0 block pl-3 w-16 h-8 appearance-none outline-none rounded-lg bg-gray-100 text-[13px] text-gra-900'
                             type='number'
-                            defaultValue={2}
+                            defaultValue={appTimeLimit}
                             step={1}
                             min={2}
-                            max={30}
+                            max={59}
+                            onChange={(e) => {
+                                setTimeLimit(parseInt(e.target.value))
+                            }}
                         />
                     </div>
                 </div>

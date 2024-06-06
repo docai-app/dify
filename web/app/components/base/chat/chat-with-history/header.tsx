@@ -1,3 +1,4 @@
+import { useSearchParams } from 'next/navigation'
 import type { FC } from 'react'
 import { memo } from 'react'
 import Toast from '../../toast'
@@ -18,6 +19,7 @@ const Header: FC<HeaderProps> = ({
         handleTimer,
         startTimer
     } = useChatWithHistoryContext()
+    const searchParams = useSearchParams()
 
     return (
         <div className='flex flex-row justify-between items-center pr-4'>
@@ -31,7 +33,7 @@ const Header: FC<HeaderProps> = ({
                 {title}
             </div>
             <Countdown
-                minute={5}
+                minute={searchParams.get('timer') || 5}
                 visible={isStartTimer && true}
                 started={isStartTimer}
                 currentConversationId={currentConversationId}

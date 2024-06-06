@@ -16,7 +16,8 @@ const translation = {
         create_blank: 'Create a blank link',
         edit: 'Edit information',
         create_report: 'Time-limited session',
-        create_report_tip: 'Limit each conversation to end after 5 minutes'
+        create_report_tip: 'Limit each conversation to ending after a specified time',
+        set_time: 'Time(minute)'
     },
     delete_modal: {
         title: 'Confirm deletion',

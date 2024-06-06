@@ -23,7 +23,8 @@ const NewLinkDetailCard = forwardRef<HTMLAnchorElement, CreateLinkDetailCardProp
     const onEdit: CreateLinkDetailModalProps['onConfirm'] = useCallback(async ({
         title,
         url,
-        is_required_time_limit
+        is_required_time_limit,
+        time_limit
     }) => {
         try {
             const res = await createLink({
@@ -31,7 +32,8 @@ const NewLinkDetailCard = forwardRef<HTMLAnchorElement, CreateLinkDetailCardProp
                 title: title,
                 url: url,
                 meta: {
-                    is_required_time_limit: is_required_time_limit
+                    is_required_time_limit: is_required_time_limit,
+                    time_limit: time_limit
                 }
             })
             setShowNewLinkModal(false)
@@ -70,6 +72,7 @@ const NewLinkDetailCard = forwardRef<HTMLAnchorElement, CreateLinkDetailCardProp
                 isEditModal
                 appName={''}
                 appDescription={''}
+                appTimeLimit={5}
                 appIs_required_time_limit={false}
                 show={showNewLinkModal}
                 onConfirm={onEdit}
