@@ -244,6 +244,7 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
     const startTimer = () => {
         // console.log('开始对话');
         setIsStartTimer(true)
+        setIsEndTimer(false)
     }
 
     //结束Timer
