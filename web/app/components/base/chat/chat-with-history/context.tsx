@@ -47,6 +47,7 @@ export type ChatWithHistoryContextValue = {
     handleFeedback: (messageId: string, feedback: Feedback) => void
     currentChatInstanceRef: RefObject<{ handleStop: () => void }>
     isStartTimer: boolean;
+    isEndTimer: boolean;
     handleTimer: () => void;
     startTimer: () => void;
 }
@@ -75,6 +76,7 @@ export const ChatWithHistoryContext = createContext<ChatWithHistoryContextValue>
     handleFeedback: () => { },
     currentChatInstanceRef: { current: { handleStop: () => { } } },
     isStartTimer: false,
+    isEndTimer: false,
     handleTimer: () => { },
     startTimer: () => { }
 

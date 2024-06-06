@@ -138,6 +138,7 @@ const ChatWithHistoryWrap: FC<ChatWithHistoryWrapProps> = ({
         handleFeedback,
         currentChatInstanceRef,
         isStartTimer,
+        isEndTimer,
         handleTimer,
         startTimer
     } = useChatWithHistory(installedAppInfo)
@@ -175,6 +176,7 @@ const ChatWithHistoryWrap: FC<ChatWithHistoryWrapProps> = ({
             handleFeedback,
             currentChatInstanceRef,
             isStartTimer,
+            isEndTimer,
             handleTimer,
             startTimer
         }}>

@@ -115,7 +115,7 @@ export default function QRcodeModal(props: any) {
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="w-full flex justify-center items-center mt-4">
+                                    <div className="w-full flex justify-center items-center mt-4 hidden">
                                         <a className=' text-blue-400 text-sm hover:underline cursor-pointer' onClick={props?.next}>繼續{'>>'}</a>
                                     </div>
                                 </div>

@@ -76,6 +76,7 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
     const [showConfigPanelBeforeChat, setShowConfigPanelBeforeChat] = useState(true)
 
     const [isStartTimer, setIsStartTimer] = useState(false)
+    const [isEndTimer, setIsEndTimer] = useState(false)
 
     const [newConversationId, setNewConversationId] = useState('')
     const chatShouldReloadKey = useMemo(() => {
@@ -139,19 +140,19 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
                 }
             }
             if (item.number) {
-        return {
-          ...item.number,
-          type: 'number',
-        }
-      }
-      if (item.select) {
+                return {
+                    ...item.number,
+                    type: 'number',
+                }
+            }
+            if (item.select) {
                 return {
                     ...item.select,
                     type: 'select',
                 }
             }
-      
-      return {
+
+            return {
                 ...item['text-input'],
                 type: 'text-input',
             }
@@ -241,16 +242,17 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
 
     //開始Timer
     const startTimer = () => {
-        console.log('开始对话');
+        // console.log('开始对话');
         setIsStartTimer(true)
     }
 
     //结束Timer
     const handleTimer = () => {
-        console.log('结束对话');
+        // console.log('结束对话');
         setIsStartTimer(false)
+        setIsEndTimer(true)
     }
-    const currentChatInstanceRef = useRef<{ handleStop: () => void }>({ handleStop: () => {  } })
+    const currentChatInstanceRef = useRef<{ handleStop: () => void }>({ handleStop: () => { } })
     const handleChangeConversation = useCallback((conversationId: string) => {
         currentChatInstanceRef.current.handleStop()
         setNewConversationId('')
@@ -413,6 +415,7 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
         handleFeedback,
         currentChatInstanceRef,
         isStartTimer,
+        isEndTimer,
         handleTimer,
         startTimer
     }
