@@ -48,6 +48,8 @@ export type ChatWithHistoryContextValue = {
     currentChatInstanceRef: RefObject<{ handleStop: () => void }>
     isStartTimer: boolean;
     isEndTimer: boolean;
+    showRecordView?: boolean;
+    handleShowRecordView?: any;
     handleTimer: () => void;
     startTimer: () => void;
 }
@@ -77,6 +79,8 @@ export const ChatWithHistoryContext = createContext<ChatWithHistoryContextValue>
     currentChatInstanceRef: { current: { handleStop: () => { } } },
     isStartTimer: false,
     isEndTimer: false,
+    showRecordView: false,
+    handleShowRecordView: () => { },
     handleTimer: () => { },
     startTimer: () => { }
 

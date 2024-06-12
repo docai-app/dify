@@ -33,7 +33,7 @@ export default function HeadView(props: ViewProps) {
         <>
             <div className='w-full absolute top-5 px-4 flex flex-row justify-between '>
                 <div className='flex flex-1  justify-left ' >
-                    <div className='flex flex-row items-center cursor-pointer'>
+                    <div className='flex flex-row items-center cursor-pointer hidden'>
                         <ReturnButton
                             visible={showReturnView()}
                             disabled={false}

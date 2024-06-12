@@ -140,7 +140,9 @@ const ChatWithHistoryWrap: FC<ChatWithHistoryWrapProps> = ({
         isStartTimer,
         isEndTimer,
         handleTimer,
-        startTimer
+        startTimer,
+        showRecordView,
+        handleShowRecordView
     } = useChatWithHistory(installedAppInfo)
 
     return (
@@ -178,7 +180,9 @@ const ChatWithHistoryWrap: FC<ChatWithHistoryWrapProps> = ({
             isStartTimer,
             isEndTimer,
             handleTimer,
-            startTimer
+            startTimer,
+            showRecordView,
+            handleShowRecordView
         }}>
             <ChatWithHistory className={className} />
         </ChatWithHistoryContext.Provider>

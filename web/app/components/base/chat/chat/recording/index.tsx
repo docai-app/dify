@@ -170,7 +170,7 @@ const RecordingView: FC<ChatProps> = ({
 
     return (
         <>
-            <div className="flex flex-col h-full pt-[1rem] relative bg-[#eff7fe] items-center">
+            <div className="flex flex-col h-full pt-16 relative bg-[#eff7fe] items-center">
                 {/* <LoadingView visible={loading || writing || !chatbotDetailData} /> */}
                 <div className=" w-full h-full justify-center flex">
                     <div className="w-full sm:w-[480px] relative flex justify-center">

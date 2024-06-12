@@ -29,7 +29,6 @@ import type {
 import Answer from './answer'
 import ChatInput from './chat-input'
 import { ChatContextProvider } from './context'
-import { useChat } from './hooks'
 import Question from './question'
 import RecordingView from './recording'
 import TryToAsk from './try-to-ask'
@@ -60,7 +59,6 @@ export type ChatProps = {
     hideProcessDetail?: boolean
     lastResponseItem?: ChatItem
     unSpeakContent?: any
-    setUnSpeakContent?: any;
 }
 const Chat: FC<ChatProps> = ({
     config,
@@ -88,10 +86,9 @@ const Chat: FC<ChatProps> = ({
     hideProcessDetail,
     lastResponseItem,
     unSpeakContent,
-    setUnSpeakContent
 }) => {
     const { t } = useTranslation()
-    const { isEndTimer } = useChatWithHistoryContext()
+    const { isEndTimer, showRecordView, handleShowRecordView } = useChatWithHistoryContext()
     const { currentLogItem, setCurrentLogItem, showPromptLogModal, setShowPromptLogModal, showAgentLogModal, setShowAgentLogModal } = useAppStore(useShallow(state => ({
         currentLogItem: state.currentLogItem,
         setCurrentLogItem: state.setCurrentLogItem,
@@ -106,11 +103,6 @@ const Chat: FC<ChatProps> = ({
     const chatFooterRef = useRef<HTMLDivElement>(null)
     const chatFooterInnerRef = useRef<HTMLDivElement>(null)
     const userScrolledRef = useRef(false)
-    const [showRecordView, setShowRecordView] = useState(false)
-
-    const {
-        clearSpeak
-    } = useChat()
 
     const handleScrolltoBottom = useCallback(() => {
         if (chatContainerRef.current && !userScrolledRef.current)
@@ -196,13 +188,15 @@ const Chat: FC<ChatProps> = ({
             onFeedback={onFeedback}
             lastResponseItem={lastResponseItem}
         >
+
             <div className={classNames('relative h-full ', !showRecordView && 'hidden')}>
+                {chatNode}
                 {showRecordView &&
                     <RecordingView
                         config={config}
                         onSend={onSend}
                         showRecordView={showRecordView}
-                        setShowRecordView={setShowRecordView}
+                        setShowRecordView={handleShowRecordView}
                         lastItem={chatList[chatList.length - 1]}
                         lastResponseItem={lastResponseItem}
                         isResponding={isResponding}
@@ -211,16 +205,11 @@ const Chat: FC<ChatProps> = ({
                 }
             </div>
             <div className={classNames('relative h-full ', showRecordView && '')}>
+                {chatNode}
                 <div
                     ref={chatContainerRef}
-                    className={classNames('relative h-full overflow-y-auto', chatContainerClassName)}
+                    className={classNames('relative h-full overflow-y-auto pt-12', chatContainerClassName)}
                 >
-                    <div onClick={() => {
-                        setUnSpeakContent([])
-                        setShowRecordView(!showRecordView)
-                    }}>
-                        {chatNode}
-                    </div>
 
                     <div
                         ref={chatContainerInnerRef}

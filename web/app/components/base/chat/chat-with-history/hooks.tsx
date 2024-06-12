@@ -78,6 +78,8 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
     const [isStartTimer, setIsStartTimer] = useState(false)
     const [isEndTimer, setIsEndTimer] = useState(false)
 
+    const [showRecordView, setShowRecordView] = useState(false)
+
     const [newConversationId, setNewConversationId] = useState('')
     const chatShouldReloadKey = useMemo(() => {
         if (currentConversationId === newConversationId)
@@ -236,6 +238,7 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
         if (checkInputsRequired()) {
             setShowConfigPanelBeforeChat(false)
             setShowNewConversationItemInList(true)
+            setShowRecordView(false)
             // startTimer()
         }
     }, [setShowConfigPanelBeforeChat, setShowNewConversationItemInList, checkInputsRequired])
@@ -245,6 +248,10 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
         // console.log('开始对话');
         setIsStartTimer(true)
         setIsEndTimer(false)
+    }
+
+    const handleShowRecordView = () => {
+        setShowRecordView(!showRecordView)
     }
 
     //结束Timer
@@ -418,6 +425,8 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
         isStartTimer,
         isEndTimer,
         handleTimer,
-        startTimer
+        startTimer,
+        showRecordView,
+        handleShowRecordView
     }
 }
