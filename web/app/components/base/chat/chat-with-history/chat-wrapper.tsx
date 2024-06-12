@@ -47,6 +47,9 @@ const ChatWrapper = () => {
         handleStop,
         isResponding,
         suggestedQuestions,
+        lastResponseItem,
+        unSpeakContent,
+        setUnSpeakContent
     } = useChat(
         appConfig,
         {
@@ -150,8 +153,11 @@ const ChatWrapper = () => {
             allToolIcons={appMeta?.tool_icons || {}}
             onFeedback={handleFeedback}
             suggestedQuestions={suggestedQuestions}
-          hideProcessDetail
-    />
+            hideProcessDetail
+            lastResponseItem={lastResponseItem}
+            unSpeakContent={unSpeakContent}
+            setUnSpeakContent={setUnSpeakContent}
+        />
     )
 }
 

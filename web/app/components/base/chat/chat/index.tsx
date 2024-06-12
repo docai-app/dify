@@ -29,7 +29,9 @@ import type {
 import Answer from './answer'
 import ChatInput from './chat-input'
 import { ChatContextProvider } from './context'
+import { useChat } from './hooks'
 import Question from './question'
+import RecordingView from './recording'
 import TryToAsk from './try-to-ask'
 
 export type ChatProps = {
@@ -56,6 +58,9 @@ export type ChatProps = {
     onFeedback?: (messageId: string, feedback: Feedback) => void
     chatAnswerContainerInner?: string
     hideProcessDetail?: boolean
+    lastResponseItem?: ChatItem
+    unSpeakContent?: any
+    setUnSpeakContent?: any;
 }
 const Chat: FC<ChatProps> = ({
     config,
@@ -81,6 +86,9 @@ const Chat: FC<ChatProps> = ({
     onFeedback,
     chatAnswerContainerInner,
     hideProcessDetail,
+    lastResponseItem,
+    unSpeakContent,
+    setUnSpeakContent
 }) => {
     const { t } = useTranslation()
     const { isEndTimer } = useChatWithHistoryContext()
@@ -98,6 +106,11 @@ const Chat: FC<ChatProps> = ({
     const chatFooterRef = useRef<HTMLDivElement>(null)
     const chatFooterInnerRef = useRef<HTMLDivElement>(null)
     const userScrolledRef = useRef(false)
+    const [showRecordView, setShowRecordView] = useState(false)
+
+    const {
+        clearSpeak
+    } = useChat()
 
     const handleScrolltoBottom = useCallback(() => {
         if (chatContainerRef.current && !userScrolledRef.current)
@@ -181,13 +194,34 @@ const Chat: FC<ChatProps> = ({
             onAnnotationEdited={onAnnotationEdited}
             onAnnotationRemoved={onAnnotationRemoved}
             onFeedback={onFeedback}
+            lastResponseItem={lastResponseItem}
         >
-            <div className='relative h-full'>
+            <div className={classNames('relative h-full ', !showRecordView && 'hidden')}>
+                {showRecordView &&
+                    <RecordingView
+                        config={config}
+                        onSend={onSend}
+                        showRecordView={showRecordView}
+                        setShowRecordView={setShowRecordView}
+                        lastItem={chatList[chatList.length - 1]}
+                        lastResponseItem={lastResponseItem}
+                        isResponding={isResponding}
+                        unSpeakContent={unSpeakContent}
+                    />
+                }
+            </div>
+            <div className={classNames('relative h-full ', showRecordView && '')}>
                 <div
                     ref={chatContainerRef}
                     className={classNames('relative h-full overflow-y-auto', chatContainerClassName)}
                 >
-                    {chatNode}
+                    <div onClick={() => {
+                        setUnSpeakContent([])
+                        setShowRecordView(!showRecordView)
+                    }}>
+                        {chatNode}
+                    </div>
+
                     <div
                         ref={chatContainerInnerRef}
                         className={`${chatContainerInnerClassName}`}

@@ -5,60 +5,61 @@ import { createContext, useContext } from 'use-context-selector'
 import type { ChatProps } from './index'
 
 export type ChatContextValue = Pick<ChatProps, 'config'
-  | 'isResponding'
-  | 'chatList'
-  | 'showPromptLog'
-  | 'questionIcon'
-  | 'answerIcon'
-  | 'allToolIcons'
-  | 'onSend'
-  | 'onAnnotationEdited'
-  | 'onAnnotationAdded'
-  | 'onAnnotationRemoved'
-  | 'onFeedback'
+    | 'isResponding'
+    | 'chatList'
+    | 'showPromptLog'
+    | 'questionIcon'
+    | 'answerIcon'
+    | 'allToolIcons'
+    | 'onSend'
+    | 'onAnnotationEdited'
+    | 'onAnnotationAdded'
+    | 'onAnnotationRemoved'
+    | 'onFeedback'
+    | 'lastResponseItem'
 >
 
 const ChatContext = createContext<ChatContextValue>({
-  chatList: [],
+    chatList: [],
 })
 
 type ChatContextProviderProps = {
-  children: ReactNode
+    children: ReactNode
 } & ChatContextValue
 
 export const ChatContextProvider = ({
-  children,
-  config,
-  isResponding,
-  chatList,
-  showPromptLog,
-  questionIcon,
-  answerIcon,
-  allToolIcons,
-  onSend,
-  onAnnotationEdited,
-  onAnnotationAdded,
-  onAnnotationRemoved,
-  onFeedback,
+    children,
+    config,
+    chatList,
+    showPromptLog,
+    questionIcon,
+    answerIcon,
+    allToolIcons,
+    onSend,
+    onAnnotationEdited,
+    onAnnotationAdded,
+    onAnnotationRemoved,
+    onFeedback,
+    lastResponseItem
 }: ChatContextProviderProps) => {
-  return (
-    <ChatContext.Provider value={{
-      config,
-      isResponding,
-      chatList: chatList || [],
-      showPromptLog,
-      questionIcon,
-      answerIcon,
-      allToolIcons,
-      onSend,
-      onAnnotationEdited,
-      onAnnotationAdded,
-      onAnnotationRemoved,
-      onFeedback,
-    }}>
-      {children}
-    </ChatContext.Provider>
-  )
+    return (
+        <ChatContext.Provider value={{
+            config,
+            chatList: chatList || [],
+            showPromptLog,
+            questionIcon,
+            answerIcon,
+            allToolIcons,
+            onSend,
+            onAnnotationEdited,
+            onAnnotationAdded,
+            onAnnotationRemoved,
+            onFeedback,
+            lastResponseItem
+        }}>
+            {children}
+        </ChatContext.Provider>
+    )
 }
 
 export const useChatContext = () => useContext(ChatContext)
