@@ -1,3 +1,4 @@
+import { Image } from "react-bootstrap";
 interface ViewProps {
     status: boolean
 }
@@ -6,10 +7,12 @@ export default function BgView(props: ViewProps) {
     const { status } = props;
     return (
         <>
-            <img
-                alt='preview image'
+            <Image
                 src={status ? '/recording/speak.gif' : '/recording/speak.jpg'}
-                className='max-w-full max-h-full'
+                className="h-full max-w-[100%]"
+                width={'auto'}
+                height={'100%'}
+                alt="speak"
             />
         </>
     );

@@ -9,10 +9,12 @@ import Countdown from './sidebar/Countdown'
 type HeaderProps = {
     title: string
     isMobile: boolean
+    setUnSpeakContent?: any;
 }
 const Header: FC<HeaderProps> = ({
     title,
     isMobile,
+    setUnSpeakContent
 }) => {
     const {
         currentConversationId,
@@ -39,6 +41,7 @@ const Header: FC<HeaderProps> = ({
 
             <div className='flex flex-row items-center '>
                 <div onClick={() => {
+                    setUnSpeakContent([])
                     handleShowRecordView()
                 }}>
                     {!showRecordView ?

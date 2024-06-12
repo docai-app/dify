@@ -109,6 +109,7 @@ const ChatWrapper = () => {
                     <Header
                         isMobile={isMobile}
                         title={currentConversationItem?.name || ''}
+                        setUnSpeakContent={setUnSpeakContent}
                     />
                     {
                         !currentConversationId && (
@@ -130,6 +131,7 @@ const ChatWrapper = () => {
             <Header
                 isMobile={isMobile}
                 title={currentConversationItem?.name || ''}
+                setUnSpeakContent={setUnSpeakContent}
             />
         )
     }, [
@@ -137,6 +139,7 @@ const ChatWrapper = () => {
         inputsForms,
         currentConversationItem,
         isMobile,
+        setUnSpeakContent
     ])
 
     return (
@@ -156,6 +159,7 @@ const ChatWrapper = () => {
             hideProcessDetail
             lastResponseItem={lastResponseItem}
             unSpeakContent={unSpeakContent}
+            setUnSpeakContent={setUnSpeakContent}
         />
     )
 }

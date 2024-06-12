@@ -46,6 +46,18 @@ const RecordingView: FC<ChatProps> = ({
 
     let speakContentQueue: string[] = []
 
+    // 获取可用的声音列表
+    // const voices = window.speechSynthesis.getVoices();
+
+    // // 遍历语音列表，查找特定的声音名称
+    // let selectedVoice = null;
+    // for (let i = 0; i < voices.length; i++) {
+    //     if (voices[i].name === "Google UK English Female" || voices[i].name == "Samantha") {
+    //         selectedVoice = voices[i];
+    //         break;
+    //     }
+    // }
+
     const addToQueue = useCallback((content: string) => {
         speakContentQueue.push(content);
         // console.log('speakContentQueue', speakContentQueue)
@@ -80,6 +92,13 @@ const RecordingView: FC<ChatProps> = ({
             return;
         }
         const utterance = new SpeechSynthesisUtterance(message);
+
+
+        // console.log('selectedVoice', selectedVoice);
+
+        // if (selectedVoice)
+        //     utterance.voice = selectedVoice;
+
         if (utterance) {
             utterance.rate = 1.0;
             utterance.addEventListener('pause', (event) => {

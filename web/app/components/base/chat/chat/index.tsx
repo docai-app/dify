@@ -59,6 +59,7 @@ export type ChatProps = {
     hideProcessDetail?: boolean
     lastResponseItem?: ChatItem
     unSpeakContent?: any
+    setUnSpeakContent?: any
 }
 const Chat: FC<ChatProps> = ({
     config,
@@ -86,6 +87,7 @@ const Chat: FC<ChatProps> = ({
     hideProcessDetail,
     lastResponseItem,
     unSpeakContent,
+    setUnSpeakContent
 }) => {
     const { t } = useTranslation()
     const { isEndTimer, showRecordView, handleShowRecordView } = useChatWithHistoryContext()
