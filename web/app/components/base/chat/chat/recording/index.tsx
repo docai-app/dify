@@ -1,4 +1,3 @@
-import axios from "axios"
 import { FC, memo, useCallback, useEffect, useRef, useState } from "react"
 import { useAudioRecorder } from "react-audio-voice-recorder"
 import { ChatItem, OnSend } from "../../types"
@@ -46,20 +45,10 @@ const RecordingView: FC<ChatProps> = ({
     const speakinfRef = useRef(false)
 
     let speakContentQueue: string[] = []
+    let audioQueue: string[] = []
 
-    // 获取可用的声音列表
-    // const voices = window.speechSynthesis.getVoices();
-
-    // // 遍历语音列表，查找特定的声音名称
-    // let selectedVoice = null;
-    // for (let i = 0; i < voices.length; i++) {
-    //     if (voices[i].name === "Google UK English Female" || voices[i].name == "Samantha") {
-    //         selectedVoice = voices[i];
-    //         break;
-    //     }
-    // }
     useEffect(() => {
-
+        // text_to_audio('')
     }, [])
 
     const addToQueue = useCallback((content: string) => {
@@ -96,13 +85,6 @@ const RecordingView: FC<ChatProps> = ({
             return;
         }
         const utterance = new SpeechSynthesisUtterance(message);
-
-
-        // console.log('selectedVoice', selectedVoice);
-
-        // if (selectedVoice)
-        //     utterance.voice = selectedVoice;
-
         if (utterance) {
             utterance.rate = 1.0;
             utterance.addEventListener('pause', (event) => {
@@ -125,6 +107,43 @@ const RecordingView: FC<ChatProps> = ({
         playNextInQueue();
     }
 
+    const playAudio = (url: string) => {
+        audio.src = url
+        audio.play();
+        audio.onended = () => {
+            console.log('end');
+        }
+    }
+
+    const audio = new Audio();
+    const text_to_audio = async (text: string) => {
+        await fetch('https://admin.docai.net/v1/text-to-audio', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer app-GHSWpkTaAtbc9tLisQE0Fd21`,
+            },
+            body: JSON.stringify({
+                "text": "你好Dify！我們全部都是hardcode的！改改UI就行了",
+                "user": "abc-123",
+                "streaming": false
+            })
+        })
+            .then(response => response.arrayBuffer())
+            .then(data => {
+                const blob = new Blob([data], { type: 'audio/mp3' });
+                const url = URL.createObjectURL(blob);
+                audioQueue.push(url)
+            })
+            .catch(error => {
+                console.error('Error fetching TTS audio:', error);
+            });
+
+    }
+    const init = () => {
+
+    }
+
 
     /**
      * 发送内容之前处理问题
@@ -137,37 +156,6 @@ const RecordingView: FC<ChatProps> = ({
         setShowContent(true)
         setIsStart(true)
     }
-
-    const text_to_audio = (text: string) => {
-        axios.post('https://admin.docai.net/v1/text-to-audio', {
-            "text": "你好Dify！我們全部都是hardcode的！改改UI就行了",
-            "user": "abc-123",
-            "streaming": false
-        }, {
-            headers: {
-                'Authorization': `Bearer app-GHSWpkTaAtbc9tLisQE0Fd21`,
-                'Content-Type': 'application/json',
-            }
-        }).then((res) => {
-            console.log(res.data);
-            var blob = new Blob([res.data], { type: 'audio/mpeg' });
-            console.log(blob);
-            // // 创建一个可播放的 URL
-            var url = URL.createObjectURL(blob);
-            console.log('url', url);
-
-            const audio = new Audio(url);
-            audio.play();
-            // audio.onended = () => {
-            //     playNextInQueue();
-            // };
-        })
-    }
-    const init = () => {
-
-    }
-
-
     /**
      * 显示正文内容
      */
