@@ -42,16 +42,9 @@ const RecordingView: FC<ChatProps> = ({
     const [writing, setWriting] = useState(false);//正在输入
     const [speakIng, setSpeakIng] = useState(false);//正在说话
     const [showContent, setShowContent] = useState(false);//显示正文内容
-    const speakinfRef = useRef(false)
 
     let speakContentQueue: string[] = []
-    let audioQueue: string[] = []
-
-    useEffect(() => {
-        // text_to_audio('')
-    }, [])
-
-    //方法1，用浏览器发声
+    //方法1，用浏览器发声,缺点是：不能设置固定声音，不同浏览器会发出不同的声音
 
     // const addToQueue = useCallback((content: string) => {
     //     speakContentQueue.push(content);
@@ -109,17 +102,111 @@ const RecordingView: FC<ChatProps> = ({
     //     playNextInQueue();
     // }
 
-    //方法2，将文字转换成语音，再播放
 
+    //方法2，将文字转换成语音，再播放 -- 加载完一个资源再加载一个， 缺点是：会慢点
+
+    // const [audioUrls, setAudioUrls] = useState<any>([])
+    // const loadAudio = useRef(false)
+    // const audio = new Audio();
+    // const addToQueue = useCallback((content: string) => {
+    //     speakContentQueue.push(content)
+    //     //等待转换成语音
+    //     if (!loadAudio.current) {
+    //         handleTextToAudio()
+    //     }
+    // }, [])
+
+    // useEffect(() => {
+    //     if (unSpeakContent && unSpeakContent.length > 0) {
+    //         addToQueue(unSpeakContent[unSpeakContent.length - 1])
+    //     }
+    // }, [unSpeakContent, addToQueue])
+
+    // useEffect(() => {
+    //     if (audioUrls && audioUrls.length > 0) {
+    //         if (!speakIng) {
+    //             preSpeaking(audioUrls[0])
+    //         }
+    //     } else {
+    //         setSpeakIng(false)
+    //     }
+    // }, [audioUrls, speakIng])
+
+    // const preSpeaking = (url: string) => {
+    //     setSpeakIng(true);
+    //     playAudio(url)
+    // }
+
+    // const playAudio = (url: string) => {
+    //     console.log('url', url);
+    //     audio.src = url
+    //     audio.play();
+    //     audio.onended = () => {
+    //         console.log('end');
+    //         setSpeakIng(false);
+    //         setAudioUrls((prevData: any) => prevData.slice(1));
+    //     }
+    // }
+
+    // const handleTextToAudio = () => {
+    //     if (speakContentQueue.length === 0) {
+    //         loadAudio.current = false;
+    //         return;
+    //     }
+
+    //     loadAudio.current = true
+    //     const content = speakContentQueue.shift();
+    //     if (content)
+    //         text_to_audio(content)
+    // }
+
+
+    // const text_to_audio = async (text: string) => {
+
+    //     fetch('https://admin.docai.net/v1/text-to-audio', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer app-GHSWpkTaAtbc9tLisQE0Fd21`,
+    //         },
+    //         body: JSON.stringify({
+    //             "text": text,
+    //             "user": "abc-123",
+    //             "streaming": false
+    //         })
+    //     })
+    //         .then(response => response.arrayBuffer())
+    //         .then(data => {
+    //             const blob = new Blob([data], { type: 'audio/mp3' });
+    //             const url = URL.createObjectURL(blob);
+    //             // console.log('url', url);
+    //             setAudioUrls((pre: any) => [...pre, url])
+    //             handleTextToAudio()
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching TTS audio:', error);
+    //         });
+
+    // }
+
+    //方法3，将文字转换成语音，再播放 --   一次性加载所有audio资源，缺点是：call太多会被限制
     const [audioUrls, setAudioUrls] = useState<any>([])
-    const loadAudio = useRef(false)
     const audio = new Audio();
+    const [playAudioIndex, setPlayAudioIndex] = useState(0)
+
+    const currentAudioUrl = useRef('')
+    let queueIndex = 0
+
     const addToQueue = useCallback((content: string) => {
         speakContentQueue.push(content)
-        //等待转换成语音
-        if (!loadAudio.current) {
-            handleTextToAudio()
-        }
+        handleTextToAudio()
+    }, [])
+
+    useEffect(() => {
+        setPlayAudioIndex(0)
+        queueIndex = 0
+        setAudioUrls([])
+        speakContentQueue = []
     }, [])
 
     useEffect(() => {
@@ -129,45 +216,39 @@ const RecordingView: FC<ChatProps> = ({
     }, [unSpeakContent, addToQueue])
 
     useEffect(() => {
-        if (audioUrls && audioUrls.length > 0) {
-            if (!speakIng) {
-                preSpeaking(audioUrls[0])
-            }
-        } else {
-            setSpeakIng(false)
+        if (!speakIng && audioUrls && audioUrls.length > 0 && audioUrls[playAudioIndex]) {
+            preSpeaking(audioUrls[playAudioIndex])
         }
-    }, [audioUrls, speakIng])
+    }, [audioUrls, speakIng, playAudioIndex])
 
     const preSpeaking = (url: string) => {
+        //防止重复播放
+        if (currentAudioUrl.current == url) return
         setSpeakIng(true);
         playAudio(url)
     }
 
     const playAudio = (url: string) => {
-        console.log('url', url);
+        console.log(' play url', url, playAudioIndex);
+        currentAudioUrl.current = url
         audio.src = url
         audio.play();
         audio.onended = () => {
-            console.log('end');
             setSpeakIng(false);
-            setAudioUrls((prevData: any) => prevData.slice(1));
+            setPlayAudioIndex((num) => num + 1)
         }
     }
 
     const handleTextToAudio = () => {
-        if (speakContentQueue.length === 0) {
-            loadAudio.current = false;
-            return;
+        while (speakContentQueue.length > 0) {
+            const content = speakContentQueue.shift();
+            if (content)
+                text_to_audio(content, queueIndex++)
         }
-
-        loadAudio.current = true
-        const content = speakContentQueue.shift();
-        if (content)
-            text_to_audio(content)
     }
 
 
-    const text_to_audio = async (text: string) => {
+    const text_to_audio = async (text: string, index: number) => {
 
         fetch('https://admin.docai.net/v1/text-to-audio', {
             method: 'POST',
@@ -185,9 +266,14 @@ const RecordingView: FC<ChatProps> = ({
             .then(data => {
                 const blob = new Blob([data], { type: 'audio/mp3' });
                 const url = URL.createObjectURL(blob);
-                // console.log('url', url);
-                setAudioUrls((pre: any) => [...pre, url])
-                handleTextToAudio()
+                console.log('load url', url, index);
+                setAudioUrls((prevArray: any) => {
+                    return [
+                        ...prevArray.slice(0, index), // 保持索引前的所有元素
+                        url, // 在指定索引处添加数据
+                        ...prevArray.slice(index), // 保持索引后的所有元素
+                    ];
+                })
             })
             .catch(error => {
                 console.error('Error fetching TTS audio:', error);
