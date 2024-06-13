@@ -51,25 +51,76 @@ const RecordingView: FC<ChatProps> = ({
         // text_to_audio('')
     }, [])
 
+    //方法1，用浏览器发声
+
+    // const addToQueue = useCallback((content: string) => {
+    //     speakContentQueue.push(content);
+    //     // console.log('speakContentQueue', speakContentQueue)
+    //     if (!speakinfRef.current) {
+    //         playNextInQueue();
+    //     }
+    // }, [])
+
+    // function playNextInQueue() {
+    //     if (speakContentQueue.length === 0) {
+    //         setSpeakIng(false)
+    //         speakinfRef.current = false;
+    //         return;
+    //     }
+    //     speakinfRef.current = true;
+    //     const content = speakContentQueue.shift();
+    //     if (content)
+    //         startSpeak(content)
+    // }
+
+    // useEffect(() => {
+    //     if (unSpeakContent && unSpeakContent.length > 0) {
+    //         addToQueue(unSpeakContent[unSpeakContent.length - 1])
+    //     }
+    // }, [unSpeakContent, addToQueue])
+
+    // const startSpeak = (message: string) => {
+    //     console.log('message', message);
+
+    //     if (!message) return
+    //     if (window.speechSynthesis.paused) {
+    //         return;
+    //     }
+    //     const utterance = new SpeechSynthesisUtterance(message);
+    //     if (utterance) {
+    //         utterance.rate = 1.0;
+    //         utterance.addEventListener('pause', (event) => {
+    //             console.log(`Speech paused after ${event.elapsedTime} seconds.`);
+    //         });
+    //         utterance.addEventListener('start', (event) => {
+    //             console.log('开始说话');
+    //             setSpeakIng(true)
+    //         });
+    //         utterance.addEventListener('end', (event) => {
+    //             console.log('结束说话');
+    //             endSpeak()
+    //         });
+    //         window.speechSynthesis.cancel();
+    //         window.speechSynthesis.speak(utterance);
+    //     }
+    // }
+
+    // const endSpeak = () => {
+    //     playNextInQueue();
+    // }
+
+    //方法2，将文字转换成语音，再播放
+
+    const [audioUrls, setAudioUrls] = useState<any>([])
+    const loadAudio = useRef(false)
+    const audio = new Audio();
     const addToQueue = useCallback((content: string) => {
-        speakContentQueue.push(content);
-        // console.log('speakContentQueue', speakContentQueue)
-        if (!speakinfRef.current) {
-            playNextInQueue();
+        speakContentQueue.push(content)
+        //等待转换成语音
+        if (!loadAudio.current) {
+            handleTextToAudio()
         }
     }, [])
-
-    function playNextInQueue() {
-        if (speakContentQueue.length === 0) {
-            setSpeakIng(false)
-            speakinfRef.current = false;
-            return;
-        }
-        speakinfRef.current = true;
-        const content = speakContentQueue.shift();
-        if (content)
-            startSpeak(content)
-    }
 
     useEffect(() => {
         if (unSpeakContent && unSpeakContent.length > 0) {
@@ -77,54 +128,55 @@ const RecordingView: FC<ChatProps> = ({
         }
     }, [unSpeakContent, addToQueue])
 
-    const startSpeak = (message: string) => {
-        console.log('message', message);
-
-        if (!message) return
-        if (window.speechSynthesis.paused) {
-            return;
+    useEffect(() => {
+        if (audioUrls && audioUrls.length > 0) {
+            if (!speakIng) {
+                preSpeaking(audioUrls[0])
+            }
+        } else {
+            setSpeakIng(false)
         }
-        const utterance = new SpeechSynthesisUtterance(message);
-        if (utterance) {
-            utterance.rate = 1.0;
-            utterance.addEventListener('pause', (event) => {
-                console.log(`Speech paused after ${event.elapsedTime} seconds.`);
-            });
-            utterance.addEventListener('start', (event) => {
-                console.log('开始说话');
-                setSpeakIng(true)
-            });
-            utterance.addEventListener('end', (event) => {
-                console.log('结束说话');
-                endSpeak()
-            });
-            window.speechSynthesis.cancel();
-            window.speechSynthesis.speak(utterance);
-        }
-    }
+    }, [audioUrls, speakIng])
 
-    const endSpeak = () => {
-        playNextInQueue();
+    const preSpeaking = (url: string) => {
+        setSpeakIng(true);
+        playAudio(url)
     }
 
     const playAudio = (url: string) => {
+        console.log('url', url);
         audio.src = url
         audio.play();
         audio.onended = () => {
             console.log('end');
+            setSpeakIng(false);
+            setAudioUrls((prevData: any) => prevData.slice(1));
         }
     }
 
-    const audio = new Audio();
+    const handleTextToAudio = () => {
+        if (speakContentQueue.length === 0) {
+            loadAudio.current = false;
+            return;
+        }
+
+        loadAudio.current = true
+        const content = speakContentQueue.shift();
+        if (content)
+            text_to_audio(content)
+    }
+
+
     const text_to_audio = async (text: string) => {
-        await fetch('https://admin.docai.net/v1/text-to-audio', {
+
+        fetch('https://admin.docai.net/v1/text-to-audio', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer app-GHSWpkTaAtbc9tLisQE0Fd21`,
             },
             body: JSON.stringify({
-                "text": "你好Dify！我們全部都是hardcode的！改改UI就行了",
+                "text": text,
                 "user": "abc-123",
                 "streaming": false
             })
@@ -133,7 +185,9 @@ const RecordingView: FC<ChatProps> = ({
             .then(data => {
                 const blob = new Blob([data], { type: 'audio/mp3' });
                 const url = URL.createObjectURL(blob);
-                audioQueue.push(url)
+                // console.log('url', url);
+                setAudioUrls((pre: any) => [...pre, url])
+                handleTextToAudio()
             })
             .catch(error => {
                 console.error('Error fetching TTS audio:', error);
