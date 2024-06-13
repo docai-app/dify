@@ -75,7 +75,7 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
     }, [appId, conversationIdInfo, setConversationIdInfo])
     const [showConfigPanelBeforeChat, setShowConfigPanelBeforeChat] = useState(true)
 
-    const [isStartTimer, setIsStartTimer] = useState(false)
+    const [isStartTimer, setIsStartTimer] = useState(true)
     const [isEndTimer, setIsEndTimer] = useState(false)
 
     const [showRecordView, setShowRecordView] = useState(false)
@@ -239,6 +239,7 @@ export const useChatWithHistory = (installedAppInfo?: InstalledApp) => {
             setShowConfigPanelBeforeChat(false)
             setShowNewConversationItemInList(true)
             setShowRecordView(false)
+            setIsStartTimer(true)
             // startTimer()
         }
     }, [setShowConfigPanelBeforeChat, setShowNewConversationItemInList, checkInputsRequired])

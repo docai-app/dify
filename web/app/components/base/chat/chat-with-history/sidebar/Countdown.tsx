@@ -80,7 +80,7 @@ const Countdown = ({
         <>
             <div className={`${visible ? '' : 'hidden'}`}>
                 <div className='flex flex-row items-center cursor-pointer '>
-                    <ClockIcon className='w-4 mx-2 text-[#0080E8] ' />
+                    <ClockIcon className='w-4 mr-2 text-[#0080E8] ' />
                     {/* <img src='./assets/images/chat/time.png' className='w-4 mr-2' /> */}
                     <div>
                         <label className='text-[#0080E8] text-sm'> {formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}</label>
