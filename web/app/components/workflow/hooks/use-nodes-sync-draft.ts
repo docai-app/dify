@@ -7,7 +7,6 @@ import {
   useWorkflowStore,
 } from '../store'
 import { BlockEnum } from '../types'
-import { useWorkflowUpdate } from '../hooks'
 import { useNodesReadOnly } from './use-workflow'
 import { syncWorkflowDraft } from '@/service/workflow'
 import { useFeaturesStore } from '@/app/components/base/features/hooks'
@@ -18,23 +17,19 @@ export const useNodesSyncDraft = () => {
   const workflowStore = useWorkflowStore()
   const featuresStore = useFeaturesStore()
   const { getNodesReadOnly } = useNodesReadOnly()
-  const { handleRefreshWorkflowDraft } = useWorkflowUpdate()
   const debouncedSyncWorkflowDraft = useStore(s => s.debouncedSyncWorkflowDraft)
   const params = useParams()
 
-  const getPostParams = useCallback(() => {
+  const getPostParams = useCallback((appIdParams?: string) => {
     const {
       getNodes,
       edges,
       transform,
     } = store.getState()
     const [x, y, zoom] = transform
-    const {
-      appId,
-      syncWorkflowDraftHash,
-    } = workflowStore.getState()
+    const appId = workflowStore.getState().appId
 
-    if (appId) {
+    if (appId || appIdParams) {
       const nodes = getNodes()
       const hasStartNode = nodes.find(node => node.data.type === BlockEnum.Start)
 
@@ -59,7 +54,7 @@ export const useNodesSyncDraft = () => {
         })
       })
       return {
-        url: `/apps/${appId}/workflows/draft`,
+        url: `/apps/${appId || appIdParams}/workflows/draft`,
         params: {
           graph: {
             nodes: producedNodes,
@@ -80,7 +75,6 @@ export const useNodesSyncDraft = () => {
             sensitive_word_avoidance: features.moderation,
             file_upload: features.file,
           },
-          hash: syncWorkflowDraftHash,
         },
       }
     }
@@ -99,38 +93,23 @@ export const useNodesSyncDraft = () => {
     }
   }, [getPostParams, params.appId, getNodesReadOnly])
 
-  const doSyncWorkflowDraft = useCallback(async (notRefreshWhenSyncError?: boolean) => {
+  const doSyncWorkflowDraft = useCallback(async (appId?: string) => {
     if (getNodesReadOnly())
       return
-    const postParams = getPostParams()
+    const postParams = getPostParams(appId)
 
     if (postParams) {
-      const {
-        setSyncWorkflowDraftHash,
-        setDraftUpdatedAt,
-      } = workflowStore.getState()
-      try {
-        const res = await syncWorkflowDraft(postParams)
-        setSyncWorkflowDraftHash(res.hash)
-        setDraftUpdatedAt(res.updated_at)
-      }
-      catch (error: any) {
-        if (error && error.json && !error.bodyUsed) {
-          error.json().then((err: any) => {
-            if (err.code === 'draft_workflow_not_sync' && !notRefreshWhenSyncError)
-              handleRefreshWorkflowDraft()
-          })
-        }
-      }
+      const res = await syncWorkflowDraft(postParams)
+      workflowStore.getState().setDraftUpdatedAt(res.updated_at)
     }
-  }, [workflowStore, getPostParams, getNodesReadOnly, handleRefreshWorkflowDraft])
+  }, [workflowStore, getPostParams, getNodesReadOnly])
 
-  const handleSyncWorkflowDraft = useCallback((sync?: boolean, notRefreshWhenSyncError?: boolean) => {
+  const handleSyncWorkflowDraft = useCallback((sync?: boolean, appId?: string) => {
     if (getNodesReadOnly())
       return
 
     if (sync)
-      doSyncWorkflowDraft(notRefreshWhenSyncError)
+      doSyncWorkflowDraft(appId)
     else
       debouncedSyncWorkflowDraft(doSyncWorkflowDraft)
   }, [debouncedSyncWorkflowDraft, doSyncWorkflowDraft, getNodesReadOnly])

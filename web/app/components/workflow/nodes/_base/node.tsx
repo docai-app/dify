@@ -6,7 +6,6 @@ import {
   cloneElement,
   memo,
   useMemo,
-  useRef,
 } from 'react'
 import type { NodeProps } from '../../types'
 import {
@@ -38,30 +37,27 @@ const BaseNode: FC<BaseNodeProps> = ({
   data,
   children,
 }) => {
-  const nodeRef = useRef<HTMLDivElement>(null)
   const { nodesReadOnly } = useNodesReadOnly()
   const toolIcon = useToolIcon(data)
 
-  const showSelectedBorder = data.selected || data._isBundled
   const {
     showRunningBorder,
     showSuccessBorder,
     showFailedBorder,
   } = useMemo(() => {
     return {
-      showRunningBorder: data._runningStatus === NodeRunningStatus.Running && !showSelectedBorder,
-      showSuccessBorder: data._runningStatus === NodeRunningStatus.Succeeded && !showSelectedBorder,
-      showFailedBorder: data._runningStatus === NodeRunningStatus.Failed && !showSelectedBorder,
+      showRunningBorder: data._runningStatus === NodeRunningStatus.Running && !data.selected,
+      showSuccessBorder: data._runningStatus === NodeRunningStatus.Succeeded && !data.selected,
+      showFailedBorder: data._runningStatus === NodeRunningStatus.Failed && !data.selected,
     }
-  }, [data._runningStatus, showSelectedBorder])
+  }, [data._runningStatus, data.selected])
 
   return (
     <div
       className={`
         flex border-[2px] rounded-2xl
-        ${(showSelectedBorder && !data._isInvalidConnection) ? 'border-primary-600' : 'border-transparent'}
+        ${(data.selected && !data._isInvalidConnection) ? 'border-primary-600' : 'border-transparent'}
       `}
-      ref={nodeRef}
     >
       <div
         className={`
@@ -72,11 +68,10 @@ const BaseNode: FC<BaseNodeProps> = ({
           ${showSuccessBorder && '!border-[#12B76A]'}
           ${showFailedBorder && '!border-[#F04438]'}
           ${data._isInvalidConnection && '!border-[#F04438]'}
-          ${data._isBundled && '!shadow-lg'}
         `}
       >
         {
-          data.type !== BlockEnum.VariableAssigner && !data._isCandidate && (
+          data.type !== BlockEnum.VariableAssigner && (
             <NodeTargetHandle
               id={id}
               data={data}
@@ -86,7 +81,7 @@ const BaseNode: FC<BaseNodeProps> = ({
           )
         }
         {
-          data.type !== BlockEnum.IfElse && data.type !== BlockEnum.QuestionClassifier && !data._isCandidate && (
+          data.type !== BlockEnum.IfElse && data.type !== BlockEnum.QuestionClassifier && (
             <NodeSourceHandle
               id={id}
               data={data}
@@ -96,7 +91,7 @@ const BaseNode: FC<BaseNodeProps> = ({
           )
         }
         {
-          !data._runningStatus && !nodesReadOnly && !data._isCandidate && (
+          !data._runningStatus && !nodesReadOnly && (
             <NodeControl
               id={id}
               data={data}

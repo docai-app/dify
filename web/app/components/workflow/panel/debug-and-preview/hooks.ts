@@ -7,7 +7,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { produce, setAutoFreeze } from 'immer'
 import { useWorkflowRun } from '../../hooks'
-import { NodeRunningStatus, WorkflowRunningStatus } from '../../types'
+import { WorkflowRunningStatus } from '../../types'
 import type {
   ChatItem,
   Inputs,
@@ -173,7 +173,7 @@ export const useChat = (
 
     // answer
     const responseItem: ChatItem = {
-      id: placeholderAnswerId,
+      id: `${Date.now()}`,
       content: '',
       agent_thoughts: [],
       message_files: [],
@@ -298,10 +298,7 @@ export const useChat = (
           }))
         },
         onNodeStarted: ({ data }) => {
-          responseItem.workflowProcess!.tracing!.push({
-            ...data,
-            status: NodeRunningStatus.Running,
-          } as any)
+          responseItem.workflowProcess!.tracing!.push(data as any)
           handleUpdateChatList(produce(chatListRef.current, (draft) => {
             const currentIndex = draft.findIndex(item => item.id === responseItem.id)
             draft[currentIndex] = {

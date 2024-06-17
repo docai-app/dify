@@ -71,8 +71,6 @@ const translation = {
     },
     privacyPolicy: 'Chính sách bảo mật',
     privacyPolicyPlaceholder: 'Vui lòng nhập chính sách bảo mật',
-    customDisclaimer: 'Tuyên bố Tùy chỉnh',
-    customDisclaimerPlaceholder: 'Vui lòng nhập tuyên bố tùy chỉnh',
   },
   test: {
     title: 'Kiểm tra',

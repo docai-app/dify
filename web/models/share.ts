@@ -18,7 +18,6 @@ export type SiteInfo = {
   prompt_public?: boolean
   copyright?: string
   privacy_policy?: string
-  custom_disclaimer?: string
 }
 
 export type AppMeta = {

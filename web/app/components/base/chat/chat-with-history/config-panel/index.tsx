@@ -133,7 +133,7 @@ const ConfigPanel = () => {
             {site?.privacy_policy
               ? <div className={`flex items-center ${isMobile && 'w-full justify-end'}`}>{t('share.chat.privacyPolicyLeft')}
                 <a
-                  className='text-gray-500 px-1'
+                  className='text-gray-500'
                   href={site?.privacy_policy}
                   target='_blank' rel='noopener noreferrer'>{t('share.chat.privacyPolicyMiddle')}</a>
                 {t('share.chat.privacyPolicyRight')}
@@ -145,14 +145,14 @@ const ConfigPanel = () => {
                 ? null
                 : (
                   <div className={`flex items-center justify-end ${isMobile && 'w-full'}`}>
-                    <div className='flex items-center pr-3 space-x-3'>
+                    <a className='flex items-center pr-3 space-x-3' href="https://dify.ai/" target="_blank">
                       <span className='uppercase'>{t('share.chat.powerBy')}</span>
                       {
                         customConfig?.replace_webapp_logo
                           ? <img src={customConfig?.replace_webapp_logo} alt='logo' className='block w-auto h-5' />
                           : <FootLogo />
                       }
-                    </div>
+                    </a>
                   </div>
                 )
             }

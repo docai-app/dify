@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import useSWR from 'swr'
 import { omit } from 'lodash-es'
 import cn from 'classnames'
+import dayjs from 'dayjs'
 import { useBoolean } from 'ahooks'
 import { useContext } from 'use-context-selector'
 import SegmentCard from '../documents/detail/completed/SegmentCard'
@@ -23,7 +24,6 @@ import { fetchTestingRecords } from '@/service/datasets'
 import DatasetDetailContext from '@/context/dataset-detail'
 import type { RetrievalConfig } from '@/types/app'
 import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
-import useTimestamp from '@/hooks/use-timestamp'
 
 const limit = 10
 
@@ -43,7 +43,6 @@ const RecordsEmpty: FC = () => {
 
 const HitTesting: FC<Props> = ({ datasetId }: Props) => {
   const { t } = useTranslation()
-  const { formatTime } = useTimestamp()
 
   const media = useBreakpoints()
   const isMobile = media === MediaType.mobile
@@ -130,7 +129,7 @@ const HitTesting: FC<Props> = ({ datasetId }: Props) => {
                           </td>
                           <td className='max-w-xs group-hover:text-primary-600'>{record.content}</td>
                           <td className='w-36'>
-                            {formatTime(record.created_at, t('datasetHitTesting.dateTimeFormat') as string)}
+                            {dayjs.unix(record.created_at).format(t('datasetHitTesting.dateTimeFormat') as string)}
                           </td>
                         </tr>
                       })}

@@ -10,7 +10,7 @@ import {
   NodeRunningStatus,
   WorkflowRunningStatus,
 } from '../types'
-import { useWorkflowUpdate } from './use-workflow-interactions'
+import { useWorkflowInteractions } from './use-workflow-interactions'
 import { useStore as useAppStore } from '@/app/components/app/store'
 import type { IOtherOptions } from '@/service/base'
 import { ssePost } from '@/service/base'
@@ -26,7 +26,7 @@ export const useWorkflowRun = () => {
   const reactflow = useReactFlow()
   const featuresStore = useFeaturesStore()
   const { doSyncWorkflowDraft } = useNodesSyncDraft()
-  const { handleUpdateWorkflowCanvas } = useWorkflowUpdate()
+  const { handleUpdateWorkflowCanvas } = useWorkflowInteractions()
 
   const handleBackupDraft = useCallback(() => {
     const {

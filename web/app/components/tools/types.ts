@@ -89,7 +89,6 @@ export type CustomCollectionBackend = {
   schema_type: string
   schema: string
   privacy_policy: string
-  custom_disclaimer: string
   tools?: ParamItem[]
 }
 

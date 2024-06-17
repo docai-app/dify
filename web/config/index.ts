@@ -1,30 +1,30 @@
 /* eslint-disable import/no-mutable-exports */
 import { InputVarType } from '@/app/components/workflow/types'
-import { AgentStrategy } from '@/types/app'
 import { PromptRole } from '@/models/debug'
+import { AgentStrategy } from '@/types/app'
 
 export let apiPrefix = ''
 export let publicApiPrefix = ''
 
 // NEXT_PUBLIC_API_PREFIX=/console/api NEXT_PUBLIC_PUBLIC_API_PREFIX=/api npm run start
 if (process.env.NEXT_PUBLIC_API_PREFIX && process.env.NEXT_PUBLIC_PUBLIC_API_PREFIX) {
-  apiPrefix = process.env.NEXT_PUBLIC_API_PREFIX
-  publicApiPrefix = process.env.NEXT_PUBLIC_PUBLIC_API_PREFIX
+    apiPrefix = process.env.NEXT_PUBLIC_API_PREFIX
+    publicApiPrefix = process.env.NEXT_PUBLIC_PUBLIC_API_PREFIX
 }
 else if (
-  globalThis.document?.body?.getAttribute('data-api-prefix')
-  && globalThis.document?.body?.getAttribute('data-pubic-api-prefix')
+    globalThis.document?.body?.getAttribute('data-api-prefix')
+    && globalThis.document?.body?.getAttribute('data-pubic-api-prefix')
 ) {
-  // Not build can not get env from process.env.NEXT_PUBLIC_ in browser https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser
-  apiPrefix = globalThis.document.body.getAttribute('data-api-prefix') as string
-  publicApiPrefix = globalThis.document.body.getAttribute('data-pubic-api-prefix') as string
+    // Not bulild can not get env from process.env.NEXT_PUBLIC_ in browser https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser
+    apiPrefix = globalThis.document.body.getAttribute('data-api-prefix') as string
+    publicApiPrefix = globalThis.document.body.getAttribute('data-pubic-api-prefix') as string
 }
 else {
-  // const domainParts = globalThis.location?.host?.split('.');
-  // in production env, the host is dify.app . In other env, the host is [dev].dify.app
-  // const env = domainParts.length === 2 ? 'ai' : domainParts?.[0];
-  apiPrefix = 'http://localhost:5001/console/api'
-  publicApiPrefix = 'http://localhost:5001/api' // avoid browser private mode api cross origin
+    // const domainParts = globalThis.location?.host?.split('.');
+    // in production env, the host is dify.app . In other env, the host is [dev].dify.app
+    // const env = domainParts.length === 2 ? 'ai' : domainParts?.[0];
+    apiPrefix = 'https://dify.docai.net/console/api'
+    publicApiPrefix = 'https://dify.docai.net/api' // avoid browser private mode api cross origin
 }
 
 export const API_PREFIX: string = apiPrefix
@@ -34,63 +34,63 @@ const EDITION = process.env.NEXT_PUBLIC_EDITION || globalThis.document?.body?.ge
 export const IS_CE_EDITION = EDITION === 'SELF_HOSTED'
 
 export const TONE_LIST = [
-  {
-    id: 1,
-    name: 'Creative',
-    config: {
-      temperature: 0.8,
-      top_p: 0.9,
-      presence_penalty: 0.1,
-      frequency_penalty: 0.1,
+    {
+        id: 1,
+        name: 'Creative',
+        config: {
+            temperature: 0.8,
+            top_p: 0.9,
+            presence_penalty: 0.1,
+            frequency_penalty: 0.1,
+        },
     },
-  },
-  {
-    id: 2,
-    name: 'Balanced',
-    config: {
-      temperature: 0.5,
-      top_p: 0.85,
-      presence_penalty: 0.2,
-      frequency_penalty: 0.3,
+    {
+        id: 2,
+        name: 'Balanced',
+        config: {
+            temperature: 0.5,
+            top_p: 0.85,
+            presence_penalty: 0.2,
+            frequency_penalty: 0.3,
+        },
     },
-  },
-  {
-    id: 3,
-    name: 'Precise',
-    config: {
-      temperature: 0.2,
-      top_p: 0.75,
-      presence_penalty: 0.5,
-      frequency_penalty: 0.5,
+    {
+        id: 3,
+        name: 'Precise',
+        config: {
+            temperature: 0.2,
+            top_p: 0.75,
+            presence_penalty: 0.5,
+            frequency_penalty: 0.5,
+        },
     },
-  },
-  {
-    id: 4,
-    name: 'Custom',
-  },
+    {
+        id: 4,
+        name: 'Custom',
+    },
 ]
 
 export const DEFAULT_CHAT_PROMPT_CONFIG = {
-  prompt: [
-    {
-      role: PromptRole.system,
-      text: '',
-    },
-  ],
+    prompt: [
+        {
+            role: PromptRole.system,
+            text: '',
+        },
+    ],
 }
 
 export const DEFAULT_COMPLETION_PROMPT_CONFIG = {
-  prompt: {
-    text: '',
-  },
-  conversation_histories_role: {
-    user_prefix: '',
-    assistant_prefix: '',
-  },
+    prompt: {
+        text: '',
+    },
+    conversation_histories_role: {
+        user_prefix: '',
+        assistant_prefix: '',
+    },
 }
 
 export const getMaxToken = (modelId: string) => {
-  return (modelId === 'gpt-4' || modelId === 'gpt-3.5-turbo-16k') ? 8000 : 4000
+    return (modelId === 'gpt-4' || modelId === 'gpt-3.5-turbo-16k') ? 8000 : 4000
 }
 
 export const LOCALE_COOKIE_NAME = 'locale'
@@ -104,10 +104,10 @@ export const emailRegex = /^[\w\.-]+@([\w-]+\.)+[\w-]{2,}$/m
 const MAX_ZN_VAR_NAME_LENGHT = 8
 const MAX_EN_VAR_VALUE_LENGHT = 30
 export const getMaxVarNameLength = (value: string) => {
-  if (zhRegex.test(value))
-    return MAX_ZN_VAR_NAME_LENGHT
+    if (zhRegex.test(value))
+        return MAX_ZN_VAR_NAME_LENGHT
 
-  return MAX_EN_VAR_VALUE_LENGHT
+    return MAX_EN_VAR_VALUE_LENGHT
 }
 
 export const MAX_VAR_KEY_LENGHT = 30
@@ -115,20 +115,20 @@ export const MAX_VAR_KEY_LENGHT = 30
 export const MAX_PROMPT_MESSAGE_LENGTH = 10
 
 export const VAR_ITEM_TEMPLATE = {
-  key: '',
-  name: '',
-  type: 'string',
-  max_length: DEFAULT_VALUE_MAX_LEN,
-  required: true,
+    key: '',
+    name: '',
+    type: 'string',
+    max_length: DEFAULT_VALUE_MAX_LEN,
+    required: true,
 }
 
 export const VAR_ITEM_TEMPLATE_IN_WORKFLOW = {
-  variable: '',
-  label: '',
-  type: InputVarType.textInput,
-  max_length: DEFAULT_VALUE_MAX_LEN,
-  required: true,
-  options: [],
+    variable: '',
+    label: '',
+    type: InputVarType.textInput,
+    max_length: DEFAULT_VALUE_MAX_LEN,
+    required: true,
+    options: [],
 }
 
 export const appDefaultIconBackground = '#D5F5F6'
@@ -136,27 +136,27 @@ export const appDefaultIconBackground = '#D5F5F6'
 export const NEED_REFRESH_APP_LIST_KEY = 'needRefreshAppList'
 
 export const DATASET_DEFAULT = {
-  top_k: 2,
-  score_threshold: 0.5,
+    top_k: 2,
+    score_threshold: 0.5,
 }
 
 export const APP_PAGE_LIMIT = 10
 
 export const ANNOTATION_DEFAULT = {
-  score_threshold: 0.9,
+    score_threshold: 0.9,
 }
 
 export const MAX_TOOLS_NUM = 10
 
 export const DEFAULT_AGENT_SETTING = {
-  enabled: false,
-  max_iteration: 5,
-  strategy: AgentStrategy.functionCall,
-  tools: [],
+    enabled: false,
+    max_iteration: 5,
+    strategy: AgentStrategy.functionCall,
+    tools: [],
 }
 
 export const DEFAULT_AGENT_PROMPT = {
-  chat: `Respond to the human as helpfully and accurately as possible. 
+    chat: `Respond to the human as helpfully and accurately as possible. 
 
   {{instruction}}
   
@@ -196,7 +196,7 @@ export const DEFAULT_AGENT_PROMPT = {
   \`\`\`
   
   Begin! Reminder to ALWAYS respond with a valid json blob of a single action. Use tools if necessary. Respond directly if appropriate. Format is Action:\`\`\`$JSON_BLOB\`\`\`then Observation:.`,
-  completion: `
+    completion: `
   Respond to the human as helpfully and accurately as possible. 
 
 {{instruction}}

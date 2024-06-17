@@ -40,6 +40,9 @@ const nodeDefault: NodeDefault<HttpNodeType> = {
     if (!errorMessages && !payload.url)
       errorMessages = t('workflow.errorMsg.fieldRequired', { field: t('workflow.nodes.http.api') })
 
+    if (!errorMessages && !payload.url.startsWith('http://') && !payload.url.startsWith('https://'))
+      errorMessages = t('workflow.nodes.http.notStartWithHttp')
+
     return {
       isValid: !errorMessages,
       errorMessage: errorMessages,

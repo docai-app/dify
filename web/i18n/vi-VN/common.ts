@@ -57,7 +57,6 @@ const translation = {
       ruRU: 'Tiếng Nga',
       ukUA: 'Tiếng Ukraina',
       viVN: 'Tiếng Việt',
-      plPL: 'Tiếng Ba Lan',
     },
   },
   unit: {

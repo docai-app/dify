@@ -42,10 +42,9 @@ const translation = {
     appCreated: 'App erstellt',
     appCreateFailed: 'Erstellen der App fehlgeschlagen',
   },
-  editApp: 'App bearbeiten',
-  editAppTitle: 'App-Informationen bearbeiten',
-  editDone: 'App-Informationen wurden aktualisiert',
-  editFailed: 'Aktualisierung der App-Informationen fehlgeschlagen',
+  editApp: {
+    startToEdit: 'App bearbeiten',
+  },
   emoji: {
     ok: 'OK',
     cancel: 'Abbrechen',

@@ -70,8 +70,6 @@ const translation = {
     },
     privacyPolicy: 'Політика конфіденційності',
     privacyPolicyPlaceholder: 'Введіть політику конфіденційності',
-    customDisclaimer: 'Власний відомості',
-    customDisclaimerPlaceholder: 'Введіть власні відомості',
   },
 
   test: {

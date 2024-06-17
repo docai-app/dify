@@ -54,7 +54,6 @@ export type ChatProps = {
   chatNode?: ReactNode
   onFeedback?: (messageId: string, feedback: Feedback) => void
   chatAnswerContainerInner?: string
-  hideProcessDetail?: boolean
 }
 const Chat: FC<ChatProps> = ({
   config,
@@ -79,7 +78,6 @@ const Chat: FC<ChatProps> = ({
   chatNode,
   onFeedback,
   chatAnswerContainerInner,
-  hideProcessDetail,
 }) => {
   const { t } = useTranslation()
   const { currentLogItem, setCurrentLogItem, showPromptLogModal, setShowPromptLogModal, showAgentLogModal, setShowAgentLogModal } = useAppStore(useShallow(state => ({
@@ -206,7 +204,6 @@ const Chat: FC<ChatProps> = ({
                       allToolIcons={allToolIcons}
                       showPromptLog={showPromptLog}
                       chatAnswerContainerInner={chatAnswerContainerInner}
-                      hideProcessDetail={hideProcessDetail}
                     />
                   )
                 }

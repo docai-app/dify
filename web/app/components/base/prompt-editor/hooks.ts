@@ -64,7 +64,6 @@ export const useSelectOrDelete: UseSelectOrDeleteHanlder = (nodeKey: string, com
             editor.dispatchCommand(command, undefined)
 
           node.remove()
-          return true
         }
       }
 

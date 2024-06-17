@@ -1,7 +1,7 @@
 'use client'
 import { useTranslation } from 'react-i18next'
 import type { FC } from 'react'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import cn from 'classnames'
 import BlockIcon from '../block-icon'
 import CodeEditor from '@/app/components/workflow/nodes/_base/components/editor/code-editor'
@@ -14,20 +14,10 @@ import type { NodeTracing } from '@/types/workflow'
 type Props = {
   nodeInfo: NodeTracing
   hideInfo?: boolean
-  hideProcessDetail?: boolean
 }
 
-const NodePanel: FC<Props> = ({
-  nodeInfo,
-  hideInfo = false,
-  hideProcessDetail,
-}) => {
-  const [collapseState, doSetCollapseState] = useState<boolean>(true)
-  const setCollapseState = useCallback((state: boolean) => {
-    if (hideProcessDetail)
-      return
-    doSetCollapseState(state)
-  }, [hideProcessDetail])
+const NodePanel: FC<Props> = ({ nodeInfo, hideInfo = false }) => {
+  const [collapseState, setCollapseState] = useState<boolean>(true)
   const { t } = useTranslation()
 
   const getTime = (time: number) => {
@@ -49,7 +39,7 @@ const NodePanel: FC<Props> = ({
 
   useEffect(() => {
     setCollapseState(!nodeInfo.expand)
-  }, [nodeInfo.expand, setCollapseState])
+  }, [nodeInfo.expand])
 
   return (
     <div className={cn('px-4 py-1', hideInfo && '!p-0')}>
@@ -62,15 +52,12 @@ const NodePanel: FC<Props> = ({
           )}
           onClick={() => setCollapseState(!collapseState)}
         >
-          {!hideProcessDetail && (
-            <ChevronRight
-              className={cn(
-                'shrink-0 w-3 h-3 mr-1 text-gray-400 transition-all group-hover:text-gray-500',
-                !collapseState && 'rotate-90',
-              )}
-            />
-          )}
-
+          <ChevronRight
+            className={cn(
+              'shrink-0 w-3 h-3 mr-1 text-gray-400 transition-all group-hover:text-gray-500',
+              !collapseState && 'rotate-90',
+            )}
+          />
           <BlockIcon size={hideInfo ? 'xs' : 'sm'} className={cn('shrink-0 mr-2', hideInfo && '!mr-1')} type={nodeInfo.node_type} toolIcon={nodeInfo.extras?.icon || nodeInfo.extras} />
           <div className={cn(
             'grow text-gray-700 text-[13px] leading-[16px] font-semibold truncate',
@@ -90,12 +77,12 @@ const NodePanel: FC<Props> = ({
           )}
           {nodeInfo.status === 'running' && (
             <div className='shrink-0 flex items-center text-primary-600 text-[13px] leading-[16px] font-medium'>
-              <span className='mr-2 text-xs font-normal'>Running</span>
-              <Loading02 className='w-3.5 h-3.5 animate-spin' />
+              <Loading02 className='mr-1 w-3.5 h-3.5 animate-spin' />
+              <span>Running</span>
             </div>
           )}
         </div>
-        {!collapseState && !hideProcessDetail && (
+        {!collapseState && (
           <div className='pb-2'>
             <div className={cn('px-[10px] py-1', hideInfo && '!px-2 !py-0.5')}>
               {nodeInfo.status === 'stopped' && (

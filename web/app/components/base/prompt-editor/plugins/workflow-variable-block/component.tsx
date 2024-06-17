@@ -9,7 +9,6 @@ import {
 } from 'lexical'
 import { mergeRegister } from '@lexical/utils'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import cn from 'classnames'
 import { useSelectOrDelete } from '../../hooks'
 import type { WorkflowNodesMap } from './node'
 import { WorkflowVariableBlockNode } from './node'
@@ -62,11 +61,11 @@ const WorkflowVariableBlockComponent = ({
 
   const Item = (
     <div
-      className={cn(
-        'mx-0.5 relative group/wrap flex items-center h-[18px] pl-0.5 pr-[3px] rounded-[5px] border select-none',
-        isSelected ? ' border-[#84ADFF] bg-[#F5F8FF]' : ' border-black/5 bg-white',
-        !node && '!border-[#F04438] !bg-[#FEF3F2]',
-      )}
+      className={`
+        mx-0.5 relative group/wrap flex items-center h-[18px] pl-0.5 pr-[3px] rounded-[5px] border
+        ${isSelected ? ' border-[#84ADFF] bg-[#F5F8FF]' : ' border-black/5 bg-white'}
+        ${!node && '!border-[#F04438] !bg-[#FEF3F2]'}
+      `}
       ref={ref}
     >
       <div className='flex items-center'>

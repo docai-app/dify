@@ -1,7 +1,8 @@
 'use client'
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import useTimestamp from '@/hooks/use-timestamp'
+// import cn from 'classnames'
+import dayjs from 'dayjs'
 
 type Props = {
   status: string
@@ -23,7 +24,6 @@ const MetaData: FC<Props> = ({
   showSteps = true,
 }) => {
   const { t } = useTranslation()
-  const { formatTime } = useTimestamp()
 
   return (
     <div className='relative'>
@@ -64,7 +64,7 @@ const MetaData: FC<Props> = ({
               <div className='my-[5px] w-[72px] h-2 rounded-sm bg-[rgba(0,0,0,0.05)]'/>
             )}
             {status !== 'running' && (
-              <span>{formatTime(startTime, t('appLog.dateTimeFormat') as string)}</span>
+              <span>{dayjs(startTime * 1000).format('YYYY-MM-DD hh:mm:ss')}</span>
             )}
           </div>
         </div>

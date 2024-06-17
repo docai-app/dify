@@ -71,8 +71,6 @@ const translation = {
     },
     privacyPolicy: 'Política de Privacidade',
     privacyPolicyPlaceholder: 'Digite a política de privacidade',
-    customDisclaimer: 'Aviso Personalizado',
-    customDisclaimerPlaceholder: 'Digite o aviso personalizado',
   },
   test: {
     title: 'Testar',
