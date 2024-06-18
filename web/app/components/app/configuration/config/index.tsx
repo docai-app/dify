@@ -1,323 +1,321 @@
 'use client'
-import type { FC } from 'react'
-import React, { useRef } from 'react'
-import { useContext } from 'use-context-selector'
-import produce from 'immer'
-import { useBoolean, useScroll } from 'ahooks'
-import { useFormattingChangedDispatcher } from '../debug/hooks'
-import DatasetConfig from '../dataset-config'
-import ChatGroup from '../features/chat-group'
-import ExperienceEnchanceGroup from '../features/experience-enchance-group'
-import Toolbox from '../toolbox'
-import HistoryPanel from '../config-prompt/conversation-histroy/history-panel'
-import ConfigVision from '../config-vision'
-import useAnnotationConfig from '../toolbox/annotation/use-annotation-config'
-import AddFeatureBtn from './feature/add-feature-btn'
-import ChooseFeature from './feature/choose-feature'
-import useFeature from './feature/use-feature'
-import AgentTools from './agent/agent-tools'
-import ConfigContext from '@/context/debug-configuration'
 import ConfigPrompt from '@/app/components/app/configuration/config-prompt'
 import ConfigVar from '@/app/components/app/configuration/config-var'
+import ConfigParamModal from '@/app/components/app/configuration/toolbox/annotation/config-param-modal'
+import AnnotationFullModal from '@/app/components/billing/annotation-full/modal'
+import { ModelTypeEnum } from '@/app/components/header/account-setting/model-provider-page/declarations'
+import { useDefaultModel } from '@/app/components/header/account-setting/model-provider-page/hooks'
+import ConfigContext from '@/context/debug-configuration'
+import { useModalContext } from '@/context/modal-context'
 import { type CitationConfig, type ModelConfig, type ModerationConfig, type MoreLikeThisConfig, type PromptVariable, type SpeechToTextConfig, type SuggestedQuestionsAfterAnswerConfig, type TextToSpeechConfig } from '@/models/debug'
 import type { AppType } from '@/types/app'
 import { ModelModeType } from '@/types/app'
-import { useModalContext } from '@/context/modal-context'
-import ConfigParamModal from '@/app/components/app/configuration/toolbox/annotation/config-param-modal'
-import AnnotationFullModal from '@/app/components/billing/annotation-full/modal'
-import { useDefaultModel } from '@/app/components/header/account-setting/model-provider-page/hooks'
-import { ModelTypeEnum } from '@/app/components/header/account-setting/model-provider-page/declarations'
+import { useBoolean, useScroll } from 'ahooks'
+import produce from 'immer'
+import type { FC } from 'react'
+import React, { useRef } from 'react'
+import { useContext } from 'use-context-selector'
+import HistoryPanel from '../config-prompt/conversation-histroy/history-panel'
+import ConfigVision from '../config-vision'
+import DatasetConfig from '../dataset-config'
+import { useFormattingChangedDispatcher } from '../debug/hooks'
+import ChatGroup from '../features/chat-group'
+import ExperienceEnchanceGroup from '../features/experience-enchance-group'
+import Toolbox from '../toolbox'
+import useAnnotationConfig from '../toolbox/annotation/use-annotation-config'
+import AgentTools from './agent/agent-tools'
+import AddFeatureBtn from './feature/add-feature-btn'
+import ChooseFeature from './feature/choose-feature'
+import useFeature from './feature/use-feature'
 
 const Config: FC = () => {
-  const {
-    appId,
-    mode,
-    isAdvancedMode,
-    modelModeType,
-    isAgent,
-    // canReturnToSimpleMode,
-    // setPromptMode,
-    hasSetBlockStatus,
-    showHistoryModal,
-    introduction,
-    setIntroduction,
-    suggestedQuestions,
-    setSuggestedQuestions,
-    modelConfig,
-    setModelConfig,
-    setPrevPromptConfig,
-    moreLikeThisConfig,
-    setMoreLikeThisConfig,
-    suggestedQuestionsAfterAnswerConfig,
-    setSuggestedQuestionsAfterAnswerConfig,
-    speechToTextConfig,
-    setSpeechToTextConfig,
-    textToSpeechConfig,
-    setTextToSpeechConfig,
-    citationConfig,
-    setCitationConfig,
-    annotationConfig,
-    setAnnotationConfig,
-    moderationConfig,
-    setModerationConfig,
-  } = useContext(ConfigContext)
-  const isChatApp = ['advanced-chat', 'agent-chat', 'chat'].includes(mode)
-  const { data: speech2textDefaultModel } = useDefaultModel(ModelTypeEnum.speech2text)
-  const { data: text2speechDefaultModel } = useDefaultModel(ModelTypeEnum.tts)
-  const { setShowModerationSettingModal } = useModalContext()
-  const formattingChangedDispatcher = useFormattingChangedDispatcher()
+    const {
+        appId,
+        mode,
+        isAdvancedMode,
+        modelModeType,
+        isAgent,
+        // canReturnToSimpleMode,
+        // setPromptMode,
+        hasSetBlockStatus,
+        showHistoryModal,
+        introduction,
+        setIntroduction,
+        suggestedQuestions,
+        setSuggestedQuestions,
+        modelConfig,
+        setModelConfig,
+        setPrevPromptConfig,
+        moreLikeThisConfig,
+        setMoreLikeThisConfig,
+        suggestedQuestionsAfterAnswerConfig,
+        setSuggestedQuestionsAfterAnswerConfig,
+        speechToTextConfig,
+        setSpeechToTextConfig,
+        textToSpeechConfig,
+        setTextToSpeechConfig,
+        citationConfig,
+        setCitationConfig,
+        annotationConfig,
+        setAnnotationConfig,
+        moderationConfig,
+        setModerationConfig,
+    } = useContext(ConfigContext)
+    const isChatApp = ['advanced-chat', 'agent-chat', 'chat'].includes(mode)
+    const { data: speech2textDefaultModel } = useDefaultModel(ModelTypeEnum.speech2text)
+    const { data: text2speechDefaultModel } = useDefaultModel(ModelTypeEnum.tts)
+    const { setShowModerationSettingModal } = useModalContext()
+    const formattingChangedDispatcher = useFormattingChangedDispatcher()
 
-  const promptTemplate = modelConfig.configs.prompt_template
-  const promptVariables = modelConfig.configs.prompt_variables
-  // simple mode
-  const handlePromptChange = (newTemplate: string, newVariables: PromptVariable[]) => {
-    const newModelConfig = produce(modelConfig, (draft: ModelConfig) => {
-      draft.configs.prompt_template = newTemplate
-      draft.configs.prompt_variables = [...draft.configs.prompt_variables, ...newVariables]
-    })
-    if (modelConfig.configs.prompt_template !== newTemplate)
-      formattingChangedDispatcher()
-
-    setPrevPromptConfig(modelConfig.configs)
-    setModelConfig(newModelConfig)
-  }
-
-  const handlePromptVariablesNameChange = (newVariables: PromptVariable[]) => {
-    setPrevPromptConfig(modelConfig.configs)
-    const newModelConfig = produce(modelConfig, (draft: ModelConfig) => {
-      draft.configs.prompt_variables = newVariables
-    })
-    setModelConfig(newModelConfig)
-  }
-
-  const [showChooseFeature, {
-    setTrue: showChooseFeatureTrue,
-    setFalse: showChooseFeatureFalse,
-  }] = useBoolean(false)
-  const { featureConfig, handleFeatureChange } = useFeature({
-    introduction,
-    setIntroduction,
-    moreLikeThis: moreLikeThisConfig.enabled,
-    setMoreLikeThis: (value) => {
-      setMoreLikeThisConfig(produce(moreLikeThisConfig, (draft: MoreLikeThisConfig) => {
-        draft.enabled = value
-      }))
-    },
-    suggestedQuestionsAfterAnswer: suggestedQuestionsAfterAnswerConfig.enabled,
-    setSuggestedQuestionsAfterAnswer: (value) => {
-      setSuggestedQuestionsAfterAnswerConfig(produce(suggestedQuestionsAfterAnswerConfig, (draft: SuggestedQuestionsAfterAnswerConfig) => {
-        draft.enabled = value
-      }))
-      formattingChangedDispatcher()
-    },
-    speechToText: speechToTextConfig.enabled,
-    setSpeechToText: (value) => {
-      setSpeechToTextConfig(produce(speechToTextConfig, (draft: SpeechToTextConfig) => {
-        draft.enabled = value
-      }))
-    },
-    textToSpeech: textToSpeechConfig.enabled,
-    setTextToSpeech: (value) => {
-      setTextToSpeechConfig(produce(textToSpeechConfig, (draft: TextToSpeechConfig) => {
-        draft.enabled = value
-        draft.voice = textToSpeechConfig?.voice
-        draft.language = textToSpeechConfig?.language
-      }))
-    },
-    citation: citationConfig.enabled,
-    setCitation: (value) => {
-      setCitationConfig(produce(citationConfig, (draft: CitationConfig) => {
-        draft.enabled = value
-      }))
-      formattingChangedDispatcher()
-    },
-    annotation: annotationConfig.enabled,
-    setAnnotation: async (value) => {
-      if (value) {
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        setIsShowAnnotationConfigInit(true)
-      }
-      else {
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        await handleDisableAnnotation(annotationConfig.embedding_model)
-      }
-    },
-    moderation: moderationConfig.enabled,
-    setModeration: (value) => {
-      setModerationConfig(produce(moderationConfig, (draft: ModerationConfig) => {
-        draft.enabled = value
-      }))
-      if (value && !moderationConfig.type) {
-        setShowModerationSettingModal({
-          payload: {
-            enabled: true,
-            type: 'keywords',
-            config: {
-              keywords: '',
-              inputs_config: {
-                enabled: true,
-                preset_response: '',
-              },
-            },
-          },
-          onSaveCallback: setModerationConfig,
-          onCancelCallback: () => {
-            setModerationConfig(produce(moderationConfig, (draft: ModerationConfig) => {
-              draft.enabled = false
-              showChooseFeatureTrue()
-            }))
-          },
+    const promptTemplate = modelConfig.configs.prompt_template
+    const promptVariables = modelConfig.configs.prompt_variables
+    // simple mode
+    const handlePromptChange = (newTemplate: string, newVariables: PromptVariable[]) => {
+        const newModelConfig = produce(modelConfig, (draft: ModelConfig) => {
+            draft.configs.prompt_template = newTemplate
+            draft.configs.prompt_variables = [...draft.configs.prompt_variables, ...newVariables]
         })
-        showChooseFeatureFalse()
-      }
-    },
-  })
+        if (modelConfig.configs.prompt_template !== newTemplate)
+            formattingChangedDispatcher()
 
-  const {
-    handleEnableAnnotation,
-    setScore,
-    handleDisableAnnotation,
-    isShowAnnotationConfigInit,
-    setIsShowAnnotationConfigInit,
-    isShowAnnotationFullModal,
-    setIsShowAnnotationFullModal,
-  } = useAnnotationConfig({
-    appId,
-    annotationConfig,
-    setAnnotationConfig,
-  })
+        setPrevPromptConfig(modelConfig.configs)
+        setModelConfig(newModelConfig)
+    }
 
-  const hasChatConfig = isChatApp && (featureConfig.openingStatement || featureConfig.suggestedQuestionsAfterAnswer || (featureConfig.speechToText && !!speech2textDefaultModel) || (featureConfig.textToSpeech && !!text2speechDefaultModel) || featureConfig.citation)
-  const hasCompletionConfig = !isChatApp && (moreLikeThisConfig.enabled || (featureConfig.textToSpeech && !!text2speechDefaultModel))
+    const handlePromptVariablesNameChange = (newVariables: PromptVariable[]) => {
+        setPrevPromptConfig(modelConfig.configs)
+        const newModelConfig = produce(modelConfig, (draft: ModelConfig) => {
+            draft.configs.prompt_variables = newVariables
+        })
+        setModelConfig(newModelConfig)
+    }
 
-  const hasToolbox = moderationConfig.enabled || featureConfig.annotation
+    const [showChooseFeature, {
+        setTrue: showChooseFeatureTrue,
+        setFalse: showChooseFeatureFalse,
+    }] = useBoolean(false)
+    const { featureConfig, handleFeatureChange } = useFeature({
+        introduction,
+        setIntroduction,
+        moreLikeThis: moreLikeThisConfig.enabled,
+        setMoreLikeThis: (value) => {
+            setMoreLikeThisConfig(produce(moreLikeThisConfig, (draft: MoreLikeThisConfig) => {
+                draft.enabled = value
+            }))
+        },
+        suggestedQuestionsAfterAnswer: suggestedQuestionsAfterAnswerConfig.enabled,
+        setSuggestedQuestionsAfterAnswer: (value) => {
+            setSuggestedQuestionsAfterAnswerConfig(produce(suggestedQuestionsAfterAnswerConfig, (draft: SuggestedQuestionsAfterAnswerConfig) => {
+                draft.enabled = value
+            }))
+            formattingChangedDispatcher()
+        },
+        speechToText: speechToTextConfig.enabled,
+        setSpeechToText: (value) => {
+            setSpeechToTextConfig(produce(speechToTextConfig, (draft: SpeechToTextConfig) => {
+                draft.enabled = value
+            }))
+        },
+        textToSpeech: textToSpeechConfig.enabled,
+        setTextToSpeech: (value) => {
+            setTextToSpeechConfig(produce(textToSpeechConfig, (draft: TextToSpeechConfig) => {
+                draft.enabled = value
+                draft.voice = textToSpeechConfig?.voice
+                draft.language = textToSpeechConfig?.language
+            }))
+        },
+        citation: citationConfig.enabled,
+        setCitation: (value) => {
+            setCitationConfig(produce(citationConfig, (draft: CitationConfig) => {
+                draft.enabled = value
+            }))
+            formattingChangedDispatcher()
+        },
+        annotation: annotationConfig.enabled,
+        setAnnotation: async (value) => {
+            if (value) {
+                setIsShowAnnotationConfigInit(true)
+            }
+            else {
+                await handleDisableAnnotation(annotationConfig.embedding_model)
+            }
+        },
+        moderation: moderationConfig.enabled,
+        setModeration: (value) => {
+            setModerationConfig(produce(moderationConfig, (draft: ModerationConfig) => {
+                draft.enabled = value
+            }))
+            if (value && !moderationConfig.type) {
+                setShowModerationSettingModal({
+                    payload: {
+                        enabled: true,
+                        type: 'keywords',
+                        config: {
+                            keywords: '',
+                            inputs_config: {
+                                enabled: true,
+                                preset_response: '',
+                            },
+                        },
+                    },
+                    onSaveCallback: setModerationConfig,
+                    onCancelCallback: () => {
+                        setModerationConfig(produce(moderationConfig, (draft: ModerationConfig) => {
+                            draft.enabled = false
+                            showChooseFeatureTrue()
+                        }))
+                    },
+                })
+                showChooseFeatureFalse()
+            }
+        },
+    })
 
-  const wrapRef = useRef<HTMLDivElement>(null)
-  const wrapScroll = useScroll(wrapRef)
-  const toBottomHeight = (() => {
-    if (!wrapRef.current)
-      return 999
-    const elem = wrapRef.current
-    const { clientHeight } = elem
-    const value = (wrapScroll?.top || 0) + clientHeight
-    return value
-  })()
+    const {
+        handleEnableAnnotation,
+        setScore,
+        handleDisableAnnotation,
+        isShowAnnotationConfigInit,
+        setIsShowAnnotationConfigInit,
+        isShowAnnotationFullModal,
+        setIsShowAnnotationFullModal,
+    } = useAnnotationConfig({
+        appId,
+        annotationConfig,
+        setAnnotationConfig,
+    })
 
-  return (
-    <>
-      <div
-        ref={wrapRef}
-        className="grow h-0 relative px-6 pb-[50px] overflow-y-auto"
-      >
-        <AddFeatureBtn toBottomHeight={toBottomHeight} onClick={showChooseFeatureTrue} />
-        {showChooseFeature && (
-          <ChooseFeature
-            isShow={showChooseFeature}
-            onClose={showChooseFeatureFalse}
-            isChatApp={isChatApp}
-            config={featureConfig}
-            onChange={handleFeatureChange}
-            showSpeechToTextItem={!!speech2textDefaultModel}
-            showTextToSpeechItem={!!text2speechDefaultModel}
-          />
-        )}
+    const hasChatConfig = isChatApp && (featureConfig.openingStatement || featureConfig.suggestedQuestionsAfterAnswer || (featureConfig.speechToText && !!speech2textDefaultModel) || (featureConfig.textToSpeech && !!text2speechDefaultModel) || featureConfig.citation)
+    const hasCompletionConfig = !isChatApp && (moreLikeThisConfig.enabled || (featureConfig.textToSpeech && !!text2speechDefaultModel))
 
-        {/* Template */}
-        <ConfigPrompt
-          mode={mode as AppType}
-          promptTemplate={promptTemplate}
-          promptVariables={promptVariables}
-          onChange={handlePromptChange}
-        />
+    const hasToolbox = moderationConfig.enabled || featureConfig.annotation
 
-        {/* Variables */}
-        <ConfigVar
-          promptVariables={promptVariables}
-          onPromptVariablesChange={handlePromptVariablesNameChange}
-        />
+    const wrapRef = useRef<HTMLDivElement>(null)
+    const wrapScroll = useScroll(wrapRef)
+    const toBottomHeight = (() => {
+        if (!wrapRef.current)
+            return 999
+        const elem = wrapRef.current
+        const { clientHeight } = elem
+        const value = (wrapScroll?.top || 0) + clientHeight
+        return value
+    })()
 
-        {/* Dataset */}
-        <DatasetConfig />
+    return (
+        <>
+            <div
+                ref={wrapRef}
+                className="grow h-0 relative px-6 pb-[50px] overflow-y-auto"
+            >
+                <AddFeatureBtn toBottomHeight={toBottomHeight} onClick={showChooseFeatureTrue} />
+                {showChooseFeature && (
+                    <ChooseFeature
+                        isShow={showChooseFeature}
+                        onClose={showChooseFeatureFalse}
+                        isChatApp={isChatApp}
+                        config={featureConfig}
+                        onChange={handleFeatureChange}
+                        showSpeechToTextItem={!!speech2textDefaultModel}
+                        showTextToSpeechItem={!!text2speechDefaultModel}
+                    />
+                )}
 
-        {/* Tools */}
-        {isAgent && (
-          <AgentTools />
-        )}
+                {/* Template */}
+                <ConfigPrompt
+                    mode={mode as AppType}
+                    promptTemplate={promptTemplate}
+                    promptVariables={promptVariables}
+                    onChange={handlePromptChange}
+                />
 
-        <ConfigVision />
+                {/* Variables */}
+                <ConfigVar
+                    promptVariables={promptVariables}
+                    onPromptVariablesChange={handlePromptVariablesNameChange}
+                />
 
-        {/* Chat History */}
-        {isAdvancedMode && isChatApp && modelModeType === ModelModeType.completion && (
-          <HistoryPanel
-            showWarning={!hasSetBlockStatus.history}
-            onShowEditModal={showHistoryModal}
-          />
-        )}
+                {/* Dataset */}
+                <DatasetConfig />
 
-        {/* ChatConifig */}
-        {
-          hasChatConfig && (
-            <ChatGroup
-              isShowOpeningStatement={featureConfig.openingStatement}
-              openingStatementConfig={
+                {/* Tools */}
+                {isAgent && (
+                    <AgentTools />
+                )}
+
+                <ConfigVision />
+
+                {/* Chat History */}
+                {isAdvancedMode && isChatApp && modelModeType === ModelModeType.completion && (
+                    <HistoryPanel
+                        showWarning={!hasSetBlockStatus.history}
+                        onShowEditModal={showHistoryModal}
+                    />
+                )}
+
+                {/* ChatConifig */}
                 {
-                  value: introduction,
-                  onChange: setIntroduction,
-                  suggestedQuestions,
-                  onSuggestedQuestionsChange: setSuggestedQuestions,
+                    hasChatConfig && (
+                        <ChatGroup
+                            isShowOpeningStatement={featureConfig.openingStatement}
+                            openingStatementConfig={
+                                {
+                                    value: introduction,
+                                    onChange: setIntroduction,
+                                    suggestedQuestions,
+                                    onSuggestedQuestionsChange: setSuggestedQuestions,
+                                }
+                            }
+                            isShowSuggestedQuestionsAfterAnswer={featureConfig.suggestedQuestionsAfterAnswer}
+                            isShowTextToSpeech={featureConfig.textToSpeech && !!text2speechDefaultModel}
+                            isShowSpeechText={featureConfig.speechToText && !!speech2textDefaultModel}
+                            isShowCitation={featureConfig.citation}
+                        />
+                    )
                 }
-              }
-              isShowSuggestedQuestionsAfterAnswer={featureConfig.suggestedQuestionsAfterAnswer}
-              isShowTextToSpeech={featureConfig.textToSpeech && !!text2speechDefaultModel}
-              isShowSpeechText={featureConfig.speechToText && !!speech2textDefaultModel}
-              isShowCitation={featureConfig.citation}
-            />
-          )
-        }
 
-        {/* Text Generation config */}{
-          hasCompletionConfig && (
-            <ExperienceEnchanceGroup
-              isShowMoreLike={moreLikeThisConfig.enabled}
-              isShowTextToSpeech={featureConfig.textToSpeech && !!text2speechDefaultModel}
-            />
-          )
-        }
+                {/* Text Generation config */}{
+                    hasCompletionConfig && (
+                        <ExperienceEnchanceGroup
+                            isShowMoreLike={moreLikeThisConfig.enabled}
+                            isShowTextToSpeech={featureConfig.textToSpeech && !!text2speechDefaultModel}
+                        />
+                    )
+                }
 
-        {/* Toolbox */}
-        {
-          hasToolbox && (
-            <Toolbox
-              showModerationSettings={moderationConfig.enabled}
-              showAnnotation={isChatApp && featureConfig.annotation}
-              onEmbeddingChange={handleEnableAnnotation}
-              onScoreChange={setScore}
-            />
-          )
-        }
+                {/* Toolbox */}
+                {
+                    hasToolbox && (
+                        <Toolbox
+                            showModerationSettings={moderationConfig.enabled}
+                            showAnnotation={isChatApp && featureConfig.annotation}
+                            onEmbeddingChange={handleEnableAnnotation}
+                            onScoreChange={setScore}
+                        />
+                    )
+                }
 
-        <ConfigParamModal
-          appId={appId}
-          isInit
-          isShow={isShowAnnotationConfigInit}
-          onHide={() => {
-            setIsShowAnnotationConfigInit(false)
-            showChooseFeatureTrue()
-          }}
-          onSave={async (embeddingModel, score) => {
-            await handleEnableAnnotation(embeddingModel, score)
-            setIsShowAnnotationConfigInit(false)
-          }}
-          annotationConfig={annotationConfig}
-        />
-        {isShowAnnotationFullModal && (
-          <AnnotationFullModal
-            show={isShowAnnotationFullModal}
-            onHide={() => setIsShowAnnotationFullModal(false)}
-          />
-        )}
-      </div>
-    </>
-  )
+                <ConfigParamModal
+                    appId={appId}
+                    isInit
+                    isShow={isShowAnnotationConfigInit}
+                    onHide={() => {
+                        setIsShowAnnotationConfigInit(false)
+                        showChooseFeatureTrue()
+                    }}
+                    onSave={async (embeddingModel, score) => {
+                        await handleEnableAnnotation(embeddingModel, score)
+                        setIsShowAnnotationConfigInit(false)
+                    }}
+                    annotationConfig={annotationConfig}
+                />
+                {isShowAnnotationFullModal && (
+                    <AnnotationFullModal
+                        show={isShowAnnotationFullModal}
+                        onHide={() => setIsShowAnnotationFullModal(false)}
+                    />
+                )}
+            </div>
+        </>
+    )
 }
 export default React.memo(Config)

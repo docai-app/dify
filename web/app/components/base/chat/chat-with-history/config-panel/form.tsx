@@ -37,9 +37,10 @@ const Form = () => {
                     onChange={handleFormChange}
                 />
             )
-        } else if (form.type === 'file') {
+        }
+        if (form.type === 'file') {
             return <OcrFile
-                input_key={form.key}
+                input_key={variable}
                 handleInputValueChange={(key: string, value: string) => {
                     handleFormChange(key, value)
                 }} />

@@ -18,6 +18,9 @@ export const userInputsFormToPromptVariables = (useInputs: UserInputFormItem[] |
             if (item.number)
                 return ['number', item.number]
 
+            if (item.file)
+                return ['file', item.file]
+
             if (item.external_data_tool)
                 return [item.external_data_tool.type, item.external_data_tool]
 
@@ -37,6 +40,15 @@ export const userInputsFormToPromptVariables = (useInputs: UserInputFormItem[] |
             })
         }
         else if (type === 'number') {
+            promptVariables.push({
+                key: content.variable,
+                name: content.label,
+                required: content.required,
+                type,
+                options: [],
+            })
+        }
+        else if (type === 'file') {
             promptVariables.push({
                 key: content.variable,
                 name: content.label,
