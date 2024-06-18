@@ -229,10 +229,28 @@ const RecordingView: FC<ChatProps> = ({
     }, [unSpeakContent, addToQueue])
 
     useEffect(() => {
-        if (!speakIng && audioUrls && audioUrls.length > 0 && audioUrls[playAudioIndex]) {
-            preSpeaking(audioUrls[playAudioIndex])
+        // if (audioUrls) console.log('audioUrls', audioUrls);
+
+        if (!speakIng && audioUrls && audioUrls.length > 0) {
+            const currAudio = findAudioByIndex(audioUrls, playAudioIndex)
+            if (currAudio) {
+                // console.log('currAudio', currAudio);
+                preSpeaking(currAudio)
+
+            }
+            // preSpeaking(audioUrls[playAudioIndex])
         }
     }, [audioUrls, speakIng, playAudioIndex])
+
+    const findAudioByIndex = (audioUrls: any, index: number) => {
+        let audioUrl = ""
+        audioUrls.map((item: any) => {
+            if (item.hasOwnProperty(index))
+                audioUrl = item[index]
+
+        })
+        return audioUrl
+    }
 
     const preSpeaking = (url: string) => {
         //防止重复播放
@@ -290,11 +308,14 @@ const RecordingView: FC<ChatProps> = ({
                 const blob = new Blob([data], { type: 'audio/mp3' });
                 const url = URL.createObjectURL(blob);
                 console.log('load url', url, index);
-                setAudioUrls((prevArray: any) => [
-                    ...prevArray.slice(0, index),
-                    url,
-                    ...prevArray.slice(index)
-                ]);
+                // setAudioUrls((prevArray: any) => [
+                //     ...prevArray.slice(0, index),
+                //     url,
+                //     ...prevArray.slice(index)
+                // ]);
+                setAudioUrls((preArray: any) => [...preArray, {
+                    [index]: url
+                }])
             })
             .catch(error => {
                 console.error('Error fetching Azure TTS audio:', error);
@@ -347,8 +368,8 @@ const RecordingView: FC<ChatProps> = ({
         setIsStart(true)
         setSpeakIng(false)
         setAudioUrls([])
-        setPlayAudioIndex(0)
-        queueIndex = 0
+        // setPlayAudioIndex(0)
+        // queueIndex = 0
         speakContentQueue = []
         if (audio) {
             audio.pause()
