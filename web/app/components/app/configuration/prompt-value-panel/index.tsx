@@ -12,8 +12,7 @@ import { AppType, ModelModeType } from '@/types/app'
 import {
     PlayIcon,
 } from '@heroicons/react/24/solid'
-import axios from 'axios'
-import type { ChangeEvent, FC } from 'react'
+import type { FC } from 'react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'use-context-selector'
@@ -93,37 +92,6 @@ const PromptValuePanel: FC<IPromptValuePanelProps> = ({
         setInputs(newInputs)
     }
 
-    const [fileName, setFileName] = useState(t('common.imageUploader.uploadFromComputer'))
-
-    const handleChange = (key: string, e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-
-        if (!file)
-            return
-
-        const formData = new FormData();
-        formData.append('file', file);
-        setFileName(file.name)
-
-        axios({
-            method: "post",
-            url: 'https://docai-dev.m2mda.com/api/v1/tools/upload_directly_ocr',
-            data: formData,
-            headers: { "Content-Type": "multipart/form-data" },
-        })
-            .then(function (res) {
-                //handle success
-                console.log(res.data.content);
-                handleInputValueChange(key, e.target.value)
-            })
-            .catch(function (response) {
-                //handle error
-                console.log(response);
-            });
-    }
-
-
-
     return (
         <div className="pb-3 border border-gray-200 bg-white rounded-xl" style={{
             boxShadow: '0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06)',
@@ -193,23 +161,6 @@ const PromptValuePanel: FC<IPromptValuePanelProps> = ({
                                                 )}
                                                 {type === 'file' && (
                                                     <OcrFile input_key={key} handleInputValueChange={handleInputValueChange} />
-                                                    // <div
-                                                    //     className='relative'
-                                                    // >
-                                                    //     <div className={` flex items-center justify-center px-3 h-8 bg-gray-100
-                                                    //             text-xs text-gray-500 rounded-lg cursor-pointer 
-                                                    //         `}>
-                                                    //         <DocumentIcon className='mr-2 w-4 h-4' />
-                                                    //         {fileName}
-                                                    //     </div>
-                                                    //     <input
-                                                    //         className='absolute block inset-0 opacity-0 text-[0] w-full disabled:cursor-not-allowed cursor-pointer'
-                                                    //         onClick={e => ((e.target as HTMLInputElement).value = '')}
-                                                    //         type='file'
-                                                    //         accept={ALLOW_FILE_EXTENSIONS_WITH_PDF.map(ext => `.${ext}`).join(',')}
-                                                    //         onChange={(e) => handleChange(key, e)}
-                                                    //     />
-                                                    // </div>
                                                 )}
                                             </div>
                                         ))}
