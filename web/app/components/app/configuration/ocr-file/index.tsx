@@ -55,7 +55,7 @@ const OcrFile: FC<IProps> = ({
             <div className={` flex items-center justify-center px-3 h-8 bg-gray-100
                 text-xs text-gray-500 rounded-lg cursor-pointer 
             `}>
-                <Spinner loading={loading} className=" text-blue-200" />
+                <Spinner loading={loading} className=" text-blue-200 bg-blue-200" />
                 <DocumentIcon className='mr-2 w-4 h-4' />
                 {fileName}
             </div>
