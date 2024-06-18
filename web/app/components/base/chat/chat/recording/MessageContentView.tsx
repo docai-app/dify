@@ -1,5 +1,6 @@
 import LoadingAnim from "@/app/components/app/chat/loading-anim";
 import { ChatItem } from "../../types";
+import AgentContent from "../answer/agent-content";
 import BasicContent from "../answer/basic-content";
 
 
@@ -37,6 +38,14 @@ export default function MessageContentView(props: ViewProps) {
             {
                 content && !hasAgentThoughts && (
                     <BasicContent item={item} />
+                )
+            }
+            {
+                hasAgentThoughts && (
+                    <AgentContent
+                        item={item}
+                        responding={responding}
+                    />
                 )
             }
         </>
