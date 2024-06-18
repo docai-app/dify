@@ -31,8 +31,8 @@ const Header: FC<HeaderProps> = ({
 
             <div
                 className={`
-                    sticky top-0 flex items-center px-8 h-16 bg-white  text-base font-medium 
-                    text-gray-900   backdrop-blur-md z-10 flex-1
+                    sticky top-0 flex items-center px-8  bg-white  text-base font-medium 
+                    text-gray-900   backdrop-blur-md z-10 flex-1 
                     ${isMobile && '!h-12'}
                     `}
             >
