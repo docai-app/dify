@@ -275,6 +275,7 @@ const translation = {
         'paragraph': 'Paragraph',
         'select': 'Select',
         'number': 'Number',
+        'file': 'File',
         'notSet': 'Not set, try typing {{input}} in the prefix prompt',
         'stringTitle': 'Form text box options',
         'maxLength': 'Max length',
