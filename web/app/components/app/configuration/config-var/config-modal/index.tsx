@@ -79,8 +79,6 @@ const ConfigModal: FC<IConfigModalProps> = ({
     }, [tempPayload])
 
     const handleConfirm = () => {
-        console.log('tempPayload', tempPayload);
-
         const moreInfo = tempPayload.variable === payload?.variable
             ? undefined
             : {

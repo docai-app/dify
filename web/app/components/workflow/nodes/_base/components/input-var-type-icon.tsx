@@ -1,6 +1,7 @@
 'use client'
 import { AlignLeft, LetterSpacing01 } from '@/app/components/base/icons/src/vender/line/editor'
-import { CheckDone01, Hash02, Upload03 } from '@/app/components/base/icons/src/vender/line/general'
+import { CheckDone01, Hash02 } from '@/app/components/base/icons/src/vender/line/general'
+import { DocumentIcon } from '@heroicons/react/24/outline'
 import type { FC } from 'react'
 import React from 'react'
 import { InputVarType } from '../../../types'
@@ -16,7 +17,6 @@ const getIcon = (type: InputVarType) => {
         [InputVarType.paragraph]: AlignLeft,
         [InputVarType.select]: CheckDone01,
         [InputVarType.number]: Hash02,
-        [InputVarType.file]: Upload03,
     } as any)[type] || LetterSpacing01
 }
 
@@ -24,6 +24,11 @@ const InputVarTypeIcon: FC<Props> = ({
     className,
     type,
 }) => {
+
+    if (type == 'file')
+        return (
+            <DocumentIcon className='w-4' />
+        )
     const Icon = getIcon(type)
     return (
         <Icon className={className} />
