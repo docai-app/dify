@@ -122,8 +122,8 @@ export default function AppSelector({ isMobile }: IAppSelecotr) {
                         <ArrowUpRight className='hidden w-[14px] h-[14px] text-gray-500 group-hover:flex' />
                       </Link>
                     </Menu.Item> */}
-                                        <Menu.Item>
-                                            {/* <Link
+                                        {/* <Menu.Item> */}
+                                        {/* <Link
                                                 className={classNames(itemClassName, 'group justify-between')}
                                                 href={
                                                     locale !== LanguagesSupported[1] ? 'https://docs.dify.ai/' : `https://docs.dify.ai/v/${locale.toLowerCase()}/`
@@ -133,11 +133,11 @@ export default function AppSelector({ isMobile }: IAppSelecotr) {
                                                 <ArrowUpRight className='hidden w-[14px] h-[14px] text-gray-500 group-hover:flex' />
                                             </Link> */}
 
-                                            <div className={classNames(itemClassName, 'justify-between')} onClick={() => setHelpVisible(true)}>
+                                        {/* <div className={classNames(itemClassName, 'justify-between')} onClick={() => setHelpVisible(true)}>
                                                 <div>{t('common.userProfile.helpCenter')}</div>
                                             </div>
 
-                                        </Menu.Item>
+                                        </Menu.Item> */}
                                         {
                                             document?.body?.getAttribute('data-public-site-about') !== 'hide' && (
                                                 <Menu.Item>
