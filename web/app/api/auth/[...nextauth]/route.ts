@@ -38,14 +38,11 @@ export const authOptions = {
             }
             return token
         },
-        callbacks: {
-            async signIn({ user, account, profile }: any) {
-                console.log('account', account);
-
-
-                return true;
-            }
-        },
+        async signIn({ user, account, profile }: any) {
+            console.log('account', account);
+            return true;
+        }
+        ,
         async session({ session, token, user }: any) {
             // Send properties to the client, like an access_token from a provider.
             session.accessToken = token.accessToken
