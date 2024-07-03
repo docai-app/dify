@@ -21,6 +21,7 @@ export async function GET(request: any) {
 
         } catch (error) {
             console.error('Google API Client returned an error:', error);
+            return new Response(JSON.stringify({ message: error.errors }));
         }
 
         // console.log('response', response);

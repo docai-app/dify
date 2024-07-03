@@ -10,7 +10,7 @@ export default function Demo() {
         if (!session) return router.push('/api/auth/signin')
         console.log('session', session);
         const res = await axios('/api/drive?token=' + session.accessToken)
-        console.log('res', res);
+        console.log('res', res.data);
 
 
     }
