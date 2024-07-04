@@ -97,7 +97,7 @@ const CreateLinkDetailModal = ({
         setTitle(app.name)
         setUrl('')
         fetchAppDetail({ url: '/apps', id: app.id }).then(async (res: any) => {
-            setUrl(`${window.location.hostname}/chat/${res.site.code || res.site.access_token}`)
+            setUrl(`https://${window.location.hostname}/chat/${res.site.code || res.site.access_token}`)
         })
     }
     return (
