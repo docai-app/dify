@@ -4,7 +4,7 @@ import { XClose } from '@/app/components/base/icons/src/vender/line/general'
 import Modal from '@/app/components/base/modal'
 import Toast from '@/app/components/base/toast'
 import { AppListResponse } from '@/models/app'
-import { fetchAppList } from '@/service/apps'
+import { fetchAppDetail, fetchAppList } from '@/service/apps'
 import { App } from '@/types/app'
 import { CheckCircleIcon, DocumentTextIcon } from '@heroicons/react/24/outline'
 import { LinkIcon } from '@heroicons/react/24/solid'
@@ -93,6 +93,13 @@ const CreateLinkDetailModal = ({
         onHide()
     }
 
+    const handleClickApp = (app: App) => {
+        setTitle(app.name)
+        setUrl('')
+        fetchAppDetail({ url: '/apps', id: app.id }).then(async (res: any) => {
+            setUrl(`${window.location.hostname}/chat/${res.site.code || res.site.access_token}`)
+        })
+    }
     return (
         <>
             <Modal
@@ -137,8 +144,7 @@ const CreateLinkDetailModal = ({
                             {data?.map(({ data: apps }: any) => apps.map((app: App) => (
                                 <div key={app.id} className=' bg-white p-2 w-full flex justify-between my-1 rounded-lg items-center hover:bg-gray-200 shadow cursor-pointer'
                                     onClick={() => {
-                                        setTitle(app.name)
-                                        setUrl(`${window.location.hostname}/chat/${app.id}`)
+                                        handleClickApp(app)
                                     }}>
                                     <span className='text-sm text-gray-900'>{app.name}</span>
                                     <div
