@@ -2,6 +2,7 @@
 import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
 export default function Demo() {
     const router = useRouter()
     const [session, setSession] = useState<any>('')
@@ -21,10 +22,11 @@ export default function Demo() {
         get_drives()
     }, [])
 
+
     useEffect(() => {
         if (session && session.accessToken) {
             console.log('session.accessToken', session.accessToken);
-
+            // getFiles()
             // axios('/api/drive?token=' + session.accessToken).then((res) => {
             //     console.log('res', res.data);
             // })
