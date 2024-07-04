@@ -68,16 +68,18 @@ const NewLinkDetailCard = forwardRef<HTMLAnchorElement, CreateLinkDetailCardProp
                     {t('linktree.link.create_blank')}
                 </div>
             </div>
-            <CreateLinkDetailModal
-                isEditModal
-                appName={''}
-                appDescription={''}
-                appTimeLimit={5}
-                appIs_required_time_limit={false}
-                show={showNewLinkModal}
-                onConfirm={onEdit}
-                onHide={() => setShowNewLinkModal(false)}
-            />
+            {showNewLinkModal &&
+                <CreateLinkDetailModal
+                    isEditModal
+                    appName={''}
+                    appDescription={''}
+                    appTimeLimit={5}
+                    appIs_required_time_limit={false}
+                    show={showNewLinkModal}
+                    onConfirm={onEdit}
+                    onHide={() => setShowNewLinkModal(false)}
+                />
+            }
         </a>
     )
 })
