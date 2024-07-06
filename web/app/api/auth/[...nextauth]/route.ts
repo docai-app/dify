@@ -104,6 +104,8 @@ export const authOptions = {
         async session({ session, token, user }: any) {
             // Send properties to the client, like an access_token from a provider.
             session.accessToken = token.accessToken
+            session.refreshToken = token.refreshToken
+            session.user = token.user
             console.log('token', token);
             // const oauth2Client = new OAuth2Client();
             // oauth2Client.setCredentials({ access_token: token.accessToken });
