@@ -57,6 +57,7 @@ export type IOnTextReplace = (textReplace: TextReplaceResponse) => void
 
 export type IOtherOptions = {
     isPublicAPI?: boolean
+    isDocAIAPI?: boolean
     bodyStringify?: boolean
     needAllResponseContent?: boolean
     deleteContentType?: boolean
@@ -232,6 +233,7 @@ const baseFetch = <T>(
     fetchOptions: FetchOptionType,
     {
         isPublicAPI = false,
+        isDocAIAPI = false,
         bodyStringify = true,
         needAllResponseContent,
         deleteContentType,
@@ -276,15 +278,15 @@ const baseFetch = <T>(
     let urlWithPrefix = `${urlPrefix}${url.startsWith('/') ? url : `/${url}`}`
 
     const user_id = localStorage.getItem('user_id') || ''
-    urlWithPrefix = url.startsWith('link') ? 'https://docai-dev.m2mda.com/api/v1/' + url : urlWithPrefix
-    if (url.startsWith('link')) {
+    urlWithPrefix = isDocAIAPI ? 'https://docai-dev.m2mda.com/api/v1/' + url : urlWithPrefix
+    if (isDocAIAPI) {
         options.headers.set('User-Id', user_id)
     } else {
         options.headers.delete('User-Id')
     }
 
     const { method, params, body } = options
-    // handle query
+    // handle query`
     if (method === 'GET' && params) {
         const paramsArray: string[] = []
         Object.keys(params).forEach(key =>

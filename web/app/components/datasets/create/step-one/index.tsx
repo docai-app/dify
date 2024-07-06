@@ -1,5 +1,6 @@
 'use client'
 import Button from '@/app/components/base/button'
+import GoogleDriveFilePageSelector from '@/app/components/base/googledrive-file-page-selector'
 import { NotionPageSelector } from '@/app/components/base/notion-page-selector'
 import VectorSpaceFull from '@/app/components/billing/vector-space-full'
 import { useDatasetDetailContext } from '@/context/dataset-detail'
@@ -7,6 +8,7 @@ import { useProviderContext } from '@/context/provider-context'
 import type { NotionPage } from '@/models/common'
 import type { FileItem } from '@/models/datasets'
 import { DataSourceType } from '@/models/datasets'
+import { DriveFile } from '@/models/googleDrive'
 import cn from 'classnames'
 import { signIn } from 'next-auth/react'
 import { useMemo, useState } from 'react'
@@ -30,6 +32,8 @@ type IStepOneProps = {
     updateNotionPages: (value: NotionPage[]) => void
     onStepChange: () => void
     changeType: (type: DataSourceType) => void
+    hasConnectionGoogleDrive: boolean
+    driveFiles: DriveFile[]
 }
 
 type NotionConnectorProps = {
@@ -74,6 +78,8 @@ const StepOne = ({
     updateFile,
     notionPages = [],
     updateNotionPages,
+    hasConnectionGoogleDrive,
+    driveFiles
 }: IStepOneProps) => {
     const { dataset } = useDatasetDetailContext()
     const [showModal, setShowModal] = useState(false)
@@ -236,17 +242,21 @@ const StepOne = ({
                     )}
                     {dataSourceType === DataSourceType.DRIVE && (
                         <>
-                            <GoogleDriveConnector onSetting={() => {
+                            {/* <GoogleDriveConnector onSetting={() => {
                                 signIn('google', { params: { access_type: 'offline' } });
-                            }} />
-                            {!hasConnection && <GoogleDriveConnector onSetting={onSetting} />}
-                            {hasConnection && (
+                            }} /> */}
+                            {!hasConnectionGoogleDrive &&
+                                <GoogleDriveConnector onSetting={() => {
+                                    signIn('google', { params: { access_type: 'offline' } });
+                                }} />}
+                            {hasConnectionGoogleDrive && (
                                 <>
                                     <div className='mb-8 w-[640px]'>
-                                        <NotionPageSelector
-                                            value={notionPages.map(page => page.page_id)}
-                                            onSelect={updateNotionPages}
-                                            onPreview={updateCurrentPage}
+                                        <GoogleDriveFilePageSelector
+                                            files={driveFiles}
+                                            onSelect={() => {
+
+                                            }}
                                         />
                                     </div>
                                     {isShowVectorSpaceFull && (
