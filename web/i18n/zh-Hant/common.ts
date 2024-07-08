@@ -155,6 +155,10 @@ const translation = {
         langGeniusAccountTip: '您的 DocAI 賬號和相關的使用者資料。',
         editName: '編輯名字',
         showAppLength: '顯示 {{length}} 個應用',
+        bind: '綁定',
+        unBind: '解綁',
+        bindGoogleDriveAccount: '綁定您的Google Drive賬號',
+        unBindGoogleDriveAccount: '您綁定的Google Drive賬號是: '
     },
     members: {
         team: '團隊',
@@ -527,6 +531,10 @@ const translation = {
         created: '標籤建立成功',
         failed: '標籤建立失敗',
     },
+    input_modal: {
+        title: '輸入文件名稱',
+        label: '文件名稱:'
+    }
 }
 
 export default translation

@@ -1,12 +1,14 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Input from '../input';
 import Toast from '../toast';
 
 export default function InputNameModal(props: any) {
     const cancelButtonRef = useRef(null);
     const [content, setContent] = useState('');
+    const { t } = useTranslation()
 
     useEffect(() => {
         if (props.content) {
@@ -59,13 +61,13 @@ export default function InputNameModal(props: any) {
                             <div className="sm:flex sm:items-center justify-center">
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <div className="mt-2">
-                                        <p className="text-xl text-black">{props.description}</p>
+                                        <p className="text-xl text-black">{props.description || t('common.input_modal.title')}</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="w-full mt-4">
                                 <div className=' flex justify-start'>
-                                    <label className="text-left">File name:</label>
+                                    <label className="text-left">{t('common.input_modal.label')}</label>
                                 </div>
                                 <Input
                                     value={content}
@@ -81,7 +83,7 @@ export default function InputNameModal(props: any) {
                                         validate();
                                     }}
                                 >
-                                    {props.confirmText || 'Confirm'}
+                                    {props.confirmText || t('common.operation.confirm')}
                                 </button>
 
                                 <button
@@ -92,7 +94,7 @@ export default function InputNameModal(props: any) {
                                     }}
                                     ref={cancelButtonRef}
                                 >
-                                    {props.cancelText || 'Cancel'}
+                                    {props.cancelText || t('common.operation.cancel')}
                                 </button>
                             </div>
                         </div>

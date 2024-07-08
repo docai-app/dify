@@ -155,6 +155,10 @@ const translation = {
         langGeniusAccountTip: 'Your DocAI account and associated user data.',
         editName: 'Edit Name',
         showAppLength: 'Show {{length}} apps',
+        bind: 'Sign In',
+        unBind: 'Sign Out',
+        bindGoogleDriveAccount: 'Connect Your Google Drive',
+        unBindGoogleDriveAccount: 'Your Google Drive: '
     },
     members: {
         team: 'Team',
@@ -527,6 +531,10 @@ const translation = {
         created: 'Tag created successfully',
         failed: 'Tag creation failed',
     },
+    input_modal: {
+        title: 'Input file name',
+        label: 'File name:'
+    }
 }
 
 export default translation

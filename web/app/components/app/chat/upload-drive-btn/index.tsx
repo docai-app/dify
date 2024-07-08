@@ -36,7 +36,7 @@ const UploadDriveBtn = ({
 
     const saveToDrive = (name: string) => {
         const parasm = {
-            title: name || "doc.pdf",
+            title: name || "doc.docx",
             content: value,
             token: session.accessToken
         }
@@ -90,17 +90,12 @@ const UploadDriveBtn = ({
                 visible &&
                 <InputNameModal
                     visable
-                    description={'Input file name'}
                     cancelClick={() => {
                         setVisible(false)
                     }}
                     confirmClick={(name: string) => {
                         setVisible(false)
-                        if (!name?.endsWith('.pdf')) {
-                            saveToDrive(name + ".pdf")
-                        } else {
-                            saveToDrive(name)
-                        }
+                        saveToDrive(name)
                     }}
                 />
             }
