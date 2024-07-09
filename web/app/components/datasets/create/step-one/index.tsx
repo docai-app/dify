@@ -10,7 +10,6 @@ import type { FileItem } from '@/models/datasets'
 import { DataSourceType } from '@/models/datasets'
 import { DriveFile } from '@/models/googleDrive'
 import cn from 'classnames'
-import { signIn } from 'next-auth/react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import EmptyDatasetCreationModal from '../empty-dataset-creation-modal'
@@ -34,6 +33,11 @@ type IStepOneProps = {
     changeType: (type: DataSourceType) => void
     hasConnectionGoogleDrive: boolean
     driveFiles: DriveFile[]
+    onSettingGoogle: () => void
+}
+
+type GoogleDriveConnectorProps = {
+    onSettingGoogle: () => void
 }
 
 type NotionConnectorProps = {
@@ -52,7 +56,7 @@ export const NotionConnector = ({ onSetting }: NotionConnectorProps) => {
     )
 }
 
-export const GoogleDriveConnector = ({ onSetting }: NotionConnectorProps) => {
+export const GoogleDriveConnector = ({ onSettingGoogle }: GoogleDriveConnectorProps) => {
     const { t } = useTranslation()
 
     return (
@@ -60,7 +64,7 @@ export const GoogleDriveConnector = ({ onSetting }: NotionConnectorProps) => {
             <span className={s.googleDriveIcon} />
             <div className={s.title}>{t('datasetCreation.stepOne.driveSyncTitle')}</div>
             <div className={s.tip}>{t('datasetCreation.stepOne.driveSyncTip')}</div>
-            <Button className='h-8' type='primary' onClick={onSetting}>{t('datasetCreation.stepOne.connect')}</Button>
+            <Button className='h-8' type='primary' onClick={onSettingGoogle}>{t('datasetCreation.stepOne.connect')}</Button>
         </div>
     )
 }
@@ -79,7 +83,8 @@ const StepOne = ({
     notionPages = [],
     updateNotionPages,
     hasConnectionGoogleDrive,
-    driveFiles
+    driveFiles,
+    onSettingGoogle
 }: IStepOneProps) => {
     const { dataset } = useDatasetDetailContext()
     const [showModal, setShowModal] = useState(false)
@@ -242,13 +247,8 @@ const StepOne = ({
                     )}
                     {dataSourceType === DataSourceType.DRIVE && (
                         <>
-                            {/* <GoogleDriveConnector onSetting={() => {
-                                signIn('google', { params: { access_type: 'offline' } });
-                            }} /> */}
                             {!hasConnectionGoogleDrive &&
-                                <GoogleDriveConnector onSetting={() => {
-                                    signIn('google', { params: { access_type: 'offline' } });
-                                }} />}
+                                <GoogleDriveConnector onSettingGoogle={onSettingGoogle} />}
                             {hasConnectionGoogleDrive && (
                                 <>
                                     <div className='mb-8 w-[640px]'>

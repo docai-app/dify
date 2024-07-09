@@ -8,6 +8,7 @@ import { DataSourceType } from '@/models/datasets'
 import { DriveFile } from '@/models/googleDrive'
 import { fetchDataSource } from '@/service/common'
 import { fetchDatasetDetail } from '@/service/datasets'
+import { checkGoogleDrive, fetchDriveDataSource } from '@/service/googleDrive'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import AppUnavailable from '../../base/app-unavailable'
@@ -103,41 +104,56 @@ const DatasetUpdateForm = ({ datasetId }: DatasetUpdateFormProps) => {
         // })
 
 
-        // const data = await fetchDriveDataSource({
-        //     url: '/tools/google_drive/list.json', body: {
-        //         dify_user_id: userProfile.id,
-        //         workspace: currentWorkspace.id,
-        //         domain: "dify.docai.net"
-        //     }
-        // })
-        setHasConnectionGoogleDrive(true)
-        // setDriveFiles(data.files || []) 
-        setDriveFiles([
-            {
-                "id": "10nkh0COicLJi5OvNMhoaD1NsuPGI1UP-5gG5h3_LUCM",
-                "name": "联系信息"
-            },
-            {
-                "id": "1gAR4x68GzS2X-pJFI0l_Sd3n5Wb6Iyffh6SYGNTBtxU",
-                "name": "未命名的表单"
-            },
-            {
-                "id": "125kw2StfMxdKvJeRJ9sJ4fXXQ_TYvCAx",
-                "name": "test"
-            },
-            {
-                "id": "1oLd-31iWvSVpqYRgTngUD1QIoHobbGXp",
-                "name": "测试文档2.pdf"
-            },
-            {
-                "id": "0B3Q9teUf_Q6wbU5wRlJpN1RpaTA",
-                "name": "Blank Flowchart"
-            },
-            {
-                "id": "0B3Q9teUf_Q6wcm5fWWkzVTdqM2M",
-                "name": "Lucidchart"
+
+        const res = await checkGoogleDrive({
+            url: '/tools/google_drive/check.json',
+            body: {
+                dify_user_id: userProfile.id,
+                workspace: currentWorkspace.id,
+                domain: window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname
             }
-        ])
+        })
+
+        setHasConnectionGoogleDrive(res.success)
+
+        if (res.success) {
+            const data = await fetchDriveDataSource({
+                url: '/tools/google_drive/list.json', body: {
+                    dify_user_id: userProfile.id,
+                    workspace: currentWorkspace.id,
+                    domain: "dify.docai.net"
+                }
+            })
+            setDriveFiles(data.files || [])
+        }
+
+        // setDriveFiles(data.files || []) 
+        // setDriveFiles([
+        //     {
+        //         "id": "10nkh0COicLJi5OvNMhoaD1NsuPGI1UP-5gG5h3_LUCM",
+        //         "name": "联系信息"
+        //     },
+        //     {
+        //         "id": "1gAR4x68GzS2X-pJFI0l_Sd3n5Wb6Iyffh6SYGNTBtxU",
+        //         "name": "未命名的表单"
+        //     },
+        //     {
+        //         "id": "125kw2StfMxdKvJeRJ9sJ4fXXQ_TYvCAx",
+        //         "name": "test"
+        //     },
+        //     {
+        //         "id": "1oLd-31iWvSVpqYRgTngUD1QIoHobbGXp",
+        //         "name": "测试文档2.pdf"
+        //     },
+        //     {
+        //         "id": "0B3Q9teUf_Q6wbU5wRlJpN1RpaTA",
+        //         "name": "Blank Flowchart"
+        //     },
+        //     {
+        //         "id": "0B3Q9teUf_Q6wcm5fWWkzVTdqM2M",
+        //         "name": "Lucidchart"
+        //     }
+        // ])
         // console.log('data', data);
 
     }
@@ -186,6 +202,7 @@ const DatasetUpdateForm = ({ datasetId }: DatasetUpdateFormProps) => {
                     onStepChange={nextStep}
                     hasConnectionGoogleDrive={hasConnectionGoogleDrive}
                     driveFiles={driveFiles}
+                    onSettingGoogle={() => setShowAccountSettingModal({ payload: 'account' })}
                 />}
                 {(step === 2 && (!datasetId || (datasetId && !!detail))) && <StepTwo
                     hasSetAPIKEY={!!embeddingsDefaultModel}

@@ -2,6 +2,7 @@ import { LinkSet } from "@/types/app"
 
 export type GeneralResponse = {
     success: boolean
+    error?: string
 }
 
 export type LinktreeListResponse = {

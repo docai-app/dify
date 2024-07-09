@@ -14,3 +14,7 @@ export const fetchDriveDataSource: Fetcher<DataSourceDriveResponse, { url: strin
 export const uploadDocumentToDrive: Fetcher<DataSourceDriveResponse, { url: string, body: Record<string, any> }> = ({ url, body }) => {
     return post<DataSourceDriveResponse>(url, { body }, { isDocAIAPI: true })
 }
+
+export const checkGoogleDrive: Fetcher<GeneralResponse, { url: string, body: Record<string, any> }> = ({ url, body }) => {
+    return post<GeneralResponse>(url, { body }, { isDocAIAPI: true })
+}

@@ -68,7 +68,7 @@ const Countdown = ({
             // setStarted(false);
             //window.location.hostname "dify.docai.net"
             finish()
-            axios.post('https://docai-dev.m2mda.com/api/v1/tools/dify_chatbot_report.json', { "domain": window.location.hostname, "conversation_id": currentConversationId }).then((res) => {
+            axios.post('https://docai-dev.m2mda.com/api/v1/tools/dify_chatbot_report.json', { "domain": window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname, "conversation_id": currentConversationId }).then((res) => {
                 // console.log(res.data);
                 setVisible(true)
                 setLink(res.data.file_url)

@@ -7,6 +7,7 @@ import { ToastContext } from '@/app/components/base/toast'
 import { IS_CE_EDITION } from '@/config'
 import { useAppContext } from '@/context/app-context'
 import { updateUserProfile } from '@/service/common'
+import { bindGoogleDriveAuth, checkGoogleDrive } from '@/service/googleDrive'
 import classNames from 'classnames'
 import { getSession, signIn, signOut } from 'next-auth/react'
 import { useEffect, useState } from 'react'
@@ -31,7 +32,7 @@ const validPassword = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
 
 export default function AccountPage() {
     const { t } = useTranslation()
-    const { mutateUserProfile, userProfile, apps } = useAppContext()
+    const { mutateUserProfile, userProfile, apps, currentWorkspace } = useAppContext()
     const { notify } = useContext(ToastContext)
     const [editNameModalVisible, setEditNameModalVisible] = useState(false)
     const [editName, setEditName] = useState('')
@@ -41,17 +42,53 @@ export default function AccountPage() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [session, setSession] = useState<any>('')
+    const [hasBindGoogle, setHasBindGoogle] = useState(false)
 
     const handleSession = async () => {
         const session: any = await getSession()
         setSession(session)
         console.log('session', session);
-
-
     }
     useEffect(() => {
         handleSession()
+        checkHasBindGoogle()
     }, [])
+
+    useEffect(() => {
+        if (session && !hasBindGoogle) {
+            handleBindGoogle()
+        }
+    }, [session, hasBindGoogle])
+
+    const handleBindGoogle = async () => {
+        const res = await bindGoogleDriveAuth({
+            url: '/tools/google_drive/auth.json',
+            body: {
+                dify_user_id: userProfile.id,
+                workspace: currentWorkspace.id,
+                domain: window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname
+            }
+        })
+        console.log('handleBindGoogle res', res);
+
+    }
+
+    const checkHasBindGoogle = async () => {
+        const res = await checkGoogleDrive({
+            url: '/tools/google_drive/check.json',
+            body: {
+                dify_user_id: userProfile.id,
+                workspace: currentWorkspace.id,
+                domain: window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname//window.location.hostname
+            }
+        })
+        if (res.success) {
+            setHasBindGoogle(true)
+        } else {
+            setHasBindGoogle(false)
+        }
+        console.log('checkHasBindGoogle res', res);
+    }
 
     const handleEditName = () => {
         setEditNameModalVisible(true)
