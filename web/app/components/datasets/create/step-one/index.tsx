@@ -8,7 +8,6 @@ import { useProviderContext } from '@/context/provider-context'
 import type { NotionPage } from '@/models/common'
 import type { FileItem } from '@/models/datasets'
 import { DataSourceType } from '@/models/datasets'
-import { DriveFile } from '@/models/googleDrive'
 import cn from 'classnames'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -32,7 +31,6 @@ type IStepOneProps = {
     onStepChange: () => void
     changeType: (type: DataSourceType) => void
     hasConnectionGoogleDrive: boolean
-    driveFiles: DriveFile[]
     onSettingGoogle: () => void
 }
 
@@ -83,7 +81,6 @@ const StepOne = ({
     notionPages = [],
     updateNotionPages,
     hasConnectionGoogleDrive,
-    driveFiles,
     onSettingGoogle
 }: IStepOneProps) => {
     const { dataset } = useDatasetDetailContext()
@@ -253,7 +250,6 @@ const StepOne = ({
                                 <>
                                     <div className='mb-8 w-[640px]'>
                                         <GoogleDriveFilePageSelector
-                                            files={driveFiles}
                                             onSelect={() => {
 
                                             }}

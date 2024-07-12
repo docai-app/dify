@@ -158,7 +158,7 @@ const translation = {
         bind: 'Sign In',
         unBind: 'Sign Out',
         bindGoogleDriveAccount: 'Connect Your Google Drive',
-        unBindGoogleDriveAccount: 'Your Google Drive: '
+        unBindGoogleDriveAccount: 'Has connect Google Drive'
     },
     members: {
         team: 'Team',

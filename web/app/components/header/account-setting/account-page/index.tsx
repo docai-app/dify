@@ -69,7 +69,17 @@ export default function AccountPage() {
                 domain: window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname
             }
         })
-        console.log('handleBindGoogle res', res);
+    }
+
+    const handleUnBindGoogle = async () => {
+        const res = await bindGoogleDriveAuth({
+            url: '/tools/google_drive/auth.json',
+            body: {
+                dify_user_id: userProfile.id,
+                workspace: currentWorkspace.id,
+                domain: window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname
+            }
+        })
 
     }
 
@@ -87,7 +97,6 @@ export default function AccountPage() {
         } else {
             setHasBindGoogle(false)
         }
-        console.log('checkHasBindGoogle res', res);
     }
 
     const handleEditName = () => {
@@ -202,12 +211,13 @@ export default function AccountPage() {
 
             <div className='mb-8'>
                 <div className='mb-1 text-sm font-medium text-gray-900'>{'Google Drive'}</div>
-                {session ?
+                {hasBindGoogle ?
                     <>
-                        <div className='mb-2 text-xs text-gray-500'>{t('common.account.unBindGoogleDriveAccount') + session?.user?.name}</div>
+                        <div className='mb-2 text-xs text-gray-500'>{t('common.account.unBindGoogleDriveAccount')}</div>
                         <Button className='font-medium !text-gray-700 !px-3 !py-[7px] !text-[13px]'
                             onClick={() => {
                                 signOut()
+                                handleUnBindGoogle()
                             }}>{t('common.account.unBind')}</Button>
                     </>
                     :

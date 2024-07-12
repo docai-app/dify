@@ -158,7 +158,7 @@ const translation = {
         bind: '綁定',
         unBind: '解綁',
         bindGoogleDriveAccount: '綁定您的Google Drive賬號',
-        unBindGoogleDriveAccount: '您綁定的Google Drive賬號是: '
+        unBindGoogleDriveAccount: '已綁定的Google Drive賬號'
     },
     members: {
         team: '團隊',

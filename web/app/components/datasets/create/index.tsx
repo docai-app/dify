@@ -5,10 +5,9 @@ import { useModalContext } from '@/context/modal-context'
 import type { NotionPage } from '@/models/common'
 import type { DataSet, FileItem, createDocumentResponse } from '@/models/datasets'
 import { DataSourceType } from '@/models/datasets'
-import { DriveFile } from '@/models/googleDrive'
 import { fetchDataSource } from '@/service/common'
 import { fetchDatasetDetail } from '@/service/datasets'
-import { checkGoogleDrive, fetchDriveDataSource } from '@/service/googleDrive'
+import { checkGoogleDrive } from '@/service/googleDrive'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import AppUnavailable from '../../base/app-unavailable'
@@ -35,8 +34,6 @@ const DatasetUpdateForm = ({ datasetId }: DatasetUpdateFormProps) => {
     const { data: embeddingsDefaultModel } = useDefaultModel(ModelTypeEnum.textEmbedding)
     const { userProfile, currentWorkspace } = useAppContext()
     const [hasConnectionGoogleDrive, setHasConnectionGoogleDrive] = useState(true)
-    const [driveFiles, setDriveFiles] = useState<DriveFile[]>([])
-
 
     const [notionPages, setNotionPages] = useState<NotionPage[]>([])
     const updateNotionPages = (value: NotionPage[]) => {
@@ -116,17 +113,6 @@ const DatasetUpdateForm = ({ datasetId }: DatasetUpdateFormProps) => {
 
         setHasConnectionGoogleDrive(res.success)
 
-        if (res.success) {
-            const data = await fetchDriveDataSource({
-                url: '/tools/google_drive/list.json', body: {
-                    dify_user_id: userProfile.id,
-                    workspace: currentWorkspace.id,
-                    domain: "dify.docai.net"
-                }
-            })
-            setDriveFiles(data.files || [])
-        }
-
         // setDriveFiles(data.files || []) 
         // setDriveFiles([
         //     {
@@ -201,7 +187,6 @@ const DatasetUpdateForm = ({ datasetId }: DatasetUpdateFormProps) => {
                     updateNotionPages={updateNotionPages}
                     onStepChange={nextStep}
                     hasConnectionGoogleDrive={hasConnectionGoogleDrive}
-                    driveFiles={driveFiles}
                     onSettingGoogle={() => setShowAccountSettingModal({ payload: 'account' })}
                 />}
                 {(step === 2 && (!datasetId || (datasetId && !!detail))) && <StepTwo

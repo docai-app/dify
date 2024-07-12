@@ -1,8 +1,13 @@
+import { useAppContext } from "@/context/app-context"
+import { useModalContext } from "@/context/modal-context"
 import { DriveFile } from "@/models/googleDrive"
+import { fetchDriveDataSource } from "@/service/googleDrive"
 import cn from 'classnames'
 import { memo } from "react"
 import { FixedSizeList as List, ListChildComponentProps, areEqual } from 'react-window'
+import useSWR from "swr"
 import Checkbox from "../checkbox"
+import Loading from "../loading"
 import s from './base.module.css'
 
 type GoogleDriveFilePageSelectorProps = {
@@ -16,6 +21,18 @@ const GoogleDriveFilePageSelector = ({
     onSelect,
     datasetId = '',
 }: GoogleDriveFilePageSelectorProps) => {
+
+    const { setShowAccountSettingModal } = useModalContext()
+    const { userProfile, currentWorkspace } = useAppContext()
+
+
+    const { data, mutate } = useSWR({
+        url: '/tools/google_drive/list.json', body: {
+            dify_user_id: userProfile.id,
+            workspace: currentWorkspace.id,
+            domain: window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname
+        }
+    }, fetchDriveDataSource)
 
     const ItemComponent = ({ index, style, data }: ListChildComponentProps<{
         dataList: DriveFile[]
@@ -55,11 +72,11 @@ const GoogleDriveFilePageSelector = ({
 
     const Item = memo(ItemComponent, areEqual)
 
-
+    if (!data) return <Loading />
     return (
         <div className='bg-gray-25 border border-gray-200 rounded-xl'>
             {
-                files?.length
+                data?.files?.length
                     ? (
                         <>
                             <div className='flex items-center pl-[10px] pr-2 h-11 bg-white border-b border-b-gray-200 rounded-t-xl'>
@@ -67,7 +84,7 @@ const GoogleDriveFilePageSelector = ({
                                 <div className='mx-1 w-[1px] h-3 bg-gray-200' />
                                 <div
                                     className={cn(s['setting-icon'], 'w-6 h-6 cursor-pointer')}
-                                //   onClick={() => setShowAccountSettingModal({ payload: 'data-source', onCancelCallback: mutate })}
+                                    onClick={() => setShowAccountSettingModal({ payload: 'account', onCancelCallback: mutate })}
                                 />
                                 <div className='grow' />
 
@@ -76,12 +93,12 @@ const GoogleDriveFilePageSelector = ({
                                 <List
                                     className='py-2'
                                     height={296}
-                                    itemCount={files.length}
+                                    itemCount={data?.files.length}
                                     itemSize={28}
                                     width='100%'
                                     itemKey={(index, data) => index}
                                     itemData={{
-                                        dataList: files
+                                        dataList: data?.files
                                     }}
                                 >
                                     {Item}
