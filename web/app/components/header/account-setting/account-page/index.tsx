@@ -7,9 +7,10 @@ import { ToastContext } from '@/app/components/base/toast'
 import { IS_CE_EDITION } from '@/config'
 import { useAppContext } from '@/context/app-context'
 import { updateUserProfile } from '@/service/common'
-import { bindGoogleDriveAuth, checkGoogleDrive } from '@/service/googleDrive'
+import { bindGoogleDriveAuth, checkGoogleDrive, unBindGoogleDriveAuth } from '@/service/googleDrive'
 import classNames from 'classnames'
 import { getSession, signIn, signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'use-context-selector'
@@ -32,6 +33,7 @@ const validPassword = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
 
 export default function AccountPage() {
     const { t } = useTranslation()
+    const router = useRouter()
     const { mutateUserProfile, userProfile, apps, currentWorkspace } = useAppContext()
     const { notify } = useContext(ToastContext)
     const [editNameModalVisible, setEditNameModalVisible] = useState(false)
@@ -72,15 +74,16 @@ export default function AccountPage() {
     }
 
     const handleUnBindGoogle = async () => {
-        const res = await bindGoogleDriveAuth({
-            url: '/tools/google_drive/auth.json',
+        const res = await unBindGoogleDriveAuth({
+            url: '/tools/google_drive/revoke.json',
             body: {
                 dify_user_id: userProfile.id,
                 workspace: currentWorkspace.id,
                 domain: window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname
             }
         })
-
+        if (res.data.success)
+            router.refresh()
     }
 
     const checkHasBindGoogle = async () => {
@@ -216,7 +219,8 @@ export default function AccountPage() {
                         <div className='mb-2 text-xs text-gray-500'>{t('common.account.unBindGoogleDriveAccount')}</div>
                         <Button className='font-medium !text-gray-700 !px-3 !py-[7px] !text-[13px]'
                             onClick={() => {
-                                signOut()
+                                if (session)
+                                    signOut()
                                 handleUnBindGoogle()
                             }}>{t('common.account.unBind')}</Button>
                     </>
