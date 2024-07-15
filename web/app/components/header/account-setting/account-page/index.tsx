@@ -49,7 +49,7 @@ export default function AccountPage() {
     const handleSession = async () => {
         const session: any = await getSession()
         setSession(session)
-        console.log('session', session);
+        // console.log('session', session);
     }
     useEffect(() => {
         handleSession()
@@ -57,6 +57,7 @@ export default function AccountPage() {
     }, [])
 
     useEffect(() => {
+        // console.log('hasBindGoogle', hasBindGoogle);
         if (session && !hasBindGoogle) {
             handleBindGoogle()
         }
@@ -68,9 +69,14 @@ export default function AccountPage() {
             body: {
                 dify_user_id: userProfile.id,
                 workspace: currentWorkspace.id,
-                domain: window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname
+                domain: window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname,
+                access_token: session?.refreshToken
             }
         })
+        setHasBindGoogle(true)
+        if (res.success) {
+            setHasBindGoogle(true)
+        }
     }
 
     const handleUnBindGoogle = async () => {
@@ -82,7 +88,7 @@ export default function AccountPage() {
                 domain: window.location.hostname == 'localhost' ? 'dify.docai.net' : window.location.hostname
             }
         })
-        if (res.data.success)
+        if (res.success)
             router.refresh()
     }
 

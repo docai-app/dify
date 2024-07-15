@@ -95,8 +95,8 @@ export const authOptions = {
             return refreshAccessToken(token)
         },
         async signIn({ user, account, profile }: any) {
-            console.log('account', account);
-            console.log('user', user);
+            // console.log('account', account);
+            // console.log('user', user);
 
             return true;
         }
@@ -106,7 +106,7 @@ export const authOptions = {
             session.accessToken = token.accessToken
             session.refreshToken = token.refreshToken
             session.user = token.user
-            console.log('token', token);
+            // console.log('token', token);
             // const oauth2Client = new OAuth2Client();
             // oauth2Client.setCredentials({ access_token: token.accessToken });
             // // 创建 Drive API 客户端

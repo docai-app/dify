@@ -3,12 +3,12 @@ import { GeneralResponse } from "@/models/linktree"
 import { Fetcher } from "swr"
 import { del, post } from "./base"
 
-export const bindGoogleDriveAuth: Fetcher<{ data: GeneralResponse }, { url: string, body: Record<string, any> }> = ({ url, body }) => {
-    return post<{ data: GeneralResponse }>(url, { body }, { isDocAIAPI: true })
+export const bindGoogleDriveAuth: Fetcher<GeneralResponse, { url: string, body: Record<string, any> }> = ({ url, body }) => {
+    return post<GeneralResponse>(url, { body }, { isDocAIAPI: true })
 }
 
-export const unBindGoogleDriveAuth: Fetcher<{ data: GeneralResponse }, { url: string, body: Record<string, any> }> = ({ url, body }) => {
-    return del<{ data: GeneralResponse }>(url, { body }, { isDocAIAPI: true })
+export const unBindGoogleDriveAuth: Fetcher<GeneralResponse, { url: string, body: Record<string, any> }> = ({ url, body }) => {
+    return del<GeneralResponse>(url, { body }, { isDocAIAPI: true })
 }
 
 export const fetchDriveDataSource: Fetcher<DataSourceDriveResponse, { url: string, body: Record<string, any> }> = ({ url, body }) => {
