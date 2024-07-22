@@ -171,7 +171,8 @@ const StepOne = ({
                                     <span className={cn(s.datasetIcon, s.notion)} />
                                     {t('datasetCreation.stepOne.dataSourceType.notion')}
                                 </div>
-                                <div
+                                {/* {`同步自Googole Drive內容`} */}
+                                {/* <div
                                     className={cn(
                                         s.dataSourceItem,
                                         dataSourceType === DataSourceType.DRIVE && s.active,
@@ -187,9 +188,9 @@ const StepOne = ({
                                 >
 
                                     <span className={cn(s.datasetIcon, s.googleDrive)} />
-                                    {/* {`同步自Googole Drive內容`} */}
+                               
                                     {t('datasetCreation.stepOne.dataSourceType.drive')}
-                                </div>
+                                </div> */}
                                 {/* <div
                                     className={cn(s.dataSourceItem, s.disabled, dataSourceType === DataSourceType.WEB && s.active)}
                                 // onClick={() => changeType(DataSourceType.WEB)}
