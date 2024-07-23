@@ -97,7 +97,16 @@ const CreateLinkDetailModal = ({
         setTitle(app.name)
         setUrl('')
         fetchAppDetail({ url: '/apps', id: app.id }).then(async (res: any) => {
-            setUrl(`https://${window.location.hostname}/chat/${res.site.code || res.site.access_token}`)
+            // console.log('res', res);
+            if (res.mode == "completion") {
+                setUrl(`https://${window.location.hostname}/completion/${res.site.code || res.site.access_token}`)
+            } else if (res.mode == "workflow") {
+                setUrl(`https://${window.location.hostname}/workflow/${res.site.code || res.site.access_token}`)
+            } else {
+                setUrl(`https://${window.location.hostname}/chat/${res.site.code || res.site.access_token}`)
+            }
+
+
         })
     }
     return (
