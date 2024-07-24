@@ -2,7 +2,7 @@ version: '3'
 services:
   # API service
   api:
-    image: langgenius/dify-api:0.6.8
+    image: langgenius/dify-api:0.6.15
     restart: always
     environment:
       # Startup mode, 'api' starts the API server.
@@ -185,7 +185,7 @@ services:
   # worker service
   # The Celery worker for processing the queue.
   worker:
-    image: langgenius/dify-api:0.6.8
+    image: langgenius/dify-api:0.6.15
     restart: always
     environment:
       CONSOLE_WEB_URL: ''
@@ -388,7 +388,7 @@ services:
 
   # The DifySandbox
   sandbox:
-    image: langgenius/dify-sandbox:0.2.0
+    image: langgenius/dify-sandbox:0.2.1
     restart: always
     environment:
       # The DifySandbox configurations
