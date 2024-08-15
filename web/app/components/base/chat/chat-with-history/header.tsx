@@ -26,6 +26,13 @@ const Header: FC<HeaderProps> = ({
     } = useChatWithHistoryContext()
     const searchParams = useSearchParams()
 
+    const showCountdown = () => {
+        let is_required_time_limit = searchParams.get('is_required_time_limit')
+        console.log('is_required_time_limit', is_required_time_limit);
+        if (is_required_time_limit == 'false') return false
+        return isStartTimer
+    }
+
     return (
         <div className={`absolute top-0  flex flex-row  justify-between items-center pr-4  z-10  h-16 bg-white w-full border border-b-gray-100 `}>
 
@@ -42,7 +49,7 @@ const Header: FC<HeaderProps> = ({
 
                 <Countdown
                     minute={searchParams.get('timer') || 5}
-                    visible={isStartTimer && true}
+                    visible={showCountdown()}
                     started={isStartTimer}
                     currentConversationId={currentConversationId}
                     handleNext={() => {
