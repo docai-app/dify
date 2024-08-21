@@ -28,7 +28,7 @@ const Header: FC<HeaderProps> = ({
 
     const showCountdown = () => {
         let is_required_time_limit = searchParams.get('is_required_time_limit')
-        console.log('is_required_time_limit', is_required_time_limit);
+        // console.log('is_required_time_limit', is_required_time_limit);
         if (is_required_time_limit == 'false') return false
         return isStartTimer
     }
@@ -46,22 +46,23 @@ const Header: FC<HeaderProps> = ({
                 {title}
             </div>
             <div className='flex flex-row items-center justify-center flex-1'>
-
-                <Countdown
-                    minute={searchParams.get('timer') || 5}
-                    visible={showCountdown()}
-                    started={isStartTimer}
-                    currentConversationId={currentConversationId}
-                    handleNext={() => {
-                        startTimer()
-                    }}
-                    finish={() => {
-                        handleTimer()
-                        Toast.notify({
-                            type: 'info',
-                            message: '正在为你生成報告!',
-                        })
-                    }} />
+                {showCountdown() &&
+                    <Countdown
+                        minute={searchParams.get('timer') || 5}
+                        visible={showCountdown()}
+                        started={isStartTimer}
+                        currentConversationId={currentConversationId}
+                        handleNext={() => {
+                            startTimer()
+                        }}
+                        finish={() => {
+                            handleTimer()
+                            Toast.notify({
+                                type: 'info',
+                                message: '正在为你生成報告!',
+                            })
+                        }} />
+                }
             </div>
 
             <div className='flex flex-row items-center justify-end flex-1'>

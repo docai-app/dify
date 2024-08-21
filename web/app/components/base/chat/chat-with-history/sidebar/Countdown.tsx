@@ -34,6 +34,7 @@ const Countdown = ({
 
     useEffect(() => {
         let timer: any;
+        console.log('start time');
 
         if (started) {
             timer = setInterval(() => {
